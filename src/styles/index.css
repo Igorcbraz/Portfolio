@@ -1,0 +1,43 @@
+/* Entarda */
+.introducao{
+    background: linear-gradient(to right, #E0830A , #FF960C);
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#developer, #design{
+    font-size: 13.2rem;
+    font-weight: 700;
+    letter-spacing: 1rem;
+    text-transform: uppercase;
+    width: 9.5ch;
+    height: 31%;
+}
+
+#developer      {color: #C37815;}
+#design         {color: #E3AA5F;}
+#developer span {color: #E3AA5F;}
+#design    span {color: #C37815;}
+
+/* Frase Imagens */
+.frase-imagens{
+    background: linear-gradient(to right, #E0830A , #FF960C);
+    height: 70vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.frase-imagens h1 {
+    font-size: 7rem;
+    text-align: center;
+    
+    width: 50%;
+    color: #C37815;
+}
+.frase-imagens h1 span {
+    color: #FEE7C9;
+}
