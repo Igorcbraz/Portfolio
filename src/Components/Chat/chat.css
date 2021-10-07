@@ -1,0 +1,19 @@
+#Chat, #buttonChat{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    cursor: pointer;
+
+    bottom: 10px;
+    right: 10px;
+    width: 52px;
+    height: 52px;
+    padding: 7px;
+
+    fill: white;
+    background-color: #C37815;
+    border: 2px solid #C37815;
+    border-radius: 30%;
+    opacity: 1;
+}

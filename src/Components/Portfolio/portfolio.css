@@ -1,0 +1,19 @@
+.portfolio{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    margin: 50px 0;
+    gap: 20px 0;
+    justify-items: center;
+}
+.portfolio img, .portfolio div{
+    border-radius: 16px;
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+.portfolio div{
+    background-color: #FEE7C9;
+    width: 650px;
+    height: 360px;
+}

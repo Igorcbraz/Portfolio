@@ -1,0 +1,18 @@
+.frase-imagens{
+    background: linear-gradient(to right, #E0830A , #FF960C);
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.frase-imagens h1 {
+    font-size: 7rem;
+    text-align: center;
+    
+    width: 50%;
+    color: #C37815;
+}
+.frase-imagens span {
+    color: #FEE7C9;
+}

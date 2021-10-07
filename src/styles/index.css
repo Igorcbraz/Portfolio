@@ -22,22 +22,20 @@
 #developer span {color: #E3AA5F;}
 #design    span {color: #C37815;}
 
-/* Frase Imagens */
-.frase-imagens{
-    background: linear-gradient(to right, #E0830A , #FF960C);
-    height: 70vh;
-
+.list-questions button {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
+
+    background: linear-gradient(to right, #E0830A , #FF960C);
+    border: none;
+    border-radius: 10px;
+
+    color: #f3f3f3;
+    font-weight: 500;
+
+    padding: 20px 60px;
 }
-.frase-imagens h1 {
-    font-size: 7rem;
-    text-align: center;
-    
-    width: 50%;
-    color: #C37815;
-}
-.frase-imagens h1 span {
-    color: #FEE7C9;
+.list-questions svg {
+
 }

@@ -3,6 +3,7 @@ import Logo from '../../Images/Logo.png';
 
 import './navbar.css'
 
+
 export function Navbar(){
     return(
         <header>
@@ -19,7 +20,9 @@ export function Navbar(){
                         <li>Perguntas</li>
                         <li>Projetos</li>
                     </div>
-                    <img src={Logo} id="logo" width="128px" height="123px" alt="Logo igorcbraz design"/>
+                    <a href="#intro">
+                        <img src={Logo} id="logo" width="128px" height="123px" alt="Logo igorcbraz design"/>
+                    </a>
                     <div className="algin-center-nav text-nav">
                         <li>Contato</li>
                         <li>Sobre</li>
