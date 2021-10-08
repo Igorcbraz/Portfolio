@@ -1,0 +1,75 @@
+.questions button {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    background: linear-gradient(to right, #E0830A , #FF960C);
+    border: none;
+    border-radius: 10px;
+
+    color: #f3f3f3;
+    font-weight: 400;
+    font-size: 1rem;
+
+    width: 360px;
+    height: 60px;
+    padding: 10px 20px;
+}
+
+.enviar-duvida {
+    background: linear-gradient(to right, #E0830A , #FF960C);
+    border: 3px solid linear-gradient(to right, #E0830A , #FF960C);
+    color: #f3f3f3;
+
+    border-radius: 7px;
+    padding: 15px;
+}
+.enviar-duvida .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.enviar-duvida h3{
+    font-weight: 500;
+    font-size: 1.2rem;
+    text-align: left;
+}
+.enviar-duvida p{
+    font-weight: 300;
+    text-align: left;
+    font-size: 1rem;
+
+    margin: 5px 0 20px 0;
+}
+.enviar-duvida svg{
+    margin-top: -15px;
+}
+.enviar-duvida textarea{
+    background-color: #C37815;
+    color: #f3f3f3;
+
+    width: 100%;
+    border: 2px solid #C37815;
+    border-radius: 5px;
+}
+.enviar-duvida textarea:focus{
+    overflow: auto;
+    outline: none;
+    resize: none;
+
+    border: 2px solid #E3AA5F;
+}
+.enviar-duvida button {
+    background-color: #E3AA5F;
+    border: 1px solid #E3AA5F;
+    border-radius: 5px;
+
+    color: #C37815;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    
+    cursor: pointer;
+    width: 100%;
+    padding: 8px;
+}

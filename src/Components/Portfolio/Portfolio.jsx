@@ -12,7 +12,6 @@ import Site3 from '../../Images/site3.png';
 import Aos from 'aos';
 
 import './portfolio.css';
-import 'aos/dist/aos.css';
 
 
 export function Portfolio(props){
@@ -24,20 +23,20 @@ export function Portfolio(props){
     return(
         <>
             { props.isImages && (
-                <section className="portfolio" data-aos="zoom-out-up">
+                <div className="portfolio" data-aos="zoom-out-up">
                     <img src={Imagem1} alt="Primeira Imagem portfólio"/>
                     <img src={Imagem2} alt="Segunda Imagem portfólio"/>
                     <img src={Imagem1} alt="Terceira Imagem portfólio"/>
                     <img src={Imagem4} alt="Quarta Imagem portfólio"/>
-                </section>
+                </div>
             )}
             { props.isSites && (
-                <section className="portfolio" data-aos="zoom-out-down">
+                <div className="portfolio" data-aos="zoom-out-down">
                     <img src={Site1} alt="Primeira Imagem sites"/>
                     <img src={Site2} alt="Segunda Imagem sites"/>
                     <img src={Site3} alt="Terceira Imagem sites"/>
                     <div></div>
-                </section>
+                </div>
             )}
         </>
     );      

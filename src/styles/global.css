@@ -19,10 +19,6 @@ li {
     list-style-type: none;
 }
 
-a:-webkit-any-link{
-    color: transparent;
-}
-
 /* Scrol */
 ::-webkit-scrollbar{
     width: 15px;

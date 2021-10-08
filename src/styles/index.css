@@ -22,20 +22,66 @@
 #developer span {color: #E3AA5F;}
 #design    span {color: #C37815;}
 
-.list-questions button {
+/* Lista das perguntas frequentes */
+.list-questions {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
 
-    background: linear-gradient(to right, #E0830A , #FF960C);
-    border: none;
-    border-radius: 10px;
-
-    color: #f3f3f3;
-    font-weight: 500;
-
-    padding: 20px 60px;
+    height: 60vh;
+    margin: 40px 0;
 }
-.list-questions svg {
+.questions {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+}
 
+.aboutMe{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    padding: 30px 0;
+    background: linear-gradient(to right, #E0830A , #FF960C);
+}
+
+.aboutMe img{
+    width: 400px;
+    height: 450px;
+
+    border-radius: 2px;
+    border: 2px solid #C37815;
+    box-shadow: 2px 2px 25px #E3AA5F;
+}
+.aboutMe div{
+    width:40%;
+}
+.aboutMe h2{
+    color: #C37815;
+    font-weight: 700;
+    letter-spacing: 5px;
+    font-size:6rem;
+    text-align: left;
+
+    margin-bottom: 5px;
+}
+.aboutMe span{
+    color: #ffd59f;
+}
+.aboutMe p{
+    color: #ffd59f;
+    width: 96%;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 10px;
+    text-align: justify;
+}
+.aboutMe a{
+    color: #C37815;
+    background-color: #ffd59f;
+    padding: 0 10px;
 }

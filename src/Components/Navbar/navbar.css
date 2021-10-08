@@ -21,6 +21,9 @@ nav ul {
     color: #F3F3F3;
     font-weight: 600;
 }
+.icons a:-webkit-any-link{
+    color: transparent;
+}
 #logo{
     margin-top: -6px;
 }
@@ -30,7 +33,8 @@ nav ul {
     justify-content: center;
     gap: 30px;
 }
-.text-nav li{
+.text-nav li a{
+    color: #F3F3F3;
     display: inline-block;
     position: relative;
     
@@ -42,7 +46,7 @@ nav ul {
     transition: 0.5s;
 }
 /* effect-underline */
-.text-nav li:after {
+.text-nav li a:after {
 	content: '';
     position: absolute;
     display: inline-block;
@@ -57,7 +61,7 @@ nav ul {
 	-webkit-transform: scale(0,1);
 	transform: scale(0,1);
 }
-.text-nav li:hover:after {
+.text-nav li a:hover:after {
     opacity: 1;
 	-webkit-transform: scale(1);
 	transform: scale(1);

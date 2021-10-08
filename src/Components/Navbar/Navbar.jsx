@@ -16,17 +16,25 @@ export function Navbar(){
                 </div>
                     
                     <div className="algin-center-nav">
-                    <div className="algin-center-nav text-nav">
-                        <li>Perguntas</li>
-                        <li>Projetos</li>
-                    </div>
-                    <a href="#intro">
-                        <img src={Logo} id="logo" width="128px" height="123px" alt="Logo igorcbraz design"/>
-                    </a>
-                    <div className="algin-center-nav text-nav">
-                        <li>Contato</li>
-                        <li>Sobre</li>
-                    </div>
+                        <div className="algin-center-nav text-nav">
+                            <li>
+                                <a href="#perguntas">Perguntas</a>
+                            </li>
+                            <li>
+                                <a href="#sobre">Sobre</a>
+                            </li>
+                        </div>
+                        <a href="#intro">
+                            <img src={Logo} id="logo" width="128px" height="123px" alt="Logo igorcbraz design"/>
+                        </a>
+                        <div className="algin-center-nav text-nav">
+                            <li>
+                                <a href="#imagens">Design</a>
+                            </li>
+                            <li>
+                                <a href="#sites">Programação</a>
+                            </li>
+                        </div>
                     </div>
                     
                 <div class="icons-nav algin-center-nav">
