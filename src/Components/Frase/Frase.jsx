@@ -18,6 +18,11 @@ export function Frase(props){
                     >
                     {props.frase} <span>{props.destaque}</span>
                     </h1>
+                    {props.isFinal && (
+                        <a href="https://www.instagram.com/igorcbrazdesign/" target="_blank" rel="noreferrer" data-aos="fade-down">
+                            <button>Entre em Contato</button>
+                        </a>
+                    )}
                 </section>
             ) : (
                 <section className="frase-imagens">

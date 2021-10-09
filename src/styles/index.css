@@ -22,23 +22,6 @@
 #developer span {color: #E3AA5F;}
 #design    span {color: #C37815;}
 
-/* Lista das perguntas frequentes */
-.list-questions {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-
-    height: 60vh;
-    margin: 40px 0;
-}
-.questions {
-    display: flex;
-    flex-direction: column; 
-    justify-content: center;
-    align-items: center;
-    gap: 35px;
-}
-
 .aboutMe{
     display: flex;
     justify-content: space-evenly;

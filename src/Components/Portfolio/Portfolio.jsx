@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Logos } from '../Logos/Logos';
-import { OpenPortifolio } from '../OpenPortifolio/OpenPortifolio';
+import { OpenPortifolio } from '../OpenPortifolio/OpenPortifolio.jsx';
 
 import Imagem1 from '../../Images/imagem1.png';
 import Imagem2 from '../../Images/imagem2.png';
@@ -13,6 +13,10 @@ import Img3Open from '../../Images/imagem3-open.png';
 import Site1 from '../../Images/site1.png';
 import Site2 from '../../Images/site2.png';
 import Site3 from '../../Images/site3.png';
+
+import Site1Open from '../../Images/site1-open.png'
+import Site2Open from '../../Images/site2-open.mp4'
+import Site3Open from '../../Images/site3-open.mp4'
 
 import Aos from 'aos';
 import Modal  from 'react-modal';
@@ -79,33 +83,42 @@ export function Portfolio(props){
             >
                 {numPortifolio === 1 ? (
                     <>
-                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
-                        <OpenPortifolio image={Img1Open}/>
+                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio image={Img1Open} link="https://www.behance.net/gallery/113447237/Overlay-Igorcbraz_Design"/>
                     </>
                 ) : numPortifolio === 2 ? (
                     <>
-                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
-                        <OpenPortifolio image={Img2Open}/>
+                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio image={Img2Open} link="https://www.behance.net/gallery/113447237/Overlay-Igorcbraz_Design"/>
                     </>
                 ) : numPortifolio === 3 ? (
                     <>
-                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
-                        <OpenPortifolio image={Img3Open}/>
+                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio image={Img3Open} link="https://www.behance.net/gallery/113447237/Overlay-Igorcbraz_Design"/>
                     </>
                 ) : numPortifolio === 4 ? (
                     <>
-                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
-                        <OpenPortifolio image={Img3Open}/>
+                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio image={Site1Open} secondButton 
+                            link="https://igorcbraz.github.io/Buscafe/" 
+                            secondLink="https://github.com/Igorcbraz/Buscafe"
+                        />
                     </>
                 ) : numPortifolio === 5 ? (
                     <>
-                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
-                        <OpenPortifolio image={Img1Open}/>
+                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio srcVideo={Site2Open} secondButton isVideo
+                            link="https://letmeask-d58e1.firebaseapp.com/"
+                            secondLink="https://github.com/Igorcbraz/Letmeask"
+                        />
                     </>
                 ) : (
                     <>
-                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
-                        <OpenPortifolio image={Img1Open}/>
+                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio  srcVideo={Site3Open}  secondButton isVideo
+                            link="https://igorcbraz.github.io/Calculadora/" 
+                            secondLink="https://github.com/Igorcbraz/Calculadora"
+                        />
                     </>
                 )}
             </Modal>

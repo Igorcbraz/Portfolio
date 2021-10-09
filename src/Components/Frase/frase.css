@@ -3,6 +3,7 @@
     height: 100vh;
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -15,4 +16,27 @@
 }
 .frase-imagens span {
     color: #FEE7C9;
+}
+.frase-imagens button {
+    margin-top: 30px;
+    padding: 10px 40px;
+
+    background-color: #FEE7C9;
+    border: 2.3px solid #FEE7C9;
+    border-radius: 5px;
+    color: #E0830A;
+
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+.frase-imagens button:hover {
+    background-color: transparent;
+    border: 2.3px solid #FEE7C9;
+    border-radius: 5px;
+    color: #FEE7C9;
+
+    transition: 0.3s;
 }

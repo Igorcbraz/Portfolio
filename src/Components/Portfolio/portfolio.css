@@ -51,7 +51,8 @@
 .portifolio-open div {
     width: 95%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 .portifolio-open img {
     width: 100%;
@@ -84,4 +85,23 @@
     height: 90vh;
     margin: 0 auto;
     padding: 0 !important;
+}
+
+
+.close {
+    background-color: #E0830A;
+    border: 1px solid #E0830A;
+    
+    color: #f3f3f3;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    width: 100%;
+    padding: 7px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.close:hover{
+    filter: brightness(0.9);
+    transition: 0.3s;
 }
