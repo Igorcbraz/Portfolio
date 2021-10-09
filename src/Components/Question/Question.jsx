@@ -1,7 +1,9 @@
 import './question.css';
 
 export function Question(props){
-    function sendQuestion(){
+    function sendQuestion(event){
+        event.preventDefault();
+        
         alert('send question')
     }
 

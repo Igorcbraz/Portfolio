@@ -1,43 +1,114 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Logos } from '../Logos/Logos';
+import { OpenPortifolio } from '../OpenPortifolio/OpenPortifolio';
 
 import Imagem1 from '../../Images/imagem1.png';
 import Imagem2 from '../../Images/imagem2.png';
-import Imagem3 from '../../Images/imagem3.png';
-import Imagem4 from '../../Images/imagem4.png';
+import Imagem3 from '../../Images/imagem3.jpg';
+
+import Img1Open from '../../Images/imagem1-open.png';
+import Img2Open from '../../Images/imagem2-open.png';
+import Img3Open from '../../Images/imagem3-open.png';
 
 import Site1 from '../../Images/site1.png';
 import Site2 from '../../Images/site2.png';
 import Site3 from '../../Images/site3.png';
 
 import Aos from 'aos';
+import Modal  from 'react-modal';
 
 import './portfolio.css';
 
 
 export function Portfolio(props){
+    const [ modalIsOpen, setModalIsOpen] = useState(false);
+    const [ numPortifolio, setNumPortifolio] = useState(0);
+
     useEffect(() => {
         Aos.refresh();
         Aos.init({duration: 1000});
-      }, [])
+    }, [])
+
+    function openPortifolio(portifolioNum){
+        setModalIsOpen(true)
+        setNumPortifolio(portifolioNum)
+    }
 
     return(
         <>
             { props.isImages && (
                 <div className="portfolio" data-aos="zoom-out-up">
-                    <img src={Imagem1} alt="Primeira Imagem portfólio"/>
-                    <img src={Imagem2} alt="Segunda Imagem portfólio"/>
-                    <img src={Imagem1} alt="Terceira Imagem portfólio"/>
-                    <img src={Imagem4} alt="Quarta Imagem portfólio"/>
+                    <button onClick={() => openPortifolio(1)}>
+                        <img src={Imagem1} alt="Primeira Imagem portfólio"/>
+                    </button>
+                    <button onClick={() => openPortifolio(2)}>
+                        <img src={Imagem2} alt="Segunda Imagem portfólio"/>
+                    </button>
+                    <button onClick={() => openPortifolio(3)}>
+                        <img id="img3" src={Imagem3} alt="Terceira Imagem portfólio"/>
+                    </button>
+                    <div>
+                        <Logos isBehance behanceColor="#E3AA5F"/>
+                    </div>
                 </div>
             )}
             { props.isSites && (
                 <div className="portfolio" data-aos="zoom-out-down">
-                    <img src={Site1} alt="Primeira Imagem sites"/>
-                    <img src={Site2} alt="Segunda Imagem sites"/>
-                    <img src={Site3} alt="Terceira Imagem sites"/>
-                    <div></div>
+                    <button onClick={() => openPortifolio(4)}>
+                        <img src={Site1} alt="Primeira Imagem sites"/>
+                    </button>
+                    <button onClick={() => openPortifolio(5)}>
+                        <img src={Site2} alt="Segunda Imagem sites"/>
+                    </button>
+                    <button onClick={() => openPortifolio(6)}>
+                        <img src={Site3} alt="Terceira Imagem sites"/>      
+                    </button>    
+                    <div>
+                        <Logos isGithub githubColor="#E3AA5F"/>
+                    </div>
                 </div>
             )}
+
+            <Modal 
+                isOpen={modalIsOpen}
+                aria={{
+                    labelledby: "heading",
+                    describedby: "full_description"
+                }}
+                id="modalDelete"
+            >
+                {numPortifolio === 1 ? (
+                    <>
+                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio image={Img1Open}/>
+                    </>
+                ) : numPortifolio === 2 ? (
+                    <>
+                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio image={Img2Open}/>
+                    </>
+                ) : numPortifolio === 3 ? (
+                    <>
+                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio image={Img3Open}/>
+                    </>
+                ) : numPortifolio === 4 ? (
+                    <>
+                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio image={Img3Open}/>
+                    </>
+                ) : numPortifolio === 5 ? (
+                    <>
+                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio image={Img1Open}/>
+                    </>
+                ) : (
+                    <>
+                        <button onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <OpenPortifolio image={Img1Open}/>
+                    </>
+                )}
+            </Modal>
         </>
     );      
 }

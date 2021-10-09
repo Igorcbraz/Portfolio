@@ -7,13 +7,81 @@
     gap: 20px 0;
     justify-items: center;
 }
+.portfolio button {
+    border: none;
+    background-color: transparent;
+}
+
 .portfolio img, .portfolio div{
-    border-radius: 16px;
-    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
     cursor: pointer;
+    width: 650px;
+    height: 360px;
+
+    border: 3px solid rgba(224, 131, 10, 0);
+    transition: 0.3s;
+}
+.portfolio img:hover, .portfolio div:hover{
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    border: 3px solid #E0830A;
+    border-radius: 16px;
+
+    cursor: pointer;
+    transition: 0.3s;
 }
 .portfolio div{
     background-color: #FEE7C9;
-    width: 650px;
-    height: 360px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.portfolio div svg{
+    width: 62px;
+    height: 62px;
+}
+
+/* Modal */
+.portifolio-open{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.portifolio-open div {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+}
+.portifolio-open img {
+    width: 100%;
+}
+.portifolio-open button {
+    background-color: #E0830A;
+    border: 1px solid #E0830A;
+    border-radius: 5px;
+
+    color: #f3f3f3;
+    font-size: 1rem;
+    cursor: pointer;
+
+    margin: 20px 0;
+    padding: 10px 20px;
+
+    transition: 0.3s;
+}
+.portifolio-open a{color: #f3f3f3;}
+.portifolio-open button:hover{
+    filter: brightness(0.9); 
+    transition: 0.3s;
+}
+.ReactModal__Overlay {
+    z-index: 21;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+#modalDelete{
+    width: 90vw;
+    height: 90vh;
+    margin: 0 auto;
+    padding: 0 !important;
 }

@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import Aos from 'aos';
+
+import { useEffect, useState } from "react";
 import { Navbar } from "./Components/Navbar/Navbar";
 import { Frase } from "./Components/Frase/Frase";
 import { Portfolio } from "./Components/Portfolio/Portfolio";
@@ -6,8 +8,6 @@ import { Chat } from "./Components/Chat/Chat";
 import { Question } from "./Components/Question/Question";
 
 import AboutMe from './Images/aboutMe.jpeg'
-
-import Aos from 'aos';
 
 import './styles/index.css';
 
