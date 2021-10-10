@@ -1,5 +1,6 @@
 import Modal  from 'react-modal';
 import Aos from 'aos';
+import emailjs from 'emailjs-com';
 
 import { useEffect, useState } from 'react';
 import { Logos } from "../../Components/Logos/Logos";
@@ -18,7 +19,14 @@ export function ListQuestions(){
     function sendQuestion(event){
         event.preventDefault();
         
-        alert('Pergunta enviada com sucesso !')
+        emailjs.sendForm('portifolioEmail', 'template_enrcnle', event.target, 'user_iuW0qAeAvjfUaxmAOFfHT')
+        .then((result) => {
+            alert('Pergunta enviada com sucesso ! Muito Obrigado :)');
+        }, (error) => {
+            alert(error.message);
+        });
+
+        event.target.reset();
     }
 
     function openQuestion(questionNum){
@@ -48,7 +56,7 @@ export function ListQuestions(){
                     </button>
                 </div>
             
-                <form className="enviar-duvida">
+                <form className="enviar-duvida" onSubmit={sendQuestion}>
                     <div className="header">
                         <div>
                             <h3>Ainda com dúvidas ?</h3>
@@ -59,9 +67,9 @@ export function ListQuestions(){
                         </svg>
                     </div>
 
-
-                    <textarea cols="50" rows="14"/>
-                    <button onClick={sendQuestion}>Enviar</button>
+                    <input type="text" placeholder="Nome do instagram para a resposta" name="name"/>
+                    <textarea cols="30" rows="9" name="message" placeholder="Conteúdo da dúvida"/>
+                    <button type="submit">Enviar</button>
                 </form>
 
                 <Modal 

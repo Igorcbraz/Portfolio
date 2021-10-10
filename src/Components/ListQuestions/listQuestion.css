@@ -64,15 +64,21 @@
 .enviar-duvida svg{
     margin-top: -15px;
 }
-.enviar-duvida textarea{
+.enviar-duvida textarea, .enviar-duvida input{
     background-color: #C37815;
     color: #f3f3f3;
 
     width: 100%;
+    padding: 10px;
     border: 2px solid #C37815;
     border-radius: 5px;
 }
-.enviar-duvida textarea:focus{
+.enviar-duvida input {
+    margin: 10px 0;
+    
+}
+.enviar-duvida input::placeholder, .enviar-duvida textarea::placeholder{color: #fee7c9;}
+.enviar-duvida textarea:focus, .enviar-duvida input:focus{
     overflow: auto;
     outline: none;
     resize: none;
