@@ -83,22 +83,22 @@ export function Portfolio(props){
             >
                 {numPortifolio === 1 ? (
                     <>
-                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <button className="closeBtn" onClick={() => setModalIsOpen(false)}>Fechar</button>
                         <OpenPortifolio image={Img1Open} link="https://www.behance.net/gallery/113447237/Overlay-Igorcbraz_Design"/>
                     </>
                 ) : numPortifolio === 2 ? (
                     <>
-                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <button className="closeBtn" onClick={() => setModalIsOpen(false)}>Fechar</button>
                         <OpenPortifolio image={Img2Open} link="https://www.behance.net/gallery/113447237/Overlay-Igorcbraz_Design"/>
                     </>
                 ) : numPortifolio === 3 ? (
                     <>
-                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <button className="closeBtn" onClick={() => setModalIsOpen(false)}>Fechar</button>
                         <OpenPortifolio image={Img3Open} link="https://www.behance.net/gallery/113447237/Overlay-Igorcbraz_Design"/>
                     </>
                 ) : numPortifolio === 4 ? (
                     <>
-                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <button className="closeBtn" onClick={() => setModalIsOpen(false)}>Fechar</button>
                         <OpenPortifolio image={Site1Open} secondButton 
                             link="https://igorcbraz.github.io/Buscafe/" 
                             secondLink="https://github.com/Igorcbraz/Buscafe"
@@ -106,7 +106,7 @@ export function Portfolio(props){
                     </>
                 ) : numPortifolio === 5 ? (
                     <>
-                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <button className="closeBtn" onClick={() => setModalIsOpen(false)}>Fechar</button>
                         <OpenPortifolio srcVideo={Site2Open} secondButton isVideo
                             link="https://letmeask-d58e1.firebaseapp.com/"
                             secondLink="https://github.com/Igorcbraz/Letmeask"
@@ -114,7 +114,7 @@ export function Portfolio(props){
                     </>
                 ) : (
                     <>
-                        <button className="close" onClick={() => setModalIsOpen(false)}>Fechar</button>
+                        <button className="closeBtn" onClick={() => setModalIsOpen(false)}>Fechar</button>
                         <OpenPortifolio  srcVideo={Site3Open}  secondButton isVideo
                             link="https://igorcbraz.github.io/Calculadora/" 
                             secondLink="https://github.com/Igorcbraz/Calculadora"
