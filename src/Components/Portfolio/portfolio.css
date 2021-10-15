@@ -75,12 +75,9 @@
     z-index: 21;
     background-color: rgba(0, 0, 0, 0.5) !important;
 }
-.ReactModal__Content {
-    inset: 20px 35px 0 0 !important;
-}
 #modalDelete{
-    width: 95vw;
-    height: 95vh;
+    width: 90vw;
+    height: 90vh;
     margin: 0 auto;
     padding: 0 !important;
 }
@@ -109,5 +106,12 @@
     .portifolio-open button{
         padding: 8px 15px;
         font-size: 0.9rem;
+    }
+    #modalDelete{
+        width: 95vw;
+        height: 95vh;
+    }
+    .ReactModal__Content {
+        inset: 20px 35px 0 0 !important;
     }
 }
