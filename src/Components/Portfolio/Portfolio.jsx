@@ -42,16 +42,16 @@ export function Portfolio(props){
         <>
             { props.isImages && (
                 <div className="portfolio" data-aos="zoom-out-up">
-                    <button className="card" onClick={() => openPortifolio(1)}>
+                    <button onClick={() => openPortifolio(1)}>
                         <img src={Imagem1} alt="Primeira Imagem portfólio"/>
                     </button>
-                    <button className="card" onClick={() => openPortifolio(2)}>
+                    <button onClick={() => openPortifolio(2)}>
                         <img src={Imagem2} alt="Segunda Imagem portfólio"/>
                     </button>
-                    <button className="card" onClick={() => openPortifolio(3)}>
+                    <button onClick={() => openPortifolio(3)}>
                         <img id="img3" src={Imagem3} alt="Terceira Imagem portfólio"/>
                     </button>
-                    <div className="card">
+                    <div>
                         <Logos isBehance behanceColor="#E3AA5F"/>
                     </div>
                 </div>

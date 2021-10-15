@@ -8,7 +8,6 @@ import { Chat } from "./Components/Chat/Chat";
 import { ListQuestions } from './Components/ListQuestions/ListQuestions';
 
 import AboutMe from './Images/aboutMe.jpeg'
-import Logo from './Images/Logo.png';
 
 import './styles/index.css';
 

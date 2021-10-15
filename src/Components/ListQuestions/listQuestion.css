@@ -144,7 +144,7 @@
 }
 
 /* Mobile */
-@media(max-width: 425px){
+@media(max-width: 426px){
     .enviar-duvida{
         width: 85%;
         margin: 0 auto;

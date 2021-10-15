@@ -10,7 +10,6 @@
     border: none;
     background-color: transparent;
 }
-
 .portfolio img, .portfolio div{
     border-radius: 10px;
     cursor: pointer;
@@ -69,21 +68,22 @@
 }
 .portifolio-open a{color: #f3f3f3;}
 .portifolio-open button:hover{
-    filter: brightness(0.9); 
+    filter: brightness(0.9);
     transition: 0.3s;
 }
-.ReactModal__Overlay {
+.ReactModal__Overlay{
     z-index: 21;
     background-color: rgba(0, 0, 0, 0.5) !important;
 }
+.ReactModal__Content {
+    inset: 20px 35px 0 0 !important;
+}
 #modalDelete{
-    width: 90vw;
-    height: 90vh;
+    width: 95vw;
+    height: 95vh;
     margin: 0 auto;
     padding: 0 !important;
 }
-
-
 .closeBtn {
     background-color: #E0830A;
     border: 1px solid #E0830A;
@@ -102,8 +102,12 @@
     transition: 0.3s;
 }
 
-@media(max-width: 425px){
+@media(max-width: 426px){
     .portfolio{
         grid-template-columns: repeat(1, 1fr);
+    }
+    .portifolio-open button{
+        padding: 8px 15px;
+        font-size: 0.9rem;
     }
 }

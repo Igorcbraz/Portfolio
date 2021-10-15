@@ -74,7 +74,7 @@ nav ul {
         gap: 10px;
     }
 }
-@media (max-width: 425px){
+@media (max-width: 426px){
     .text-nav li a{
         font-size: 0.8rem;
     }
