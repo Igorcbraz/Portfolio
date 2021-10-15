@@ -8,6 +8,7 @@ import { Chat } from "./Components/Chat/Chat";
 import { ListQuestions } from './Components/ListQuestions/ListQuestions';
 
 import AboutMe from './Images/aboutMe.jpeg'
+import Logo from './Images/Logo.png';
 
 import './styles/index.css';
 
@@ -19,10 +20,11 @@ function App() {
 
   return (
     <div>
-      <Chat/>
+      {/* <Chat/> */}
       <Navbar/>
 
       <section className="introducao" id="intro">
+        <span className="logoMobile"></span>
         <h1
           id="developer"
           data-aos="slide-right"

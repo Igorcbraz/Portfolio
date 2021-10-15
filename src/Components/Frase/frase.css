@@ -10,7 +10,8 @@
 .frase-imagens h1 {
     font-size: 7rem;
     text-align: center;
-    
+    font-weight: 700;
+
     width: 50%;
     color: #C37815;
 }
@@ -39,4 +40,33 @@
     color: #FEE7C9;
 
     transition: 0.3s;
+}
+
+/* Laptop */
+@media(max-width: 1024px){
+    .frase-imagens h1 {
+        font-size: 5.5rem;
+    }
+}
+/* Tablet */
+@media(max-width: 768px){
+    .frase-imagens h1 {
+        font-size: 4.5rem;
+        width: 60%;
+    }
+}
+/* Mobile */
+@media(max-width: 425px){
+    .frase-imagens{
+        height: 125vh;
+    }
+    .frase-imagens h1 {
+        font-size: 3.5rem;
+        width: 80%;
+    }
+    .frase-imagens button{
+        font-size: 1.1rem;
+        padding: 10px 20px;
+        margin: 20px 0 0 0;
+    }
 }

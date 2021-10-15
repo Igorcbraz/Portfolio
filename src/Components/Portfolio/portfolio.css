@@ -1,11 +1,10 @@
 .portfolio{
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-
-    margin: 50px 0;
-    gap: 20px 0;
-    justify-items: center;
+    
+    margin: 50px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2rem;
 }
 .portfolio button {
     border: none;
@@ -15,9 +14,8 @@
 .portfolio img, .portfolio div{
     border-radius: 10px;
     cursor: pointer;
-    width: 650px;
-    height: 360px;
-
+    width: 100%;
+    
     border: 3px solid rgba(224, 131, 10, 0);
     transition: 0.3s;
 }
@@ -104,4 +102,10 @@
 .close:hover{
     filter: brightness(0.9);
     transition: 0.3s;
+}
+
+@media(max-width: 425px){
+    .portfolio{
+        grid-template-columns: repeat(1, 1fr);
+    }
 }

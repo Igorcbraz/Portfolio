@@ -4,7 +4,7 @@ import { OpenPortifolio } from '../OpenPortifolio/OpenPortifolio.jsx';
 
 import Imagem1 from '../../Images/imagem1.png';
 import Imagem2 from '../../Images/imagem2.png';
-import Imagem3 from '../../Images/imagem3.jpg';
+import Imagem3 from '../../Images/imagem3.png';
 
 import Img1Open from '../../Images/imagem1-open.png';
 import Img2Open from '../../Images/imagem2-open.png';
@@ -42,22 +42,22 @@ export function Portfolio(props){
         <>
             { props.isImages && (
                 <div className="portfolio" data-aos="zoom-out-up">
-                    <button onClick={() => openPortifolio(1)}>
+                    <button className="card" onClick={() => openPortifolio(1)}>
                         <img src={Imagem1} alt="Primeira Imagem portfólio"/>
                     </button>
-                    <button onClick={() => openPortifolio(2)}>
+                    <button className="card" onClick={() => openPortifolio(2)}>
                         <img src={Imagem2} alt="Segunda Imagem portfólio"/>
                     </button>
-                    <button onClick={() => openPortifolio(3)}>
+                    <button className="card" onClick={() => openPortifolio(3)}>
                         <img id="img3" src={Imagem3} alt="Terceira Imagem portfólio"/>
                     </button>
-                    <div>
+                    <div className="card">
                         <Logos isBehance behanceColor="#E3AA5F"/>
                     </div>
                 </div>
             )}
             { props.isSites && (
-                <div className="portfolio" data-aos="zoom-out-down">
+                <div className="portfolio row" data-aos="zoom-out-down">
                     <button onClick={() => openPortifolio(4)}>
                         <img src={Site1} alt="Primeira Imagem sites"/>
                     </button>

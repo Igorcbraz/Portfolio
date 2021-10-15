@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 /* Entarda */
 .introducao{
     background: linear-gradient(to right, #E0830A , #FF960C);
@@ -7,20 +9,19 @@
     flex-direction: column;
     justify-content: center;
 }
-
 #developer, #design{
     font-size: 13.2rem;
     font-weight: 700;
     letter-spacing: 1rem;
     text-transform: uppercase;
-    width: 9.5ch;
+    width: 100%;
     height: 31%;
 }
-
 #developer      {color: #C37815;}
 #design         {color: #E3AA5F;}
 #developer span {color: #E3AA5F;}
 #design    span {color: #C37815;}
+
 
 .aboutMe{
     display: flex;
@@ -30,10 +31,11 @@
     padding: 30px 0;
     background: linear-gradient(to right, #E0830A , #FF960C);
 }
-
 .aboutMe img{
-    width: 400px;
-    height: 450px;
+    width: 35%;
+    max-width: 400px;
+    height: 35%;
+    max-height: 450px;
 
     border-radius: 2px;
     border: 2px solid #C37815;
@@ -69,3 +71,69 @@
     padding: 0 10px;
 }
 
+/* Laptop */
+@media(max-width: 1024px){
+    .aboutMe h2{
+        font-size: 4em;
+    }
+    #developer, #design{
+        font-size: 9.2rem;
+    }
+}
+/* Tablet */
+@media(max-width: 768px){
+    .aboutMe h2{
+        font-size: 3em;
+    }
+    .aboutMe div{
+        width:50%;
+    }
+    .aboutMe p{
+        font-size: 0.9rem;
+        width: 89%;
+    }
+    #developer, #design{
+        font-size: 6.5rem;
+        height: 20%;
+    }
+}
+/* Mobile */
+@media(max-width: 425px){
+    .introducao{
+        height: 100vh;
+    
+        margin: -30px 0 0 0;
+        display: flex;
+        flex-direction: column;
+    }
+    .logoMobile{
+        content: url('../Images/Logo.png');
+        margin: 0 auto;
+        width: 8rem;
+        height: 8rem;
+    }
+    #developer, #design{
+        font-size: 4.3rem;
+        height: 30%;
+        font-weight: 800;
+    }
+    #developer span, #design span{
+        display: flex;
+        flex-direction: column;
+    }
+    #developer span {color: #C37815;}
+    #design    span {color: #E3AA5F;}
+    .aboutMe{
+        padding-top: 100px;
+        flex-direction: column;
+    }   
+    .aboutMe img{
+        justify-content: flex-start;
+    } 
+    .aboutMe div{
+        width: 90%;
+    }
+    .aboutMe h2{
+        font-size: 3.5em;
+    }
+}

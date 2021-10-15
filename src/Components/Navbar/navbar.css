@@ -1,8 +1,8 @@
 nav {
     z-index: 20;
     position: fixed;
-    width: 1440px;
-    height: 115px;
+    width: 100vw;
+    height: fit-content;
 
     background: rgba( 255, 255, 255, 0.2 );
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
@@ -10,20 +10,17 @@ nav {
     -webkit-backdrop-filter: blur( 5px );
     border-radius: 10px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
-
-    border-radius: 0px 16px 16px 0px;
 }
 nav ul {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    
     color: #F3F3F3;
     font-weight: 600;
 }
 .icons a:-webkit-any-link{
     color: transparent;
 }
+/* .icons svg{
+    width: 80px;
+} */
 #logo{
     margin-top: -6px;
 }
@@ -38,7 +35,6 @@ nav ul {
     display: inline-block;
     position: relative;
     
-    padding: 5px 15px;
     margin: 15px;
     font-size: 1.1rem;  
 
@@ -65,4 +61,42 @@ nav ul {
     opacity: 1;
 	-webkit-transform: scale(1);
 	transform: scale(1);
+}
+@media (max-width: 768px){
+    .text-nav li a{
+        font-size: 0.9rem;
+    }
+    #logo{
+        width: 7rem;
+        height: 7rem;
+    }
+    .algin-center-nav{
+        gap: 10px;
+    }
+}
+@media (max-width: 425px){
+    .text-nav li a{
+        font-size: 0.8rem;
+    }
+    .algin-center-nav{
+        gap: 15px;
+    }
+    .iconsMobile{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+    }
+    .iconsMobile svg{
+        width: 2rem;
+    }
+    #logo{
+        width : 5.3rem;
+        height: 5.3rem;
+    }
+    nav{
+        bottom: 0;
+    }
 }
