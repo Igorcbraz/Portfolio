@@ -109,8 +109,8 @@
         font-size: 0.9rem;
     }
     #modalDelete{
-        width: 90vw;
-        height: 90vh;
+        width: 80vw;
+        height: 80vh;
     }
     .ReactModal__Content {
         inset: 20px 35px 0 0 !important;
