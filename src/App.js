@@ -18,26 +18,15 @@ function App() {
   }, [])
 
   return (
-    <div>
+    <>
       {/* <Chat/> */}
       <Navbar/>
 
-      <section className="introducao" id="intro">
-        <span className="logoMobile"></span>
-        <h1
-          id="developer"
-          data-aos="slide-right"
-        >
-          <span>De</span>veloper
-        </h1>
-        <h1
-          id="design"
-          data-aos="slide-left"
-        >
-          <span>De</span>signer
-        </h1>
-      </section>
-
+      <Frase 
+        frase="De" destaque="veloper" secondDestaque="signer"
+        invertColors intro
+      />
+      
       <section className="aboutMe" id="sobre">
         <img src={AboutMe} alt="Foto para o sobre mim" data-aos="slide-up"/>
 
@@ -63,7 +52,7 @@ function App() {
       </section>
 
       <Frase frase="Vamos fazer um projeto" destaque="Juntos ?" isFinal/>
-    </div>
+    </>
   );
 }
 

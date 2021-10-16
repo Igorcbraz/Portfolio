@@ -18,6 +18,20 @@
 .frase-imagens span {
     color: #FEE7C9;
 }
+.intro{height: fit-content;}
+#developer{margin-top: 140px;}
+#designer{margin-bottom: 140px;}
+#developer, #designer{
+    font-size: 12.5rem;
+    width: 100%;
+    height: fit-content;
+    text-transform: uppercase;
+}
+#developer      {color: #C37815;}
+#designer       {color: #E3AA5F;}
+#developer span {color: #E3AA5F;}
+#designer  span {color: #C37815;}
+
 .frase-imagens button {
     margin-top: 30px;
     padding: 10px 40px;
@@ -47,6 +61,9 @@
     .frase-imagens h1 {
         font-size: 5.5rem;
     }
+    #developer, #designer{
+        font-size: 8.2rem;
+    }
 }
 /* Tablet */
 @media(max-width: 768px){
@@ -54,7 +71,12 @@
         font-size: 4.5rem;
         width: 60%;
     }
+    #developer, #designer{
+        font-size: 6.8rem;
+        height: 20%;
+    }
 }
+
 /* Mobile */
 @media(max-width: 426px){
     .frase-imagens{
@@ -69,4 +91,24 @@
         padding: 10px 20px;
         margin: 20px 0 0 0;
     }
+
+    .intro{
+        height: 100vh;
+    
+        margin: -30px 0 0 0;
+        display: flex;
+        flex-direction: column;  
+    }
+    #developer, #designer{
+        font-size: 4.3rem;
+        height: 30%;
+        font-weight: 800;
+    }
+    #developer span, #designer span{
+        display: flex;
+        flex-direction: column;
+    }
+    #developer span {color: #C37815;}
+    #designer  span {color: #E3AA5F;}
 }
+@media(max-width: 360px){ #developer, #designer{font-size: 3.5rem;}}

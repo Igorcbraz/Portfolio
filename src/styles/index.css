@@ -1,28 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* Entarda */
-.introducao{
-    background: linear-gradient(to right, #E0830A , #FF960C);
-    height: 100vh;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-#developer, #design{
-    font-size: 13.2rem;
-    font-weight: 700;
-    letter-spacing: 1rem;
-    text-transform: uppercase;
-    width: 100%;
-    height: 31%;
-}
-#developer      {color: #C37815;}
-#design         {color: #E3AA5F;}
-#developer span {color: #E3AA5F;}
-#design    span {color: #C37815;}
-
-
 .aboutMe{
     display: flex;
     justify-content: space-evenly;
@@ -76,9 +53,6 @@
     .aboutMe h2{
         font-size: 4em;
     }
-    #developer, #design{
-        font-size: 9.2rem;
-    }
 }
 /* Tablet */
 @media(max-width: 768px){
@@ -92,37 +66,15 @@
         font-size: 0.9rem;
         width: 89%;
     }
-    #developer, #design{
-        font-size: 6.5rem;
-        height: 20%;
-    }
 }
 /* Mobile */
 @media(max-width: 426px){
-    .introducao{
-        height: 100vh;
-    
-        margin: -30px 0 0 0;
-        display: flex;
-        flex-direction: column;
-    }
     .logoMobile{
         content: url('../Images/Logo.png');
         margin: 0 auto;
         width: 8rem;
         height: 8rem;
     }
-    #developer, #design{
-        font-size: 4.3rem;
-        height: 30%;
-        font-weight: 800;
-    }
-    #developer span, #design span{
-        display: flex;
-        flex-direction: column;
-    }
-    #developer span {color: #C37815;}
-    #design    span {color: #E3AA5F;}
     .aboutMe{
         padding-top: 100px;
         flex-direction: column;

@@ -18,9 +18,6 @@ nav ul {
 .icons a:-webkit-any-link{
     color: transparent;
 }
-/* .icons svg{
-    width: 80px;
-} */
 #logo{
     margin-top: -6px;
 }

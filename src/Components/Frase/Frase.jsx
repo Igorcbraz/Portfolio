@@ -25,12 +25,20 @@ export function Frase(props){
                     )}
                 </section>
             ) : (
-                <section className="frase-imagens">
+                <section className={!props.intro ? "frase-imagens" : "frase-imagens intro"}>
                     <h1
-                    data-aos="fade-down"
+                        data-aos={!props.intro ? "fade-down" : "slide-right"}
+                        id={props.intro && "developer"}
                     >
                      <span>{props.frase}</span> {props.destaque}
                     </h1>
+                    { props.intro && (
+                        <h1
+                            data-aos="slide-left" id="designer"
+                        >
+                         <span>{props.frase}</span> {props.secondDestaque}
+                        </h1>
+                    )}
                 </section>
             )}
         </>
