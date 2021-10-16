@@ -74,47 +74,49 @@ export function ListQuestions(){
                     </form>
                 </div>
                 
-                <Modal 
-                    isOpen={modalIsOpen}
-                    preventScroll={true}
-                    aria={{
-                        labelledby: "heading",
-                        describedby: "full_description"
-                    }}
-                    id="modalQuestion"
-                >
-                    {numQuestion === 1 ? (
-                        <button onClick={() => setModalIsOpen(false)}>
-                            <p>
-                                No mundo do design trabalho com artes voltadas para streamers (overlays, distintivos, facecam, banners...) e com interface para websites.
-                                Logo no mundo da programação sigo com o desenvolvimento de sites. Sendo eles landing pages com html, css e javascript ou sites no modelo SPA (Single Page Application) com reactJs.
-                            </p>
-                            <Logos isClose/>
-                        </button>
-                    ) : numQuestion === 2 ? (
-                        <button onClick={() => setModalIsOpen(false)}>
-                            <p>
-                                Para formular o valor final é necessário saber qual a dificuldade e nível de tempo disponível para realização do projeto, por tanto, para fazer o orçamento é necessário somente entrar em contato,principalmente pelo instagram.
-                            </p>
-                            <Logos isClose/>
-                        </button>
-                    ) : numQuestion === 3 ? (
-                        <button onClick={() => setModalIsOpen(false)}>
-                            <p>
-                                Após as ideias dos projeto forem transparecidas de maneira causal e descontraída, iremos torna-las objetivas e claras para ambas as partes. 
-                                Com a confirmação do cliente que as informações estão corretas seguimos para formulação do preço. Neste ponto, para o andamento do projeto é necessário o pagamento de 30% do valor final, como ponto de segurança para ambos, com o sucesso na etapa anterior o desenvolvimento do projeto é iniciado e atualizações constantes sobre ele serão enviadas para o cliente.
-                            </p>
-                            <Logos isClose/>
-                        </button>
-                    ) : (
-                        <button onClick={() => setModalIsOpen(false)}>
-                            <p>
-                                O pagamento pode ser realizado via Pix, Ted, Paypal ou Mercado Pago.
-                            </p>
-                            <Logos isClose/>
-                        </button>
-                    )}
-                </Modal>
+                <div className="modalQuestionDiv">
+                    <Modal 
+                        isOpen={modalIsOpen}
+                        preventScroll={true}
+                        aria={{
+                            labelledby: "heading",
+                            describedby: "full_description"
+                        }}
+                        id="modalQuestion"
+                    >
+                        {numQuestion === 1 ? (
+                            <button onClick={() => setModalIsOpen(false)}>
+                                <p>
+                                    No mundo do design trabalho com artes voltadas para streamers (overlays, distintivos, facecam, banners...) e com interface para websites.
+                                    Logo no mundo da programação sigo com o desenvolvimento de sites. Sendo eles landing pages com html, css e javascript ou sites no modelo SPA (Single Page Application) com reactJs.
+                                </p>
+                                <Logos isClose/>
+                            </button>
+                        ) : numQuestion === 2 ? (
+                            <button onClick={() => setModalIsOpen(false)}>
+                                <p>
+                                    Para formular o valor final é necessário saber qual a dificuldade e nível de tempo disponível para realização do projeto, por tanto, para fazer o orçamento é necessário somente entrar em contato,principalmente pelo instagram.
+                                </p>
+                                <Logos isClose/>
+                            </button>
+                        ) : numQuestion === 3 ? (
+                            <button onClick={() => setModalIsOpen(false)}>
+                                <p>
+                                    Após as ideias dos projeto forem transparecidas de maneira causal e descontraída, iremos torna-las objetivas e claras para ambas as partes. 
+                                    Com a confirmação do cliente que as informações estão corretas seguimos para formulação do preço. Neste ponto, para o andamento do projeto é necessário o pagamento de 30% do valor final, como ponto de segurança para ambos, com o sucesso na etapa anterior o desenvolvimento do projeto é iniciado e atualizações constantes sobre ele serão enviadas para o cliente.
+                                </p>
+                                <Logos isClose/>
+                            </button>
+                        ) : (
+                            <button onClick={() => setModalIsOpen(false)}>
+                                <p>
+                                    O pagamento pode ser realizado via Pix, Ted, Paypal ou Mercado Pago.
+                                </p>
+                                <Logos isClose/>
+                            </button>
+                        )}
+                    </Modal>
+                </div>
             </div>
             
         </>

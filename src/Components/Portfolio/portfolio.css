@@ -99,6 +99,7 @@
     transition: 0.3s;
 }
 
+/* Mobile */
 @media(max-width: 426px){
     .portfolio{
         grid-template-columns: repeat(1, 1fr);
@@ -108,8 +109,8 @@
         font-size: 0.9rem;
     }
     #modalDelete{
-        width: 95vw;
-        height: 95vh;
+        width: 90vw;
+        height: 90vh;
     }
     .ReactModal__Content {
         inset: 20px 35px 0 0 !important;

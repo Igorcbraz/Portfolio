@@ -106,7 +106,7 @@
     filter: brightness(0.9);
     transition: 0.3s;
 }
-.ReactModal__Overlay {
+.modalQuestionDiv .ReactModal__Overlay {
     display: flex;
     justify-content: center;
     align-items: center;
