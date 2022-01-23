@@ -12,11 +12,11 @@ import Img3Open from '../../Images/imagem3-open.png';
 
 import Site1 from '../../Images/site1.png';
 import Site2 from '../../Images/site2.png';
-import Site3 from '../../Images/site3.png';
+import Site3 from '../../Images/site3.jpg';
 
-import Site1Open from '../../Images/site1-open.png'
-import Site2Open from '../../Images/site2-open.mp4'
-import Site3Open from '../../Images/site3-open.mp4'
+import Site1Open from '../../Images/site1-open.png';
+import Site2Open from '../../Images/site2-open.mp4';
+import Site3Open from '../../Images/site3-open.mp4';
 
 import Aos from 'aos';
 import Modal  from 'react-modal';
@@ -89,12 +89,12 @@ export function Portfolio(props){
                 ) : numPortifolio === 2 ? (
                     <>
                         <button className="closeBtn" onClick={() => setModalIsOpen(false)}>Fechar</button>
-                        <OpenPortifolio image={Img2Open} link="https://www.behance.net/gallery/113447237/Overlay-Igorcbraz_Design"/>
+                        <OpenPortifolio image={Img2Open} link="https://www.behance.net/gallery/112143357/Overlay-Para-Twitch"/>
                     </>
                 ) : numPortifolio === 3 ? (
                     <>
                         <button className="closeBtn" onClick={() => setModalIsOpen(false)}>Fechar</button>
-                        <OpenPortifolio image={Img3Open} link="https://www.behance.net/gallery/113447237/Overlay-Igorcbraz_Design"/>
+                        <OpenPortifolio image={Img3Open} link="https://www.behance.net/gallery/112143357/Overlay-Para-Twitch"/>
                     </>
                 ) : numPortifolio === 4 ? (
                     <>
@@ -116,8 +116,8 @@ export function Portfolio(props){
                     <>
                         <button className="closeBtn" onClick={() => setModalIsOpen(false)}>Fechar</button>
                         <OpenPortifolio  srcVideo={Site3Open}  secondButton isVideo
-                            link="https://igorcbraz.github.io/Calculadora/" 
-                            secondLink="https://github.com/Igorcbraz/Calculadora"
+                            link="https://dtmoney-igorcbraz.netlify.app" 
+                            secondLink="https://github.com/Igorcbraz/dtmoney"
                         />
                     </>
                 )}
