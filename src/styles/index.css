@@ -70,22 +70,22 @@
 /* Mobile */
 @media(max-width: 426px){
     .logoMobile{
-        content: url('../Images/Logo.png');
-        margin: 0 auto;
-        width: 8rem;
-        height: 8rem;
+      content: url('../Images/Logo.png');
+      margin: 0 auto;
+      width: 8rem;
+      height: 8rem;
     }
     .aboutMe{
-        padding-top: 100px;
-        flex-direction: column;
-    }   
+      padding-top: 100px;
+      flex-direction: column;
+    }
     .aboutMe img{
-        justify-content: flex-start;
-    } 
+      justify-content: flex-start;
+    }
     .aboutMe div{
-        width: 90%;
+      width: 90%;
     }
     .aboutMe h2{
-        font-size: 3.5em;
+      font-size: 3.5em;
     }
 }
