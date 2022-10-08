@@ -1,37 +1,37 @@
-import Modal from 'react-modal';
-import Aos from 'aos';
-import emailjs from 'emailjs-com';
+import Modal from 'react-modal'
+import Aos from 'aos'
+import emailjs from 'emailjs-com'
 
-import { useEffect, useState } from 'react';
-import { Logos } from '../Logos/Logos';
+import { useEffect, useState } from 'react'
+import { Logos } from '../Logos/Logos'
 
-import './listQuestion.css';
+import './listQuestion.css'
 
 export function ListQuestions() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [numQuestion, setNumQuestion] = useState(0);
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [numQuestion, setNumQuestion] = useState(0)
 
   useEffect(() => {
-    Aos.refresh();
-    Aos.init({ duration: 1000 });
-  }, []);
+    Aos.refresh()
+    Aos.init({ duration: 1000 })
+  }, [])
 
   function sendQuestion(event) {
-    event.preventDefault();
+    event.preventDefault()
 
     emailjs.sendForm('portifolioEmail', 'template_enrcnle', event.target, 'user_iuW0qAeAvjfUaxmAOFfHT')
       .then(() => {
-        alert('Pergunta enviada com sucesso ! Muito Obrigado :)');
+        alert('Pergunta enviada com sucesso ! Muito Obrigado :)')
       }, (error) => {
-        alert(error.message);
-      });
+        alert(error.message)
+      })
 
-    event.target.reset();
+    event.target.reset()
   }
 
   function openQuestion(questionNum) {
-    setModalIsOpen(true);
-    setNumQuestion(questionNum);
+    setModalIsOpen(true)
+    setNumQuestion(questionNum)
   }
 
   return (
@@ -128,5 +128,5 @@ export function ListQuestions() {
         </Modal>
       </div>
     </div>
-  );
+  )
 }

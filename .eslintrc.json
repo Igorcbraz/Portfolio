@@ -39,11 +39,11 @@
     }],
     "react/require-default-props": "off",
     "no-nested-ternary": "off",
-    "@typescript-eslint/explicit-module-boundary-types": {
-      "allowExpressions": true
-    },
+    "semi": ["error", "never"],
     "react/jsx-no-useless-fragment": "off",
     "no-trailing-spaces": ["error", { "ignoreComments": true }],
+    "no-nonoctal-decimal-escape": "off",
+    "no-unsafe-optional-chaining": "off",
     "quotes": ["error", "single"],
     "indent": ["error", 2]
   }

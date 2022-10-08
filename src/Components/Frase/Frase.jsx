@@ -1,8 +1,8 @@
-import { string, bool } from 'prop-types';
-import { useEffect } from 'react';
-import Aos from 'aos';
+import { string, bool } from 'prop-types'
+import { useEffect } from 'react'
+import Aos from 'aos'
 
-import './frase.css';
+import './frase.css'
 
 export function Frase({
   invertColors,
@@ -13,9 +13,9 @@ export function Frase({
   secondDestaque,
 }) {
   useEffect(() => {
-    Aos.refresh();
-    Aos.init({ duration: 1000 });
-  }, []);
+    Aos.refresh()
+    Aos.init({ duration: 1000 })
+  }, [])
 
   return (
     <>
@@ -57,7 +57,7 @@ export function Frase({
         </section>
       )}
     </>
-  );
+  )
 }
 
 Frase.propTypes = {
@@ -67,4 +67,4 @@ Frase.propTypes = {
   isFinal: bool,
   intro: bool,
   secondDestaque: string,
-};
+}

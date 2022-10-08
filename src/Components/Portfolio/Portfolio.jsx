@@ -1,43 +1,43 @@
-import { bool } from 'prop-types';
-import { useEffect, useState } from 'react';
-import Aos from 'aos';
-import Modal from 'react-modal';
-import { Logos } from '../Logos/Logos';
-import { OpenPortifolio } from '../OpenPortifolio/OpenPortifolio';
+import { bool } from 'prop-types'
+import { useEffect, useState } from 'react'
+import Aos from 'aos'
+import Modal from 'react-modal'
+import { Logos } from '../Logos/Logos'
+import { OpenPortifolio } from '../OpenPortifolio/OpenPortifolio'
 
-import Imagem1 from '../../Images/imagem1.png';
-import Imagem2 from '../../Images/imagem2.png';
-import Imagem3 from '../../Images/imagem3.png';
+import Imagem1 from '../../Images/imagem1.png'
+import Imagem2 from '../../Images/imagem2.png'
+import Imagem3 from '../../Images/imagem3.png'
 
-import Img1Open from '../../Images/imagem1-open.png';
-import Img2Open from '../../Images/imagem2-open.png';
-import Img3Open from '../../Images/imagem3-open.png';
+import Img1Open from '../../Images/imagem1-open.png'
+import Img2Open from '../../Images/imagem2-open.png'
+import Img3Open from '../../Images/imagem3-open.png'
 
-import Site1 from '../../Images/site1.png';
-import Site2 from '../../Images/site2.png';
-import Site3 from '../../Images/site3.jpg';
+import Site1 from '../../Images/site1.png'
+import Site2 from '../../Images/site2.png'
+import Site3 from '../../Images/site3.jpg'
 
-import Site1Open from '../../Images/site1-open.png';
-import Site2Open from '../../Images/site2-open.mp4';
-import Site3Open from '../../Images/site3-open.mp4';
+import Site1Open from '../../Images/site1-open.png'
+import Site2Open from '../../Images/site2-open.mp4'
+import Site3Open from '../../Images/site3-open.mp4'
 
-import './portfolio.css';
+import './portfolio.css'
 
 export function Portfolio({
   isImages,
   isSites,
 }) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [numPortifolio, setNumPortifolio] = useState(0);
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [numPortifolio, setNumPortifolio] = useState(0)
 
   useEffect(() => {
-    Aos.refresh();
-    Aos.init({ duration: 1000 });
-  }, []);
+    Aos.refresh()
+    Aos.init({ duration: 1000 })
+  }, [])
 
   function openPortifolio(portifolioNum) {
-    setModalIsOpen(true);
-    setNumPortifolio(portifolioNum);
+    setModalIsOpen(true)
+    setNumPortifolio(portifolioNum)
   }
 
   return (
@@ -133,10 +133,10 @@ export function Portfolio({
         )}
       </Modal>
     </>
-  );
+  )
 }
 
 Portfolio.propTypes = {
   isImages: bool.isRequired,
   isSites: bool.isRequired,
-};
+}

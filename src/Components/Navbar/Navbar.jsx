@@ -1,16 +1,34 @@
-import { Logos } from '../Logos/Logos';
-import Logo from '../../Images/Logo.png';
+import { useEffect, useState } from 'react'
+import { Logos } from '../Logos/Logos'
+import Logo from '../../Images/Logo.png'
 
-import './navbar.css';
+import './navbar.css'
+
+const getWindowDimensions = () => {
+  const { innerWidth: width, innerHeight: height } = window
+  return {
+    width,
+    height,
+  }
+}
 
 export function Navbar() {
-  const screenSize = window.screen.width;
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions())
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions(getWindowDimensions())
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   return (
     <header>
       <nav>
         <ul className='row'>
 
-          {screenSize > 425 && (
+          { windowDimensions.width > 425 && (
             <div className='icons algin-center-nav col'>
               <li><Logos isGithub /></li>
               <li><Logos isBehance /></li>
@@ -26,7 +44,7 @@ export function Navbar() {
                 <a href='#sobre'>Sobre</a>
               </li>
             </div>
-            {screenSize > 425 && (
+            { windowDimensions.width > 425 && (
               <a href='#intro'>
                 <img src={Logo} id='logo' width='128px' height='123px' alt='Logo igorcbraz design' />
               </a>
@@ -41,7 +59,7 @@ export function Navbar() {
             </div>
           </div>
 
-          {screenSize > 425 ? (
+          { windowDimensions.width > 425 ? (
             <div className='icons algin-center-nav col'>
               <li><Logos isInstagram /></li>
               <li><Logos isLinkedin /></li>
@@ -57,5 +75,5 @@ export function Navbar() {
         </ul>
       </nav>
     </header>
-  );
+  )
 }

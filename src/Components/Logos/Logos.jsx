@@ -1,6 +1,6 @@
-import { string, bool } from 'prop-types';
+import { string, bool } from 'prop-types'
 
-import './logos.css';
+import './logos.css'
 
 export function Logos({
   isBehance,
@@ -57,7 +57,7 @@ export function Logos({
         </svg>
       )}
     </>
-  );
+  )
 }
 
 Logos.propTypes = {
@@ -74,4 +74,4 @@ Logos.propTypes = {
   linkedinColor: string,
   questionColor: string,
   closeColor: string,
-};
+}

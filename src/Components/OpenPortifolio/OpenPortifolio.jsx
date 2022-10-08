@@ -1,4 +1,4 @@
-import { string, bool } from 'prop-types';
+import { string, bool } from 'prop-types'
 
 export function OpenPortifolio({
   image, link, secondButton, secondLink, isVideo, srcVideo,
@@ -26,7 +26,7 @@ export function OpenPortifolio({
         </video>
       )}
     </div>
-  );
+  )
 }
 
 OpenPortifolio.propTypes = {
@@ -36,4 +36,4 @@ OpenPortifolio.propTypes = {
   secondButton: bool,
   isVideo: bool,
   srcVideo: string,
-};
+}
