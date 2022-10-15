@@ -1,6 +1,5 @@
 import { bool } from 'prop-types'
-import { useEffect, useState } from 'react'
-import Aos from 'aos'
+import { useState } from 'react'
 import Modal from 'react-modal'
 import { Logos } from '../Logos/Logos'
 import { OpenPortifolio } from '../OpenPortifolio/OpenPortifolio'
@@ -29,11 +28,6 @@ export function Portfolio({
 }) {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [numPortifolio, setNumPortifolio] = useState(0)
-
-  useEffect(() => {
-    Aos.refresh()
-    Aos.init({ duration: 1000 })
-  }, [])
 
   function openPortifolio(portifolioNum) {
     setModalIsOpen(true)

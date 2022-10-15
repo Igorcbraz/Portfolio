@@ -1,8 +1,7 @@
 import Modal from 'react-modal'
-import Aos from 'aos'
 import emailjs from 'emailjs-com'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Logos } from '../Logos/Logos'
 
 import './listQuestion.css'
@@ -10,11 +9,6 @@ import './listQuestion.css'
 export function ListQuestions() {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [numQuestion, setNumQuestion] = useState(0)
-
-  useEffect(() => {
-    Aos.refresh()
-    Aos.init({ duration: 1000 })
-  }, [])
 
   function sendQuestion(event) {
     event.preventDefault()

@@ -12,7 +12,6 @@ import './styles/index.css'
 
 function App() {
   useEffect(() => {
-    Aos.refresh()
     Aos.init({ duration: 1000 })
   }, [])
 
