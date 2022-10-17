@@ -70,7 +70,7 @@
 /* Mobile */
 @media(max-width: 426px){
     .logoMobile{
-      content: url('../Images/Logo.png');
+      content: url('../Images/Logo.webp');
       margin: 0 auto;
       width: 8rem;
       height: 8rem;

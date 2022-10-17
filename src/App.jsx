@@ -4,9 +4,9 @@ import { useEffect } from 'react'
 import { Navbar } from './Components/Navbar/Navbar'
 import { Frase } from './Components/Frase/Frase'
 import { Portfolio } from './Components/Portfolio/Portfolio'
-import { ListQuestions } from './Components/ListQuestions/ListQuestions'
+import { Stacks } from './Components/Stacks/Stacks'
 
-import AboutMe from './Images/aboutMe.jpeg'
+import AboutMe from './Images/aboutMe.webp'
 
 import './styles/index.css'
 
@@ -38,22 +38,20 @@ function App() {
             mim
           </h2>
           <p>
-            Olá, me chamo Igor Braz. Realizo projetos como designer
-            freelancer, desde o começo do ano de 2020, com minha minha página
+            Olá, me chamo Igor Braz. Estou habituado com o desenvolvimento Javascript,
+            com suas bibliotecas e frameworks, sou Técnico em
+            Desenvolvimentos de Sistemas e almejo trazer
+            soluções desafiadoras e eficazes ao mercado de
+            trabalho com a base de conhecimento que já adquirir e procuro ampliar.
+          </p>
+          <p>
+            Realizava projetos como designer freelancer, com minha minha página
             {' '}
             <a href='https://www.instagram.com/igorcbrazdesign/' target='_blank' rel='noreferrer'>IgorcbrazDesign</a>
             {' '}
-            no instagram. Antes com foco apenas no mundo do design, mas agora
-            sigo estudando e aplicando meus conhecimentos no mundo da programação,
-            com familiaridades no frontend (Html, Css, ReactJs...) e
-            buscando ampliar as barreiras em busca do desenvolvimento fullstack
+            no Instagram.
           </p>
         </div>
-      </section>
-
-      <section id='imagens'>
-        <Frase frase='Muito além de apenas' destaque='Imagens' />
-        <Portfolio isImages />
       </section>
 
       <section id='sites'>
@@ -61,9 +59,14 @@ function App() {
         <Portfolio isSites />
       </section>
 
+      <section id='imagens'>
+        <Frase frase='Muito além de apenas' destaque='Imagens' />
+        <Portfolio isImages />
+      </section>
+
       <section id='perguntas'>
-        <Frase frase='Perguntas' destaque='Frequentes' invertColors />
-        <ListQuestions />
+        <Frase frase='Tecnologias' destaque='& Stacks' invertColors />
+        <Stacks />
       </section>
 
       <Frase frase='Vamos fazer um projeto' destaque='Juntos ?' isFinal />

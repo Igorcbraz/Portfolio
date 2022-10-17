@@ -28,6 +28,7 @@ export function Frase({
           )}
         </section>
       ) : (
+        // Introduction slogan
         <section className={!intro ? 'frase-imagens' : 'frase-imagens intro'}>
           <h1
             data-aos={!intro ? 'fade-down' : 'slide-right'}

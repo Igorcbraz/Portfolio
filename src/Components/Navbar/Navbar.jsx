@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Logos } from '../Logos/Logos'
-import Logo from '../../Images/Logo.png'
+import Logo from '../../Images/Logo.webp'
 
 import './navbar.css'
 

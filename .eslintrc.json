@@ -44,6 +44,7 @@
     "no-trailing-spaces": ["error", { "ignoreComments": true }],
     "no-nonoctal-decimal-escape": "off",
     "no-unsafe-optional-chaining": "off",
+    "import/no-unresolved": [2, { "ignore": [".png$", ".webp$", ".jpg$"] }],
     "quotes": ["error", "single"],
     "indent": ["error", 2]
   }

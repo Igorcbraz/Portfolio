@@ -1,0 +1,39 @@
+.stacks{
+  margin: 0 auto;
+  display: grid;
+
+  margin: 50px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 2rem;
+}
+.stacks button {
+  border: none;
+  background-color: transparent;
+}
+.stacks img, .stacks div{
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+
+  border: 3px solid rgba(224, 131, 10, 0);
+  transition: 0.3s;
+}
+.stacks img:hover, .stacks div:hover{
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  border: 3px solid #E0830A;
+  border-radius: 16px;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+.stacks div{
+  background-color: #FEE7C9;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.stacks div svg{
+  width: 62px;
+  height: 62px;
+}
