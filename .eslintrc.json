@@ -45,7 +45,8 @@
     "no-nonoctal-decimal-escape": "off",
     "no-unsafe-optional-chaining": "off",
     "quotes": ["error", "single"],
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "linebreak-style": 0
   }
 }
 
