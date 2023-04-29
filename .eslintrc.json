@@ -46,7 +46,8 @@
     "no-unsafe-optional-chaining": "off",
     "import/no-unresolved": [2, { "ignore": [".png$", ".webp$", ".jpg$"] }],
     "quotes": ["error", "single"],
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "linebreak-style": 0
   }
 }
 
