@@ -46,7 +46,8 @@
     "no-unsafe-optional-chaining": "off",
     "quotes": ["error", "single"],
     "indent": ["error", 2],
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "max-len": ["warn", 350]
   }
 }
 

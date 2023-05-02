@@ -31,44 +31,44 @@ export function Navbar() {
           { windowDimensions.width > 425 && (
             <div className='icons algin-center-nav col'>
               <li><Logos isGithub /></li>
-              <li><Logos isBehance /></li>
+              {/* <li><Logos isBehance /></li> */}
             </div>
           )}
 
           <div className='algin-center-nav col'>
             <div className='algin-center-nav text-nav'>
               <li>
-                <a href='#perguntas'>Perguntas</a>
+                <a href='#experiencias'>Experiências</a>
               </li>
               <li>
                 <a href='#sobre'>Sobre</a>
               </li>
             </div>
             { windowDimensions.width > 425 && (
-              <a href='#intro'>
+              <a href='#developer'>
                 <img src={Logo} id='logo' width='128px' height='123px' alt='Logo igorcbraz design' />
               </a>
             )}
             <div className='algin-center-nav text-nav'>
               <li>
-                <a href='#imagens'>Design</a>
+                <a href='#projetos'>Projetos</a>
               </li>
               <li>
-                <a href='#sites'>Programação</a>
+                <a href='#tecnologias'>Tecnologias</a>
               </li>
             </div>
           </div>
 
           { windowDimensions.width > 425 ? (
             <div className='icons algin-center-nav col'>
-              <li><Logos isInstagram /></li>
+              {/* <li><Logos isInstagram /></li> */}
               <li><Logos isLinkedin /></li>
             </div>
           ) : (
             <div className='iconsMobile'>
               <li><Logos isGithub /></li>
-              <li><Logos isBehance /></li>
-              <li><Logos isInstagram /></li>
+              {/* <li><Logos isBehance /></li> */}
+              {/* <li><Logos isInstagram /></li> */}
               <li><Logos isLinkedin /></li>
             </div>
           )}

@@ -4,9 +4,10 @@ import { useEffect } from 'react'
 import { Navbar } from './Components/Navbar/Navbar'
 import { Frase } from './Components/Frase/Frase'
 import { Portfolio } from './Components/Portfolio/Portfolio'
-import { ListQuestions } from './Components/ListQuestions/ListQuestions'
+// import { ListQuestions } from './Components/ListQuestions/ListQuestions'
+import { Stepper } from './Components/Stepper/Stepper'
 
-import AboutMe from './Images/aboutMe.jpeg'
+import AboutMe from './Images/aboutMe.jpg'
 
 import './styles/index.css'
 
@@ -38,33 +39,59 @@ function App() {
             mim
           </h2>
           <p>
-            Olá, me chamo Igor Braz. Realizo projetos como designer
-            freelancer, desde o começo do ano de 2020, com minha minha página
-            {' '}
-            <a href='https://www.instagram.com/igorcbrazdesign/' target='_blank' rel='noreferrer'>IgorcbrazDesign</a>
-            {' '}
-            no instagram. Antes com foco apenas no mundo do design, mas agora
-            sigo estudando e aplicando meus conhecimentos no mundo da programação,
-            com familiaridades no frontend (Html, Css, ReactJs...) e
-            buscando ampliar as barreiras em busca do desenvolvimento fullstack
+            Como desenvolvedor de sistemas com 1 ano de experiência, sou especializado em Javascript e tenho habilidades em desenvolvimento Full Stack com ênfase em NodeJS, ReactJS e VueJS. Meu conhecimento também inclui bancos de dados relacionais e não-relacionais, bem como o controle de versionamento com Git.
+          </p>
+          <p>
+            Estou comprometido em desenvolver soluções de alta qualidade e disponibilidade, seguindo práticas e melhores padrões de arquitetura, e estou sempre buscando novas maneiras de aprimorar meu trabalho.
+          </p>
+          <p>
+            Sempre disposto a aprender novas tecnologias e metodologias, bem como a compartilhar meu conhecimento com colegas de equipe. Tenho experiência em trabalhar em equipe para acompanhar correções e melhorias contínuas, bem como em ferramentas de apoio à gestão de projetos e produtos, como o Github.
           </p>
         </div>
       </section>
 
-      <section id='imagens'>
-        <Frase frase='Muito além de apenas' destaque='Imagens' />
-        <Portfolio isImages />
+      <section id='experiencias'>
+        <Frase frase='Minhas' destaque='Experiências' />
+        <div className='experience'>
+          <div className='containerExp'>
+            <Stepper status='completed'>
+              <span className='headerStep'>
+                <h3>Full Stack Software Engineer</h3>
+                <p className='company'>Grupo Raotes</p>
+              </span>
+              <span>
+                <p className='caption'>out de 2022 - Atualmente</p>
+              </span>
+              <p>
+                Atuo na resolução de problemas por meio da programação, com a oportunidade de conhecer arquiteturas e ciclo de vida de um software profissional, assim como habilidades de comunicação em meio ao time e tratamento na relação de prazos e entregas.
+              </p>
+            </Stepper>
+            <Stepper status='active'>
+              <span className='headerStep'>
+                <h3>Estagiário de desenvolvimento</h3>
+                <p className='company'>Grupo Raotes</p>
+              </span>
+              <span>
+                <p className='caption'>ago de 2022 - out de 2022</p>
+              </span>
+              <p>
+                Atuo na resolução de problemas por meio da programação, com a oportunidade de conhecer arquiteturas e ciclo de vida de um software profissional, assim como habilidades de comunicação em meio ao time e tratamento na relação de prazos e entregas.
+              </p>
+            </Stepper>
+            <Stepper />
+          </div>
+        </div>
       </section>
 
-      <section id='sites'>
-        <Frase frase='Muito além de apenas' destaque='Sites' />
+      <section id='projetos'>
+        <Frase frase='Destaque de' destaque='Projetos' />
         <Portfolio isSites />
       </section>
 
-      <section id='perguntas'>
-        <Frase frase='Perguntas' destaque='Frequentes' invertColors />
+      {/* <section id='tecnologias'>
+        <Frase frase='Principais' destaque='Tecnologias' />
         <ListQuestions />
-      </section>
+      </section> */}
 
       <Frase frase='Vamos fazer um projeto' destaque='Juntos ?' isFinal />
     </>

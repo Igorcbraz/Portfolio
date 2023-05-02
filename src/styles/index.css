@@ -1,91 +1,123 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 .aboutMe{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 
-    padding: 30px 0;
-    background: linear-gradient(to right, #E0830A , #FF960C);
+  padding: 30px 0;
+  background: linear-gradient(to right, #E0830A , #FF960C);
 }
 .aboutMe img{
-    width: 35%;
-    max-width: 400px;
-    height: 35%;
-    max-height: 450px;
+  width: 35%;
+  max-width: 400px;
+  height: 35%;
+  max-height: 450px;
 
-    border-radius: 2px;
-    border: 2px solid #C37815;
-    box-shadow: 2px 2px 25px #E3AA5F;
+  border-radius: 2px;
+  border: 2px solid #C37815;
+  box-shadow: 2px 2px 25px #E3AA5F;
 }
 .aboutMe div{
-    width:40%;
+  width:40%;
 }
 .aboutMe h2{
-    color: #C37815;
-    font-weight: 700;
-    letter-spacing: 5px;
-    font-size:6rem;
-    text-align: left;
+  color: #C37815;
+  font-weight: 700;
+  letter-spacing: 5px;
+  font-size:6rem;
+  text-align: left;
 
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 .aboutMe span{
-    color: #ffd59f;
+  color: #ffd59f;
 }
 .aboutMe p{
-    color: #ffd59f;
-    width: 96%;
-    justify-content: center;
-    font-weight: 500;
-    font-size: 1rem;
-    padding: 10px;
-    text-align: justify;
+  color: #ffd59f;
+  width: 96%;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 10px;
+  text-align: justify;
 }
 .aboutMe a{
-    color: #C37815;
-    background-color: #ffd59f;
-    padding: 0 10px;
+  color: #C37815;
+  background-color: #ffd59f;
+  padding: 0 10px;
+}
+
+.experience {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  width: 100%;
+  min-height: 70vh;
+}
+
+.containerExp {
+  width: 50%;
+}
+
+.experience .caption {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #858585;
+}
+
+.experience .company {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgb(6,150,215);
+}
+
+.experience .headerStep {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Laptop */
 @media(max-width: 1024px){
-    .aboutMe h2{
-        font-size: 4em;
-    }
+  .aboutMe h2{
+    font-size: 4em;
+  }
 }
 /* Tablet */
 @media(max-width: 768px){
-    .aboutMe h2{
-        font-size: 3em;
-    }
-    .aboutMe div{
-        width:50%;
-    }
-    .aboutMe p{
-        font-size: 0.9rem;
-        width: 89%;
-    }
+  .aboutMe h2{
+    font-size: 3em;
+  }
+  .aboutMe div{
+    width:50%;
+  }
+  .aboutMe p{
+    font-size: 0.9rem;
+    width: 89%;
+  }
 }
 /* Mobile */
 @media(max-width: 426px){
-    .logoMobile{
-      content: url('../Images/Logo.png');
-      margin: 0 auto;
-      width: 8rem;
-      height: 8rem;
-    }
-    .aboutMe{
-      padding-top: 100px;
-      flex-direction: column;
-    }
-    .aboutMe img{
-      justify-content: flex-start;
-    }
-    .aboutMe div{
-      width: 90%;
-    }
-    .aboutMe h2{
-      font-size: 3.5em;
-    }
+  .logoMobile{
+    content: url('../Images/Logo.png');
+    margin: 0 auto;
+    width: 8rem;
+    height: 8rem;
+  }
+  .aboutMe{
+    padding-top: 100px;
+    flex-direction: column;
+  }
+  .aboutMe img{
+    justify-content: flex-start;
+  }
+  .aboutMe div{
+    width: 90%;
+  }
+  .aboutMe h2{
+    font-size: 3.5em;
+  }
 }
