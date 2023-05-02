@@ -22,7 +22,7 @@ export function Frase({
             <span>{ destaque }</span>
           </h1>
           { isFinal && (
-            <a href='https://www.instagram.com/igorcbrazdesign/' target='_blank' rel='noreferrer' data-aos='fade-down'>
+            <a href='https://www.linkedin.com/in/igorcbraz/' target='_blank' rel='noreferrer' data-aos='fade-down'>
               <button type='button'>Entre em Contato</button>
             </a>
           )}
