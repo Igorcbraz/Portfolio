@@ -14,9 +14,7 @@ export function Frase({
     <>
       { !invertColors ? (
         <section className='frase-imagens'>
-          <h1
-            data-aos='fade-down'
-          >
+          <h1 data-aos='fade-down'>
             { frase }
             {' '}
             <span>{ destaque }</span>
