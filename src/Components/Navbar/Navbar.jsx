@@ -31,7 +31,6 @@ export function Navbar() {
           { windowDimensions.width > 425 && (
             <div className='icons algin-center-nav col'>
               <li><Logos isGithub /></li>
-              {/* <li><Logos isBehance /></li> */}
             </div>
           )}
 
@@ -61,14 +60,11 @@ export function Navbar() {
 
           { windowDimensions.width > 425 ? (
             <div className='icons algin-center-nav col'>
-              {/* <li><Logos isInstagram /></li> */}
               <li><Logos isLinkedin /></li>
             </div>
           ) : (
             <div className='iconsMobile'>
               <li><Logos isGithub /></li>
-              {/* <li><Logos isBehance /></li> */}
-              {/* <li><Logos isInstagram /></li> */}
               <li><Logos isLinkedin /></li>
             </div>
           )}
