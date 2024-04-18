@@ -1,16 +1,17 @@
+import React from 'react'
 import Modal from 'react-modal'
 import emailjs from 'emailjs-com'
 
 import { useState } from 'react'
-import { Logos } from '../Logos/Logos'
+import { Logos } from '../Logos'
 
-import './listQuestion.css'
+import './style.css'
 
-export function ListQuestions() {
+export function ListQuestions () {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [numQuestion, setNumQuestion] = useState(0)
 
-  function sendQuestion(event) {
+  const sendQuestion = (event) => {
     event.preventDefault()
 
     emailjs.sendForm('portifolioEmail', 'template_enrcnle', event.target, 'user_iuW0qAeAvjfUaxmAOFfHT')
@@ -23,7 +24,7 @@ export function ListQuestions() {
     event.target.reset()
   }
 
-  function openQuestion(questionNum) {
+  const openQuestion = (questionNum) => {
     setModalIsOpen(true)
     setNumQuestion(questionNum)
   }

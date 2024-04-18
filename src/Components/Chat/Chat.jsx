@@ -1,6 +1,7 @@
-import './chat.css'
+import React from 'react'
+import './style.css'
 
-export function Chat() {
+export function Chat () {
   return (
     <a href='https://www.instagram.com/igorcbrazdesign/' target='_blank' rel='noreferrer'>
       <svg id='Chat' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>

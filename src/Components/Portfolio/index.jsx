@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Modal from 'react-modal'
-import { Logos } from '../Logos/Logos'
-import { OpenPortifolio } from '../OpenPortifolio/OpenPortifolio'
+import { Logos } from '../Logos'
+import { OpenPortifolio } from '../OpenPortifolio'
 
 import Site1 from '../../Images/site1.png'
 import Site2 from '../../Images/site2.png'
@@ -11,13 +11,13 @@ import Site1Open from '../../Images/site1-open.png'
 import Site2Open from '../../Images/site2-open.mp4'
 import Site3Open from '../../Images/site3-open.mp4'
 
-import './portfolio.css'
+import './style.css'
 
 export function Portfolio() {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [numPortifolio, setNumPortifolio] = useState(0)
 
-  function openPortifolio(portifolioNum) {
+  const openPortifolio = (portifolioNum) => {
     setModalIsOpen(true)
     setNumPortifolio(portifolioNum)
   }

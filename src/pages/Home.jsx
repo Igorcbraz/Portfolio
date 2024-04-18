@@ -1,32 +1,25 @@
-import Aos from 'aos'
+import React from 'react'
 
-import { useEffect } from 'react'
-import { Navbar } from './Components/Navbar/Navbar'
-import { Frase } from './Components/Frase/Frase'
-import { Portfolio } from './Components/Portfolio/Portfolio'
-import { Stepper } from './Components/Stepper/Stepper'
+import { Navbar } from '../Components/Navbar'
+import { TextSection } from '../Components/TextSection'
+import { Portfolio } from '../Components/Portfolio'
+import { Stepper } from '../Components/Stepper'
 
-import AboutMe from './Images/aboutMe.jpg'
+import AboutMe from '../Images/aboutMe.jpg'
 
-import './styles/index.css'
+import '../styles/home.css'
 
-function App() {
-  useEffect(() => {
-    Aos.init({ duration: 1000 })
-  }, [])
-
+export function Home() {
   return (
-    <>
+    <div>
       <Navbar />
-
-      <Frase
-        frase='De'
-        destaque='veloper'
-        secondDestaque='signer'
-        invertColors
-        intro
+      <TextSection
+        title='De'
+        subtitle='veloper'
+        highlight='signer'
+        invertTextColors
+        introduction
       />
-
       <section className='aboutMe' id='sobre'>
         <img src={AboutMe} alt='Foto para o sobre mim' data-aos='slide-up' />
 
@@ -46,9 +39,8 @@ function App() {
           </p>
         </div>
       </section>
-
       <section id='experiencias'>
-        <Frase frase='Minhas' destaque='Experiências' />
+        <TextSection title='Minhas' subtitle='Experiências' />
         <div className='experience'>
           <div className='containerExp'>
             <Stepper status='completed'>
@@ -100,15 +92,11 @@ function App() {
           </div>
         </div>
       </section>
-
       <section id='projetos'>
-        <Frase frase='Destaque de' destaque='Projetos' />
+        <TextSection title='Destaque de' subtitle='Projetos' />
         <Portfolio isSites />
       </section>
-
-      <Frase frase='Vamos fazer um projeto' destaque='Juntos ?' isFinal />
-    </>
+      <TextSection title='Vamos fazer um projeto' subtitle='Juntos ?' isFinal />
+    </div>
   )
 }
-
-export default App

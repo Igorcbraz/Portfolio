@@ -1,6 +1,7 @@
+import React from 'react'
 import { string, bool } from 'prop-types'
 
-import './logos.css'
+import './style.css'
 
 export function Logos({
   isBehance,

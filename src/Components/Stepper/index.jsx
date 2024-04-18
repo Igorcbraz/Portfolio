@@ -1,19 +1,20 @@
+import React from 'react'
 import { string, node } from 'prop-types'
 
-import './stepper.css'
+import './style.css'
 
 export function Stepper({
   status = 'empty',
   children,
 }) {
   return (
-    <div class={`step ${status}`}>
-      <div class='v-stepper'>
-        <div class='circle' />
-        <div class='line' />
+    <div className={`step ${status}`}>
+      <div className='v-stepper'>
+        <div className='circle' />
+        <div className='line' />
       </div>
 
-      <div class='content'>
+      <div className='content'>
         { children }
       </div>
     </div>

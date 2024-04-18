@@ -1,7 +1,13 @@
+import React from 'react'
 import { string, bool } from 'prop-types'
 
 export function OpenPortifolio({
-  image, link, secondButton, secondLink, isVideo, srcVideo,
+  image,
+  link,
+  secondButton,
+  secondLink,
+  isVideo,
+  srcVideo,
 }) {
   return (
     <div className='portifolio-open'>

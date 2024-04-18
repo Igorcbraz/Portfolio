@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
-import { Logos } from '../Logos/Logos'
+import React, { useEffect, useState } from 'react'
+import { Logos } from '../Logos'
 import Logo from '../../Images/Logo.png'
 
-import './navbar.css'
+import './style.css'
 
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window
