@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Logos } from '../Logos'
+import { GithubLogo } from '../Logo/GithubLogo'
+import { LinkedinLogo } from '../Logo/LinkedinLogo'
 import Logo from '../../Images/Logo.png'
 
 import './style.css'
@@ -30,7 +31,7 @@ export function Navbar() {
 
           { windowDimensions.width > 425 && (
             <div className='icons algin-center-nav col'>
-              <li><Logos isGithub /></li>
+              <li><GithubLogo /></li>
             </div>
           )}
 
@@ -44,7 +45,7 @@ export function Navbar() {
               </li>
             </div>
             { windowDimensions.width > 425 && (
-              <a href='#developer'>
+              <a href='#home'>
                 <img src={Logo} id='logo' width='128px' height='123px' alt='Logo igorcbraz design' />
               </a>
             )}
@@ -60,12 +61,12 @@ export function Navbar() {
 
           { windowDimensions.width > 425 ? (
             <div className='icons algin-center-nav col'>
-              <li><Logos isLinkedin /></li>
+              <li><LinkedinLogo /></li>
             </div>
           ) : (
             <div className='iconsMobile'>
-              <li><Logos isGithub /></li>
-              <li><Logos isLinkedin /></li>
+              <li><GithubLogo /></li>
+              <li><LinkedinLogo /></li>
             </div>
           )}
         </ul>
