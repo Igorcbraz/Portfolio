@@ -48,8 +48,7 @@
     "indent": ["error", 2],
     "linebreak-style": 0,
     "max-len": "off",
-    "react/no-array-index-key": "off",
-    "import/extensions": "off"
+    "react/no-array-index-key": "off"
   }
 }
 
