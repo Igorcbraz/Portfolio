@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+.aboutMe{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  padding: 30px 0;
+  background: linear-gradient(to right, #E0830A , #FF960C);
+}
+.aboutMe img{
+  width: 35%;
+  max-width: 450px;
+  height: 35%;
+  max-height: 500px;
+
+  border-radius: 5px;
+  border: 2px solid #C37815;
+  box-shadow: 2px 2px 25px #E3AA5F;
+}
+.aboutMe div{
+  width:40%;
+}
+.aboutMe h2{
+  color: #C37815;
+  font-weight: 700;
+
+  font-size: 5rem;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  margin-top: -5px;
+}
+.aboutMe h2 span{
+  padding-right: 10px;
+}
+.aboutMe #aboutMeIntroduction {
+  color: #ffd59f;
+  font-weight: 700;
+
+  font-size: 1.5rem;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+.aboutMe h3{
+  color: #C37815;
+  font-weight: 400;
+
+  font-size: 1.7rem;
+  text-align: left;
+
+  margin-bottom: 25px;
+}
+.aboutMe span{
+  color: #ffd59f;
+}
+.aboutMe p{
+  color: #ffd59f;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: justify;
+}
+.aboutMe a {
+  display: block;
+  margin-top: 25px;
+  padding: 10px 40px;
+  text-align: center;
+
+  background-color: #C37815;
+  border: 2.3px solid #C37815;
+  border-radius: 5px;
+  color: #FEE7C9;
+
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+.aboutMe a:hover {
+  background-color: #FEE7C9;
+  color: #C37815;
+  border: 2.3px solid #FEE7C9;
+
+  transition: 0.3s;
+}
+
+.portfolio{
+  margin: 0 auto;
+  display: grid;
+
+  margin: 50px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 2rem;
+}
+.portfolio a {
+  border: none;
+  background-color: transparent;
+}
+.portfolio img, .portfolio div{
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+
+  border: 3px solid rgba(224, 131, 10, 0);
+  transition: 0.3s;
+}
+.portfolio img:hover, .portfolio div:hover{
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  border: 3px solid #E0830A;
+  border-radius: 16px;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+.portfolio div{
+  background-color: #FEE7C9;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.portfolio div svg{
+  width: 62px;
+  height: 62px;
+}
+
+/* Laptop */
+@media(max-width: 1024px){
+  .aboutMe h2{
+    font-size: 4em;
+  }
+}
+/* Tablet */
+@media(max-width: 768px){
+  .aboutMe h2{
+    font-size: 3em;
+  }
+  .aboutMe div{
+    width:50%;
+  }
+  .aboutMe p{
+    font-size: 0.9rem;
+    width: 89%;
+  }
+}
+/* Mobile */
+@media(max-width: 426px){
+  .logoMobile{
+    content: url('../Images/Logo.png');
+    margin: 0 auto;
+    width: 8rem;
+    height: 8rem;
+  }
+  .aboutMe{
+    padding-top: 100px;
+    flex-direction: column;
+  }
+  .aboutMe img{
+    justify-content: flex-start;
+  }
+  .aboutMe div{
+    width: 90%;
+  }
+  .aboutMe h2{
+    font-size: 3.5em;
+  }
+  .portfolio{
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
