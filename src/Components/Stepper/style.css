@@ -10,43 +10,39 @@
 
 .v-stepper {
   position: relative;
-/*   visibility: visible; */
 }
 
 
-/* regular step */
 .step .circle {
   background-color: white;
   border: 3px solid gray;
   border-radius: 100%;
-  width: 20px;    /* +6 for border */
+  width: 20px;
   height: 20px;
   display: inline-block;
 }
 
 .step .line {
-    top: 23px;
+  top: 23px;
   left: 9px;
-/*   height: 120px; */
   height: 100%;
-
-    position: absolute;
-    border-left: 3px solid gray;
+  position: absolute;
+  border-left: 3px soligdayray;
 }
 
 .step.completed .circle {
   visibility: visible;
-  background-color: rgb(6,150,215);
-  border-color: rgb(6,150,215);
+  background-color: #FF960C;
+  border-color: #FF960C;
 }
 
 .step.completed .line {
-  border-left: 3px solid rgb(6,150,215);
+  border-left: 3px solid #FF960C;
 }
 
 .step.active .circle {
   visibility: visible;
-  border-color: rgb(6,150,215);
+  border-color: #FF960C;
 }
 
 .step.empty .circle {
@@ -54,8 +50,6 @@
 }
 
 .step.empty .line {
-/*     visibility: hidden; */
-/*   height: 150%; */
   top: 0;
   height: 150%;
 }
@@ -63,7 +57,7 @@
 
 .step:last-child .line {
   border-left: 3px solid white;
-  z-index: -1; /* behind the circle to completely hide */
+  z-index: -1;
 }
 
 .content {

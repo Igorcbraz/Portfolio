@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Links } from '../../constants/Links'
 
 import './style.css'
 
@@ -10,14 +11,15 @@ export function TextSection({
   highlight,
   isFinal,
   introduction,
+  id,
 }) {
   const sectionClass = introduction ? 'frase-imagens introduction' : 'frase-imagens'
   const dataAos = introduction ? 'slide-right' : 'fade-down'
-  const id = introduction ? 'developer' : undefined
+  const contentId = introduction ? 'developer' : undefined
 
   return (
-    <section className={invertTextColors ? sectionClass : 'frase-imagens'}>
-      <h1 data-aos={invertTextColors ? dataAos : 'fade-down'} id={id}>
+    <section className={invertTextColors ? sectionClass : 'frase-imagens'} id={id}>
+      <h1 data-aos={invertTextColors ? dataAos : 'fade-down'} id={contentId}>
         <span>{title}</span>
         {' '}
         {subtitle}
@@ -30,7 +32,7 @@ export function TextSection({
         </h1>
       )}
       { isFinal && (
-        <a href='https://www.linkedin.com/in/igorcbraz/' target='_blank' rel='noreferrer' data-aos='fade-down'>
+        <a href={Links.linkedin} target='_blank' rel='noreferrer' data-aos='fade-down'>
           <button type='button'>Entre em Contato</button>
         </a>
       )}
@@ -45,4 +47,5 @@ TextSection.propTypes = {
   isFinal: PropTypes.bool,
   introduction: PropTypes.bool,
   highlight: PropTypes.string,
+  id: PropTypes.string,
 }

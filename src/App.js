@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Aos from 'aos'
 
-import { Home } from './pages/Home'
+import { Home } from './pages/home'
 
 function App() {
   useEffect(() => {
