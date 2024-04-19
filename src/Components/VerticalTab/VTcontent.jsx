@@ -27,5 +27,12 @@ export function VTcontent({ data }) {
 }
 
 VTcontent.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.arrayOf(PropTypes.shape({
+    contract: PropTypes.string,
+    period: PropTypes.string,
+    details: PropTypes.arrayOf(PropTypes.shape({
+      className: PropTypes.string,
+      content: PropTypes.string,
+    })),
+  })),
 }
