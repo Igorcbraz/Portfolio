@@ -1,0 +1,76 @@
+{
+  "experience": [
+    {
+      "startDate": "2025-03",
+      "endDate": null,
+      "title": "Full Stack Software Developer - Pleno",
+      "company": "Grupo Raotes",
+      "description": "Responsável pelo desenvolvimento e evolução dos produtos: WebGR e Hub Intelligence, atuando em todas as etapas do ciclo de vida das aplicações, desde o planejamento até a entrega em produção. Além das atividades técnicas, oriento e colaboro com outros desenvolvedores na definição de soluções e boas práticas",
+      "icon": "🌟",
+      "highlights": [
+        "Vue.js",
+        "Quasar Framework",
+        "Node.js",
+        "Sequelize",
+        "Arquitetura de APIs REST",
+        "Clean Architecture",
+        "Integrações com ERPs e Webhooks",
+        "Mobile (Cordova / Capacitor)",
+        "CI/CD (Docker, GitHub Actions, Portainer)",
+        "Mentoria técnica"
+      ]
+    },
+    {
+      "startDate": "2022-11",
+      "endDate": "2025-03",
+      "title": "Full Stack Software Developer - Júnior",
+      "company": "Grupo Raotes",
+      "description": "Desenvolvimento do sistema WebGR, com atuação em frontend, backend, mobile e banco de dados. Integrações com terceiros, testes, versionamento e participação ativa em melhorias do software empresarial.",
+      "icon": "🎨",
+      "highlights": [
+        "Vue.js",
+        "Quasar",
+        "Node.js",
+        "Sequelize",
+        "PostgreSQL",
+        "MongoDB",
+        "Digital Ocean / AWS",
+        "CI/CD",
+        "Testes Unitários (Jest)",
+        "Integrações externas (ERPs, Zapier, Neogrid)"
+      ]
+    },
+    {
+      "startDate": "2025-03",
+      "endDate": "2025-04",
+      "title": "Docente de Tecnologia da Informação",
+      "company": "Senac São Paulo",
+      "description": "Professor de Excel (básico ao avançado) e fundamentos de TI. Criação de aulas práticas, avaliações e acompanhamento de turmas, sempre integrando conceitos técnicos ao mercado real.",
+      "icon": "📘",
+      "highlights": [
+        "Microsoft Excel",
+        "Planejamento de aulas",
+        "Didática e Comunicação",
+        "Análise de Dados",
+        "Metodologias práticas"
+      ]
+    },
+    {
+      "startDate": "2022-08",
+      "endDate": "2022-10",
+      "title": "Full Stack Software Developer - Estagiário",
+      "company": "WebGR (Freelance)",
+      "description": "Desenvolvimento do gerador de propostas de serviço do WebGR, incluindo frontend, backend, API REST e criação dinâmica de documentos. Primeira experiência prática em projetos de maior escopo.",
+      "icon": "⚡",
+      "highlights": [
+        "API REST",
+        "Vue.js",
+        "Quasar",
+        "Node.js",
+        "Sequelize",
+        "DocxJs",
+        "Git & GitHub"
+      ]
+    }
+  ]
+}
