@@ -1,8 +1,13 @@
 "use client"
 
+
 import { Github, Linkedin, FileDown } from "lucide-react"
+import metadata from "../data/metadata.json"
 
 export function ContactSection() {
+  const linkedinUrl = metadata.social.linkedin.url
+  const githubUrl = metadata.social.github.url
+
   return (
     <section id="contact" className="relative min-h-screen py-20 bg-background">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -21,7 +26,7 @@ export function ContactSection() {
 
         <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto mb-16">
           <a
-            href="https://linkedin.com/in/igorbraz"
+            href={linkedinUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="group relative overflow-hidden p-8 rounded-xl border border-border/30 hover:border-primary/50 bg-card hover:bg-card/80 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1"
@@ -45,7 +50,7 @@ export function ContactSection() {
           </a>
 
           <a
-            href="https://github.com/Igorcbraz"
+            href={githubUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="group relative overflow-hidden p-8 rounded-xl border border-border/30 hover:border-primary/50 bg-card hover:bg-card/80 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1"

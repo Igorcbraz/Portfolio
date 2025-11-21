@@ -35,7 +35,6 @@ interface SiteMetadata {
   social: {
     github: { username: string; url: string }
     linkedin: { username: string; url: string }
-    twitter: { username: string; url: string }
   }
   openGraph: {
     type: string
@@ -84,7 +83,6 @@ interface UserData {
   social: {
     github: string
     linkedin: string
-    twitter?: string
   }
 }
 
@@ -126,7 +124,6 @@ const defaultUserData: UserData = {
   social: {
     github: metadataJson.social.github.url,
     linkedin: metadataJson.social.linkedin.url,
-    twitter: metadataJson.social.twitter.url || undefined,
   },
 }
 

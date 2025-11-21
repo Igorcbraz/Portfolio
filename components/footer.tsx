@@ -50,7 +50,6 @@ export function Footer() {
               {[
                 { name: "GitHub", url: "https://github.com/igorbraz" },
                 { name: "LinkedIn", url: "https://linkedin.com/in/igorbraz" },
-                { name: "Twitter", url: "https://twitter.com/igorbraz" },
               ].map((social) => (
                 <li key={social.name}>
                   <a
