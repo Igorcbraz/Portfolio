@@ -97,10 +97,12 @@ export function TechStack() {
   const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   useEffect(() => {
-    const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)
-    setIsTouchDevice(isTouch)
-    if (isTouch) {
-      setSelectedCategory("Mobile")
+    if (typeof window !== 'undefined') {
+      const isTouch = ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+      setIsTouchDevice(isTouch)
+      if (isTouch) {
+        setSelectedCategory("Mobile")
+      }
     }
   }, [])
 

@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react"
 
 export function Shape3d() {
     const [baseRadius, setBaseRadius] = useState(200)
+    const [isClient, setIsClient] = useState(false)
 
     useEffect(() => {
+      setIsClient(true)
       const updateRadius = () => {
         if (window.innerWidth < 640) setBaseRadius(100)
         else if (window.innerWidth < 1024) setBaseRadius(140)
@@ -126,8 +128,8 @@ export function Shape3d() {
           const indexInLayer = techStack.filter((t, idx) => t.layer === tech.layer && idx <= i).length - 1
           const angle = (indexInLayer * Math.PI * 2) / itemsInLayer
 
-          const x = Math.cos(angle) * layerRadius
-          const z = Math.sin(angle) * layerRadius
+          const x = isClient ? Math.cos(angle) * layerRadius : 0
+          const z = isClient ? Math.sin(angle) * layerRadius : 0
           const y = (tech.layer - 2) * 30
 
           return (
@@ -176,7 +178,7 @@ export function Shape3d() {
         })}
 
         {metrics.map((metric, i) => {
-          const baseOffset = typeof window !== 'undefined' && window.innerWidth < 640 ? 110 : window.innerWidth < 1024 ? 150 : 200
+          const baseOffset = isClient ? (window.innerWidth < 640 ? 110 : window.innerWidth < 1024 ? 150 : 200) : 150
           const positions = [
             { x: -baseOffset, y: -baseOffset, z: 100 },
             { x: baseOffset, y: -baseOffset, z: 100 },
@@ -232,10 +234,10 @@ export function Shape3d() {
 
         {[...Array(40)].map((_, i) => {
           const angle = (i * Math.PI * 2) / 40
-          const baseRadius = typeof window !== 'undefined' && window.innerWidth < 640 ? 130 : window.innerWidth < 1024 ? 180 : 240
+          const baseRadius = isClient ? (window.innerWidth < 640 ? 130 : window.innerWidth < 1024 ? 180 : 240) : 180
           const radius = baseRadius + (i % 4) * 20
-          const x = Math.cos(angle) * radius
-          const z = Math.sin(angle) * radius
+          const x = isClient ? Math.cos(angle) * radius : 0
+          const z = isClient ? Math.sin(angle) * radius : 0
 
           return (
             <div
@@ -254,9 +256,9 @@ export function Shape3d() {
 
         {[...Array(8)].map((_, i) => {
           const angle = (i * Math.PI * 2) / 8
-          const baseRadius = typeof window !== 'undefined' && window.innerWidth < 640 ? 200 : window.innerWidth < 1024 ? 280 : 380
-          const x = Math.cos(angle) * baseRadius
-          const z = Math.sin(angle) * baseRadius
+          const baseRadius = isClient ? (window.innerWidth < 640 ? 200 : window.innerWidth < 1024 ? 280 : 380) : 280
+          const x = isClient ? Math.cos(angle) * baseRadius : 0
+          const z = isClient ? Math.sin(angle) * baseRadius : 0
 
           return (
             <div
