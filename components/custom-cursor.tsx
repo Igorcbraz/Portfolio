@@ -1,14 +1,28 @@
 "use client"
 
+
 import { useEffect, useState } from "react"
 
+function isMobile() {
+  if (typeof window === "undefined") return false
+  return window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768
+}
+
 export function CustomCursor() {
+
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isPointer, setIsPointer] = useState(false)
   const [isHidden, setIsHidden] = useState(false)
   const [isClicking, setIsClicking] = useState(false)
+  const [isMobileDevice, setIsMobileDevice] = useState(false)
 
   useEffect(() => {
+    setIsMobileDevice(isMobile())
+  }, [])
+
+  useEffect(() => {
+    if (isMobileDevice) return
+
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY })
 
@@ -41,9 +55,9 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", handleMouseLeave)
       document.removeEventListener("mouseenter", handleMouseEnter)
     }
-  }, [])
+  }, [isMobileDevice])
 
-  if (isHidden) return null
+  if (isHidden || isMobileDevice) return null
 
   return (
     <>
