@@ -1,0 +1,53 @@
+{
+  "site": {
+    "title": "Igor Braz - Software Developer & Designer",
+    "description": "Modern portfolio showcasing creative development and design work. Specializing in React, Next.js, and interactive web experiences.",
+    "keywords": ["developer", "designer", "portfolio", "react", "next.js", "web development"],
+    "url": "https://igorbraz.dev",
+    "locale": "pt-BR",
+    "themeColor": "#1A1A1A"
+  },
+  "author": {
+    "name": "Igor Braz",
+    "role": "Desenvolvedor Full Stack",
+    "bio": "Focado em gerar resultado real, criando soluções digitais eficientes, escaláveis e entregues com a qualidade que o cliente final realmente merece.",
+    "email": "contato@igorbraz.dev",
+    "location": "Brasil"
+  },
+  "social": {
+    "github": {
+      "username": "igorcbraz",
+      "url": "https://github.com/igorcbraz"
+    },
+    "linkedin": {
+      "username": "igorcbraz",
+      "url": "https://www.linkedin.com/in/igorcbraz/"
+    },
+    "twitter": {
+      "username": "",
+      "url": ""
+    }
+  },
+  "openGraph": {
+    "type": "website",
+    "image": "/og-image.png",
+    "imageWidth": 1200,
+    "imageHeight": 630
+  },
+  "icons": {
+    "light": "/icon-light-32x32.png",
+    "dark": "/icon-dark-32x32.png",
+    "svg": "/icon.svg",
+    "apple": "/apple-icon.png"
+  },
+  "analytics": {
+    "vercel": true,
+    "googleAnalytics": ""
+  },
+  "viewport": {
+    "width": "device-width",
+    "initialScale": 1,
+    "maximumScale": 5,
+    "userScalable": true
+  }
+}

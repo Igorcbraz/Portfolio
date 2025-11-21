@@ -1,54 +1,27 @@
 {
+  "root": true,
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
-    "airbnb",
-    "airbnb/hooks"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
-  "overrides": [
-  ],
-  "parserOptions": {
-    "ecmaVersion": 12,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "plugins": [
-    "react"
-  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
-    "react/jsx-filename-extension": [
-      "error",
-      {
-        "extensions": [".js", ".jsx"]
-      }
-    ],
-    "react/react-in-jsx-scope": "off",
-    "react/no-unknown-property": ["off"],
-    "import/prefer-default-export": "off",
-    "jsx-quotes": ["error", "prefer-single"],
-    "jsx-a11y/media-has-caption": [ "off", {
-      "audio": [ "Audio" ],
-      "video": [ "Video" ],
-      "track": [ "Track" ]
-    }],
-    "react/require-default-props": "off",
-    "no-nested-ternary": "off",
     "semi": ["error", "never"],
-    "react/jsx-no-useless-fragment": "off",
-    "no-trailing-spaces": ["error", { "ignoreComments": true }],
-    "no-nonoctal-decimal-escape": "off",
-    "no-unsafe-optional-chaining": "off",
-    "quotes": ["error", "single"],
-    "indent": ["error", 2],
-    "linebreak-style": 0,
-    "max-len": "off",
-    "react/no-array-index-key": "off"
+    "no-console": "warn",
+    "no-debugger": "error",
+    "no-unused-vars": "warn",
+    "no-warning-comments": ["error", { "terms": ["todo", "fixme", "xxx", "hack", "bug"], "location": "anywhere" }],
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-var-requires": "error",
+    "@typescript-eslint/ban-ts-comment": "error",
+    "prettier/prettier": ["error", { "semi": false }]
   }
 }
-

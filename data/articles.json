@@ -1,0 +1,22 @@
+{
+  "articles": [
+    {
+      "id": 1,
+      "title": "Build a Feature-Rich Calculator with Pure JavaScript",
+      "excerpt": "Aprenda a implementar comandos de voz, atalhos de teclado e temas adaptativos em uma calculadora moderna, usando apenas HTML, CSS e JS.",
+      "date": "2025-01",
+      "readTime": "6 min read",
+      "link": "https://medium.com/@igorcbraz/build-a-feature-rich-calculator-with-pure-javascript-20ce17fbe47d",
+      "category": "JavaScript"
+    },
+    {
+      "id": 2,
+      "title": "Create a Festival Lineup with Your GitHub Repositories",
+      "excerpt": "Saiba como usar seus repositórios GitHub para gerar uma escalação de festival personalizada, combinando dados de código com criatividade.",
+      "date": "2024-06",
+      "readTime": "2 min read",
+      "link": "https://medium.com/@igorcbraz/create-a-festival-lineup-with-your-github-repositories-49229026f042",
+      "category": "Projetos"
+    }
+  ]
+}
