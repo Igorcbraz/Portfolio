@@ -1,0 +1,87 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "WebGR",
+      "description": "WebGR is a complete platform for field teams that unifies commercial and technical operations, organizing routes, schedules and processes in a single system.",
+      "image": "/webgr.webp",
+      "category": "Business Management",
+      "highlights": [
+        "Complete field team management with commercial, technical visits and quotes",
+        "Management center for managers with CRM, sales funnel and workflows",
+        "Integrated mobile app for logging activities, routes and field service",
+        "Integrations with ERPs and external services, providing unified and automated operations"
+      ],
+      "metrics": [
+        {
+          "label": "Visits Recorded",
+          "value": "160K+",
+          "description": "Visits performed by field teams using the app."
+        },
+        {
+          "label": "Active Users",
+          "value": "1.2K+",
+          "description": "Professionals using the platform daily."
+        },
+        {
+          "label": "Invoiced Orders",
+          "value": "150K+",
+          "description": "Sales operations recorded and processed by the system."
+        }
+      ],
+      "technologies": [
+        "Vue.js",
+        "Quasar Framework",
+        "Node.js",
+        "AWS",
+        "PostgreSQL",
+        "Cordova",
+        "Capacitor",
+        "Docker"
+      ],
+      "link": "https://webgr.com.br/",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "Hub Intelligence",
+      "description": "Hub Intelligence is a BI platform that centralizes data from multiple systems and delivers real-time insights with advanced analytics, automated reporting and interactive visualizations.",
+      "image": "/hub-intelligence.webp",
+      "category": "Business Intelligence",
+      "highlights": [
+        "Centralizes company data in a single platform",
+        "Interactive dashboards and real-time KPIs",
+        "Automated reports and predictive analytics",
+        "Integrations with multiple ERPs and business systems"
+      ],
+      "metrics": [
+        {
+          "label": "Data Integration",
+          "value": "Multisource",
+          "description": "Unifies information from ERPs, e-commerce and internal systems into a single dashboard."
+        },
+        {
+          "label": "KPI Updates",
+          "value": "Real Time",
+          "description": "Indicators are processed and displayed instantly for agile decision making."
+        },
+        {
+          "label": "Advanced Analysis",
+          "value": "Predictive",
+          "description": "Intelligent models help identify trends and anticipate scenarios."
+        }
+      ],
+      "technologies": [
+        "Vue.js",
+        "Quasar Framework",
+        "Node.js",
+        "Digital Ocean",
+        "MongoDB",
+        "Chart.js",
+        "WebSocket"
+      ],
+      "link": "https://hubintelligence.com.br/",
+      "featured": true
+    }
+  ]
+}

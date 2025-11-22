@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import journeyData from "@/data/journey.json"
+import { getExperience } from '@/lib/data'
+import { useLocale } from "@/contexts/LocaleContext"
 
 interface JourneyStep {
   startDate: string
@@ -14,33 +15,35 @@ interface JourneyStep {
 }
 
 export function ProfessionalJourney() {
+  const { dictionary, locale } = useLocale()
   const containerRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const [journeySteps, setJourneySteps] = useState<JourneyStep[]>([])
 
   const formatDatePeriod = (startDate: string, endDate: string | null): string => {
-    const months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+    const monthsPt = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+    const monthsEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    const months = locale === 'en' ? monthsEn : monthsPt
 
     if (!startDate) return ''
 
     const [startYear, startMonth] = startDate.split('-')
-    const startFormatted = `${months[parseInt(startMonth) - 1]} de ${startYear}`
+    const startFormatted = locale === 'en' ? `${months[parseInt(startMonth) - 1]} ${startYear}` : `${months[parseInt(startMonth) - 1]} de ${startYear}`
 
     if (!endDate) {
-      return `${startFormatted} - o momento`
+      return locale === 'en' ? `${startFormatted} - Present` : `${startFormatted} - o momento`
     }
 
     const [endYear, endMonth] = endDate.split('-')
-    const endFormatted = `${months[parseInt(endMonth) - 1]} de ${endYear}`
+    const endFormatted = locale === 'en' ? `${months[parseInt(endMonth) - 1]} ${endYear}` : `${months[parseInt(endMonth) - 1]} de ${endYear}`
 
     return `${startFormatted} - ${endFormatted}`
   }
 
   useEffect(() => {
-    // Load journey data
-    setJourneySteps(journeyData.experience)
-  }, [])
+    setJourneySteps(getExperience(locale) as JourneyStep[])
+  }, [locale])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -94,10 +97,10 @@ export function ProfessionalJourney() {
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-20 text-center">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-            Jornada <span className="text-primary">Profissional</span>
+            {dictionary.journey.title} <span className="text-primary">Profissional</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Uma jornada de aprendizado contínuo e evolução como desenvolvedor
+            {dictionary.journey.subtitle}
           </p>
         </div>
 
@@ -105,7 +108,7 @@ export function ProfessionalJourney() {
           <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-linear-to-b from-primary via-accent to-primary/20"></div>
 
           <div className="space-y-12">
-            {journeySteps.map((step, index) => (
+            {journeySteps.map((step: any, index: number) => (
               <div
                 key={index}
                 data-journey-card
@@ -148,7 +151,7 @@ export function ProfessionalJourney() {
                     <p className="text-base text-muted-foreground leading-relaxed mb-4 text-justify line-clamp-3 lg:line-clamp-none">{step.description}</p>
 
                     <div className="hidden lg:flex flex-wrap gap-2">
-                      {step.highlights.map((tech, i) => (
+                      {step.highlights.map((tech: string, i: number) => (
                         <span
                           key={i}
                           className={`px-3 py-1 text-sm rounded-full transition-all duration-500 ${
@@ -165,7 +168,7 @@ export function ProfessionalJourney() {
                     <div className="lg:hidden relative">
                       <div className="overflow-x-auto scrollbar-hide">
                         <div className="flex gap-2 pb-2">
-                          {step.highlights.map((tech, i) => (
+                          {step.highlights.map((tech: string, i: number) => (
                             <span
                               key={i}
                               className={`shrink-0 px-3 py-1 text-sm rounded-full transition-all duration-500 ${

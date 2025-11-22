@@ -4,18 +4,20 @@ import { useState, useEffect } from "react"
 import { sendGAEvent } from '@next/third-parties/google'
 import { Shape3d } from "./3d-shape"
 import { useUser } from "@/contexts/UserContext"
+import { useLocale } from "@/contexts/LocaleContext"
 
 export function Hero() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const { userData } = useUser()
+  const { dictionary } = useLocale()
 
   useEffect(() => {
     setIsLoaded(true)
   }, [])
 
   const scrollToNextSection = () => {
-    sendGAEvent('event', 'hero_me_conheca_click', { label: 'Me Conheça Melhor' })
+    sendGAEvent('event', 'hero_me_conheca_click', { label: dictionary.hero.knowMeBetter })
     window.scrollTo({
       top: window.innerHeight,
       behavior: 'smooth'
@@ -23,7 +25,7 @@ export function Hero() {
   }
 
   const scrollToContact = () => {
-    sendGAEvent('event', 'hero_contato_click', { label: 'Entre em Contato' })
+    sendGAEvent('event', 'hero_contato_click', { label: dictionary.hero.contactMe })
     const contactSection = document.getElementById('contact')
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: 'smooth' })
@@ -63,15 +65,15 @@ export function Hero() {
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full">
                 <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-                <span className="text-sm text-primary font-medium">Desenvolvedor Full Stack</span>
+                <span className="text-sm text-primary font-medium">{dictionary.hero.role}</span>
               </div>
 
               <div>
                 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-4 leading-tight">
-                  Olá, sou <span className="text-primary">Igor Braz</span>
+                  {dictionary.hero.greeting.split("Igor Braz").shift()}{" "}<span className="text-primary">Igor Braz</span>
                 </h1>
                 <p className="text-lg sm:text-xl text-muted-foreground font-light max-w-2xl leading-relaxed">
-                  Focado em gerar resultado real, criando soluções digitais eficientes, escaláveis e entregues com a qualidade que o cliente final realmente merece.
+                  {dictionary.hero.description}
                 </p>
               </div>
 
@@ -81,21 +83,21 @@ export function Hero() {
                   className="group relative px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold overflow-hidden hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:scale-105 active:scale-95"
                 >
                   <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-                  <span className="relative">Me Conheça Melhor</span>
+                  <span className="relative">{dictionary.hero.knowMeBetter}</span>
                 </button>
                 <button
                   onClick={scrollToContact}
                   className="px-8 py-4 text-foreground rounded-lg font-semibold hover:bg-muted/50 transition-all duration-300"
                 >
-                  Entre em Contato
+                  {dictionary.hero.contactMe}
                 </button>
               </div>
 
               <div className="flex gap-8 pt-8 border-t border-border/30">
-                {[
-                  { number: `${userData?.github.totalRepos || 0}+`, label: "Repositórios" },
-                  { number: `${userData?.github.totalStars || 0}+`, label: "GitHub Stars" },
-                  { number: `${userData?.github.yearsExperience || 4}+`, label: "Anos de Experiência" },
+                  {[
+                  { number: `${userData?.github.totalRepos || 0}+`, label: dictionary.hero.repositories },
+                  { number: `${userData?.github.totalStars || 0}+`, label: dictionary.hero.githubStars },
+                  { number: `${userData?.github.yearsExperience || 4}+`, label: dictionary.hero.yearsOfExperience },
                 ].map((stat, index) => (
                   <div key={index} className="animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
                     <p className="text-2xl font-bold text-primary">{stat.number}</p>

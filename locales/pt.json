@@ -1,0 +1,133 @@
+{
+  "hello": "Olá",
+  "hero": {
+    "role": "Desenvolvedor Full Stack",
+    "greeting": "Olá, sou Igor Braz",
+    "description": "Focado em gerar resultado real, criando soluções digitais eficientes, escaláveis e entregues com a qualidade que o cliente final realmente merece.",
+    "knowMeBetter": "Me Conheça Melhor",
+    "contactMe": "Entre em Contato",
+    "repositories": "Repositórios",
+    "githubStars": "GitHub Stars",
+    "yearsOfExperience": "Anos de Experiência"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "message1": "Opa! Não conseguimos encontrar a página que você está procurando.",
+    "message2": "Ela pode ter sido removida ou o endereço está incorreto.",
+    "backToHome": "Voltar para o início"
+  },
+  "navigation": {
+    "home": "Início",
+    "journey": "Jornada",
+    "github": "GitHub",
+    "projects": "Projetos",
+    "stack": "Stack",
+    "contact": "Contato",
+    "contactButton": "Entrar em contato",
+    "articles": "Artigos"
+  },
+  "shape": {
+    "dev": "DEV"
+  },
+  "footer": {
+    "tagline": "Experiências digitais premium criadas com paixão e precisão.",
+    "navigation": "Navegação",
+    "networks": "Redes",
+    "letsTalk": "Vamos conversar",
+    "ctaText": "Pronto para tirar suas ideias do papel?",
+    "contactButton": "Entrar em contato",
+    "copyright": "© {year} Igor Braz. Todos os direitos reservados."
+  },
+  "contact": {
+    "connectTitle": "Vamos nos Conectar",
+    "connectHighlight": "Conectar",
+    "subtitle": "Aqui estão os melhores lugares para me encontrar e acompanhar meu trabalho.",
+    "linkedinLabel": "LinkedIn",
+    "linkedinSubtitle": "Conecte-se comigo profissionalmente",
+    "githubLabel": "GitHub",
+    "githubSubtitle": "Explore meus projetos e código",
+    "cvTitle": "Mesmo depois dessa apresentação precisa do CV à moda antiga?",
+    "cvText": "Sem problemas! Aqui está meu currículo completo para você conferir.",
+    "cvButton": "Baixar Currículo"
+  },
+  "projects": {
+    "title": "Projetos",
+    "subtitle": "Trabalhos reais em produção, demonstrando minha atuação em desenvolvimento de software",
+    "all": "Todos",
+    "featured": "Em Produção"
+  },
+  "journey": {
+    "title": "Jornada",
+    "subtitle": "Uma jornada de aprendizado contínuo e evolução como desenvolvedor"
+  },
+  "articles": {
+    "title": "Artigos & Blog",
+    "subtitle": "Pensamentos e insights sobre web development, design e tecnologia",
+    "read": "Ler Artigo"
+  },
+  "code": {
+    "title": "Code Dashboard",
+    "subtitle": "Explore meus principais projetos, contribuições e destaques em código",
+    "searchPlaceholder": "Buscar repositórios, topics...",
+    "all": "Todas",
+    "clearFilters": "Limpar filtros",
+    "noResults": "Nenhum repositório encontrado",
+    "topLanguagesTitle": "Linguagens Mais Usadas",
+    "activityStatsTitle": "Estatísticas de Atividade",
+    "repositories": "Repositórios",
+    "totalStars": "Total de Estrelas",
+    "totalForks": "Total de Forks",
+    "watchers": "Observadores",
+    "badgePopular": "Popular",
+    "quality": {
+      "title": "Qualidade dos Projetos",
+      "withDescription": "Com Descrição",
+      "featured": "Destacados",
+      "active": "Ativos",
+      "withTopics": "Com Topics",
+      "percentSuffix": "% dos repos",
+      "withStars": "com estrelas",
+      "last6Months": "últimos 6 meses",
+      "wellDocumented": "bem documentados"
+    },
+    "engagement": {
+      "label": "Engagement Score",
+      "interactions": "interações"
+    },
+    "sort": {
+      "stars": "⭐ Mais Stars",
+      "forks": "⑂ Mais Forks",
+      "updated": "🕐 Atualizados",
+      "size": "📦 Tamanho"
+    },
+    "smallLabels": {
+      "stars": "stars",
+      "forks": "forks",
+      "watch": "watch",
+      "issues": "issues"
+    },
+    "foundSingular": "repositório encontrado",
+    "foundPlural": "repositórios encontrados"
+  },
+  "techStack": {
+    "title": "Tech Stack",
+    "subtitle": "Selecione uma categoria e explore as tecnologias"
+  }
+  ,
+  "scrollProgress": {
+    "milestones": {
+      "start": { "label": "Início", "message": "Bem-vindo!" },
+      "know": { "label": "Conheça", "message": "Descubra minha história" },
+      "journey": { "label": "Jornada", "message": "Minha evolução profissional" },
+      "projects": { "label": "Projetos", "message": "Explorando meu trabalho" },
+      "tech": { "label": "Tech", "message": "Minhas habilidades" },
+      "contact": { "label": "Contato", "message": "Quase lá!" },
+      "end": { "label": "Final", "message": "Você me conhece agora!" }
+    },
+    "tooltip": {
+      "title": "👋 Comece sua jornada!",
+      "subtitle": "Role para me conhecer melhor"
+    },
+    "explored": "Explorado"
+  }
+}

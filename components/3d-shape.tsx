@@ -1,10 +1,12 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useLocale } from "@/contexts/LocaleContext"
 
 export function Shape3d() {
     const [baseRadius, setBaseRadius] = useState(200)
     const [isClient, setIsClient] = useState(false)
+  const { dictionary } = useLocale()
 
     useEffect(() => {
       setIsClient(true)
@@ -116,7 +118,7 @@ export function Shape3d() {
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center backdrop-blur-sm bg-background/20 rounded-full p-2 sm:p-3 lg:p-4">
               <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-primary drop-shadow-[0_0_15px_currentColor]">
-                DEV
+                {dictionary.shape.dev}
               </div>
             </div>
           </div>

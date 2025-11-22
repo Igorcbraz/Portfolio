@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, ComponentType } from "react"
 import { sendGAEvent } from '@next/third-parties/google'
+import { useLocale } from "@/contexts/LocaleContext"
 import { Database, Cloud, Layout, Server, Terminal, Code, Smartphone } from "lucide-react"
 import {
   SiReact,
@@ -90,6 +91,7 @@ const categories: CategoryInfo[] = [
 ]
 
 export function TechStack() {
+  const { dictionary } = useLocale()
 
   const [selectedCategory, setSelectedCategory] = useState<Category>("Frontend")
   const [hoveredTech, setHoveredTech] = useState<string | null>(null)
@@ -586,10 +588,10 @@ export function TechStack() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-            Tech <span className="text-primary">Stack</span>
+            {dictionary.techStack.title.split(" ").shift()} <span className="text-primary">{dictionary.techStack.title.split(" ").pop()}</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-4">
-            Selecione uma categoria e explore as tecnologias
+            {dictionary.techStack.subtitle}
           </p>
         </div>
         <div className="mb-16">

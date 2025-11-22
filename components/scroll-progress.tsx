@@ -1,18 +1,28 @@
 "use client"
 
 import { useEffect, useState } from "react"
-
-const milestones = [
-  { progress: 0, label: "Início", icon: "👋", message: "Bem-vindo!" },
-  { progress: 15, label: "Conheça", icon: "✨", message: "Descubra minha história" },
-  { progress: 30, label: "Jornada", icon: "🚀", message: "Minha evolução profissional" },
-  { progress: 50, label: "Projetos", icon: "💼", message: "Explorando meu trabalho" },
-  { progress: 70, label: "Tech", icon: "⚡", message: "Minhas habilidades" },
-  { progress: 90, label: "Contato", icon: "🎯", message: "Quase lá!" },
-  { progress: 100, label: "Final", icon: "🌟", message: "Você me conhece agora!" },
-]
+import { useLocale } from "@/contexts/LocaleContext"
 
 export function ScrollProgress() {
+  const { dictionary } = useLocale()
+
+  const staticMilestones = [
+    { key: 'start', progress: 0, icon: '👋' },
+    { key: 'know', progress: 15, icon: '✨' },
+    { key: 'journey', progress: 30, icon: '🚀' },
+    { key: 'projects', progress: 50, icon: '💼' },
+    { key: 'tech', progress: 70, icon: '⚡' },
+    { key: 'contact', progress: 90, icon: '🎯' },
+    { key: 'end', progress: 100, icon: '🌟' },
+  ]
+
+  const milestones = staticMilestones.map((s) => ({
+    progress: s.progress,
+    icon: s.icon,
+    label: dictionary.scrollProgress.milestones[s.key].label,
+    message: dictionary.scrollProgress.milestones[s.key].message,
+  }))
+
   const [scrollProgress, setScrollProgress] = useState(0)
   const [currentMilestone, setCurrentMilestone] = useState(milestones[0])
   const [showTooltip, setShowTooltip] = useState(true)
@@ -195,7 +205,7 @@ export function ScrollProgress() {
                 </div>
                 <div className="pt-1.5 border-t border-border/30">
                   <p className="text-xl font-bold text-primary tabular-nums">{Math.round(scrollProgress)}%</p>
-                  <p className="text-[8px] text-muted-foreground uppercase tracking-wider mt-0.5">Explorado</p>
+                  <p className="text-[8px] text-muted-foreground uppercase tracking-wider mt-0.5">{dictionary.scrollProgress.explored}</p>
                 </div>
               </div>
 
@@ -206,12 +216,8 @@ export function ScrollProgress() {
 
         {showTooltip && scrollProgress < 20 && (
           <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 w-48 bg-primary text-primary-foreground rounded-lg p-3 shadow-2xl animate-bounce">
-            <p className="text-sm font-bold text-center mb-1.5">
-              👋 Comece sua jornada!
-            </p>
-            <p className="text-xs text-center opacity-95">
-              Role para me conhecer melhor
-            </p>
+            <p className="text-sm font-bold text-center mb-1.5">{dictionary.scrollProgress.tooltip.title}</p>
+            <p className="text-xs text-center opacity-95">{dictionary.scrollProgress.tooltip.subtitle}</p>
             <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-0 h-0 border-t-6 border-t-transparent border-b-6 border-b-transparent border-l-6 border-l-primary"></div>
           </div>
         )}

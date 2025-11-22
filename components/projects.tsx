@@ -1,8 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useLocale } from "@/contexts/LocaleContext"
 import { sendGAEvent } from '@next/third-parties/google'
-import projectsData from "@/data/projects.json"
+import { getProjects } from '@/lib/data'
 import Image from "next/image"
 
 interface Project {
@@ -23,12 +24,16 @@ interface Project {
 }
 
 export function Projects() {
+
+
+  const { dictionary, locale } = useLocale()
+
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [projects, setProjects] = useState<Project[]>([])
 
   useEffect(() => {
-    setProjects(projectsData.projects)
-  }, [])
+    setProjects(getProjects(locale) as Project[])
+  }, [locale])
 
   const categories = Array.from(new Set(projects.map((p) => p.category)))
   const filteredProjects = activeCategory ? projects.filter((p) => p.category === activeCategory) : projects
@@ -42,19 +47,19 @@ export function Projects() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-            Projetos <span className="text-primary">Profissionais</span>
+            {dictionary.projects.title} <span className="text-primary">Profissionais</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl">
-            Trabalhos reais em produção, demonstrando minha atuação em desenvolvimento de software
+            {dictionary.projects.subtitle}
           </p>
         </div>
 
         <div className="relative mb-12">
           <div className="lg:hidden overflow-x-auto scrollbar-hide">
             <div className="flex gap-3 pb-2">
-              <button
+                <button
                 onClick={() => {
-                  sendGAEvent('event', 'projects_all_click', { label: 'All Projects' });
+                  sendGAEvent('event', 'projects_all_click', { label: dictionary.projects.all });
                   setActiveCategory(null);
                 }}
                 className={`shrink-0 px-6 py-2 rounded-lg font-medium transition-all ${
@@ -62,8 +67,8 @@ export function Projects() {
                     ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
                     : "bg-card border border-border/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
                 }`}
-              >
-                Todos
+                >
+                {dictionary.projects.all}
               </button>
               {categories.map((cat) => (
                 <button
@@ -96,7 +101,7 @@ export function Projects() {
                   : "bg-card border border-border/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
               }`}
             >
-              Todos
+              {dictionary.projects.all}
             </button>
             {categories.map((cat) => (
               <button
@@ -111,7 +116,7 @@ export function Projects() {
                     : "bg-card border border-border/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
                 }`}
               >
-                {cat}
+                  {cat}
               </button>
             ))}
           </div>
@@ -152,8 +157,8 @@ export function Projects() {
 
                 {project.featured && (
                   <div className="absolute top-4 right-4 px-3 py-1 bg-primary/90 backdrop-blur-sm text-primary-foreground text-xs font-semibold rounded-full">
-                    Em Produção
-                  </div>
+                        {dictionary.projects.featured}
+                      </div>
                 )}
               </div>
 
@@ -172,7 +177,7 @@ export function Projects() {
 
                 {project.metrics && project.metrics.length > 0 && (
                   <div className="grid grid-cols-3 gap-2 sm:gap-3 py-4 border-t border-b border-border/20">
-                    {project.metrics.map((metric, i) => (
+                    {project.metrics.map((metric: any, i: number) => (
                       <div key={i} className="text-center group/metric" title={metric.description}>
                         <p className="text-xl sm:text-2xl font-bold text-primary">{metric.value}</p>
                         <p className="text-[9px] sm:text-[10px] text-muted-foreground uppercase tracking-wider leading-tight">{metric.label}</p>
@@ -185,7 +190,7 @@ export function Projects() {
                 {project.highlights && project.highlights.length > 0 && (
                   <div className="space-y-2">
                     <ul className="space-y-1">
-                      {project.highlights.slice(0, 4).map((highlight, i) => (
+                      {project.highlights.slice(0, 4).map((highlight: string, i: number) => (
                         <li key={i} className="text-xs text-muted-foreground flex items-start gap-2">
                           <span className="text-primary mt-0.5">•</span>
                           <span>{highlight}</span>

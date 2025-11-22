@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import articlesData from "@/data/articles.json"
+import { useLocale } from "@/contexts/LocaleContext"
+import { getArticles } from '@/lib/data'
 
 interface Article {
   id: number
@@ -15,10 +16,11 @@ interface Article {
 
 export function Articles() {
   const [articles, setArticles] = useState<Article[]>([])
+  const { dictionary, locale } = useLocale()
 
   useEffect(() => {
-    setArticles(articlesData.articles)
-  }, [])
+    setArticles(getArticles(locale) as Article[])
+  }, [locale])
 
   const formatDate = (dateString: string): string => {
     const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
@@ -34,10 +36,10 @@ export function Articles() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-            Artigos & <span className="text-primary">Blog</span>
+            {dictionary.articles.title.split(" & ")[0]} & <span className="text-primary">{dictionary.articles.title.split(" & ")[1]}</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl">
-            Pensamentos e insights sobre web development, design e tecnologia
+            {dictionary.articles.subtitle}
           </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -67,7 +69,7 @@ export function Articles() {
                 <p className="text-sm text-muted-foreground leading-relaxed">{article.excerpt}</p>
 
                 <div className="flex items-center justify-between pt-4 border-t border-border/20">
-                  <span className="text-xs uppercase tracking-widest text-muted-foreground">Ler Artigo</span>
+                  <span className="text-xs uppercase tracking-widest text-muted-foreground">{dictionary.articles.read}</span>
                   <span className="text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
                     →
                   </span>

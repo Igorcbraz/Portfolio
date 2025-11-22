@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { sendGAEvent } from '@next/third-parties/google'
 import { useUser } from "@/contexts/UserContext"
+import { useLocale } from "@/contexts/LocaleContext"
 
 interface GitHubRepo {
   name: string
@@ -20,6 +21,7 @@ interface GitHubRepo {
 
 export function CodeDashboard() {
   const { repos, reposLoading, userData } = useUser()
+  const { dictionary } = useLocale()
   const [filteredRepos, setFilteredRepos] = useState<GitHubRepo[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null)
@@ -124,17 +126,17 @@ export function CodeDashboard() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-            Code <span className="text-primary">Dashboard</span>
+            {dictionary.code.title.split(" ").shift()} <span className="text-primary">{dictionary.code.title.split(" ").pop()}</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl">
-            Explore meus principais projetos, contribuições e destaques em código
+            {dictionary.code.subtitle}
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
           {[
             {
-              label: "Total Stars",
+              label: dictionary.code.totalStars,
               value: totalStars,
               bgColor: "bg-yellow-500/10",
               textColor: "text-yellow-500",
@@ -146,7 +148,7 @@ export function CodeDashboard() {
               )
             },
             {
-              label: "Total Forks",
+              label: dictionary.code.totalForks,
               value: totalForks,
               bgColor: "bg-blue-500/10",
               textColor: "text-blue-500",
@@ -158,19 +160,19 @@ export function CodeDashboard() {
               )
             },
             {
-              label: "Repositories",
+              label: dictionary.code.repositories,
               value: repos.length,
               bgColor: "bg-purple-500/10",
               textColor: "text-purple-500",
               borderColor: "border-purple-500/30",
               icon: (
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"/>
+                  <path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z" />
                 </svg>
               )
             },
             {
-              label: "Watchers",
+              label: dictionary.code.watchers,
               value: totalWatchers,
               bgColor: "bg-green-500/10",
               textColor: "text-green-500",
@@ -201,8 +203,8 @@ export function CodeDashboard() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6 mb-12">
-          <div className="bg-card border border-border/30 rounded-lg p-6 flex flex-col">
-            <h3 className="text-lg font-bold text-foreground mb-6">Linguagens Mais Usadas</h3>
+            <div className="bg-card border border-border/30 rounded-lg p-6 flex flex-col">
+            <h3 className="text-lg font-bold text-foreground mb-6">{dictionary.code.topLanguagesTitle}</h3>
             <div className="space-y-4 flex-1 flex flex-col justify-center">
               {topLanguages.map(([lang, count]) => {
                 const percentage = (count / totalReposWithLang) * 100
@@ -238,14 +240,14 @@ export function CodeDashboard() {
             </div>
           </div>
 
-          <div className="bg-card border border-border/30 rounded-lg p-6 flex flex-col">
-            <h3 className="text-lg font-bold text-foreground mb-6">Estatísticas de Atividade</h3>
+            <div className="bg-card border border-border/30 rounded-lg p-6 flex flex-col">
+            <h3 className="text-lg font-bold text-foreground mb-6">{dictionary.code.activityStatsTitle}</h3>
             <div className="space-y-6 flex-1 flex flex-col justify-center">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium text-foreground">Engagement Score</span>
+                  <span className="text-sm font-medium text-foreground">{dictionary.code.engagement.label}</span>
                   <span className="text-xs text-muted-foreground">
-                    {totalStars + totalForks + totalWatchers} interações
+                    {totalStars + totalForks + totalWatchers} {dictionary.code.engagement.interactions}
                   </span>
                 </div>
                 <div className="space-y-2">
@@ -287,7 +289,7 @@ export function CodeDashboard() {
 
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium text-foreground">Qualidade dos Projetos</span>
+                  <span className="text-sm font-medium text-foreground">{dictionary.code.quality.title}</span>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-linear-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-3">
@@ -295,13 +297,13 @@ export function CodeDashboard() {
                       <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
-                      <span className="text-xs font-medium text-green-500">Com Descrição</span>
+                      <span className="text-xs font-medium text-green-500">{dictionary.code.quality.withDescription}</span>
                     </div>
                     <p className="text-2xl font-bold text-foreground">
                       {repos.filter(r => r.description && r.description !== "No description available").length}
                     </p>
                     <p className="text-[10px] text-muted-foreground mt-1">
-                      {((repos.filter(r => r.description && r.description !== "No description available").length / repos.length) * 100).toFixed(0)}% dos repos
+                      {((repos.filter(r => r.description && r.description !== "No description available").length / repos.length) * 100).toFixed(0)}% {dictionary.code.quality.percentSuffix}
                     </p>
                   </div>
 
@@ -310,13 +312,13 @@ export function CodeDashboard() {
                       <svg className="w-4 h-4 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
-                      <span className="text-xs font-medium text-purple-500">Destacados</span>
+                      <span className="text-xs font-medium text-purple-500">{dictionary.code.quality.featured}</span>
                     </div>
                     <p className="text-2xl font-bold text-foreground">
                       {repos.filter(r => r.stars > 0).length}
                     </p>
                     <p className="text-[10px] text-muted-foreground mt-1">
-                      com estrelas
+                      {dictionary.code.quality.withStars}
                     </p>
                   </div>
 
@@ -325,7 +327,7 @@ export function CodeDashboard() {
                       <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                       </svg>
-                      <span className="text-xs font-medium text-blue-500">Ativos</span>
+                      <span className="text-xs font-medium text-blue-500">{dictionary.code.quality.active}</span>
                     </div>
                     <p className="text-2xl font-bold text-foreground">
                       {repos.filter(r => {
@@ -334,7 +336,7 @@ export function CodeDashboard() {
                       }).length}
                     </p>
                     <p className="text-[10px] text-muted-foreground mt-1">
-                      últimos 6 meses
+                      {dictionary.code.quality.last6Months}
                     </p>
                   </div>
 
@@ -343,13 +345,13 @@ export function CodeDashboard() {
                       <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
                       </svg>
-                      <span className="text-xs font-medium text-orange-500">Com Topics</span>
+                      <span className="text-xs font-medium text-orange-500">{dictionary.code.quality.withTopics}</span>
                     </div>
                     <p className="text-2xl font-bold text-foreground">
                       {repos.filter(r => r.topics && r.topics.length > 0).length}
                     </p>
                     <p className="text-[10px] text-muted-foreground mt-1">
-                      bem documentados
+                      {dictionary.code.quality.wellDocumented}
                     </p>
                   </div>
                 </div>
@@ -363,7 +365,7 @@ export function CodeDashboard() {
             <div className="relative flex-1">
               <input
                 type="text"
-                placeholder="Buscar repositórios, topics..."
+                placeholder={dictionary.code.searchPlaceholder}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full px-4 py-3 pl-10 bg-card border border-border/30 rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"
@@ -389,10 +391,10 @@ export function CodeDashboard() {
                 onChange={(e) => setSortBy(e.target.value as any)}
                 className="w-full sm:w-auto px-4 py-3 pr-10 bg-card border border-border/30 rounded-lg text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all appearance-none"
               >
-                <option value="stars">⭐ Mais Stars</option>
-                <option value="forks">⑂ Mais Forks</option>
-                <option value="updated">🕐 Atualizados</option>
-                <option value="size">📦 Tamanho</option>
+                <option value="stars">{dictionary.code.sort.stars}</option>
+                <option value="forks">{dictionary.code.sort.forks}</option>
+                <option value="updated">{dictionary.code.sort.updated}</option>
+                <option value="size">{dictionary.code.sort.size}</option>
               </select>
               <svg
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none"
@@ -410,16 +412,16 @@ export function CodeDashboard() {
               <div className="flex gap-2 pb-2">
                 <button
                   onClick={() => {
-                    sendGAEvent('event', 'code_dashboard_all_languages_click', { label: 'All Languages' });
-                    setSelectedLanguage(null);
-                  }}
+                      sendGAEvent('event', 'code_dashboard_all_languages_click', { label: dictionary.code.all });
+                      setSelectedLanguage(null);
+                    }}
                   className={`shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                     selectedLanguage === null
                       ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
                       : "bg-card border border-border/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
                   }`}
                 >
-                  Todas
+                  {dictionary.code.all}
                 </button>
                 {languages
                   .filter((l) => l !== "Unknown")
@@ -455,7 +457,7 @@ export function CodeDashboard() {
                     : "bg-card border border-border/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
                 }`}
               >
-                Todas
+                {dictionary.code.all}
               </button>
               {languages
                 .filter((l) => l !== "Unknown")
@@ -493,7 +495,7 @@ export function CodeDashboard() {
 
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <span>
-              {filteredRepos.length} {filteredRepos.length === 1 ? "repositório" : "repositórios"} encontrado{filteredRepos.length !== 1 ? "s" : ""}
+              {filteredRepos.length} {filteredRepos.length === 1 ? dictionary.code.foundSingular : dictionary.code.foundPlural}
             </span>
             {(searchTerm || selectedLanguage) && (
               <button
@@ -504,7 +506,7 @@ export function CodeDashboard() {
                 }}
                 className="text-primary hover:underline"
               >
-                Limpar filtros
+                {dictionary.code.clearFilters}
               </button>
             )}
           </div>
@@ -535,7 +537,7 @@ export function CodeDashboard() {
                         </h3>
                         {repo.stars > 10 && (
                           <span className="shrink-0 px-2 py-0.5 bg-yellow-500/10 text-yellow-500 text-[10px] rounded-full font-medium">
-                            Popular
+                            {dictionary.code.badgePopular}
                           </span>
                         )}
                       </div>
@@ -572,14 +574,14 @@ export function CodeDashboard() {
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
                       <span className="text-foreground font-medium">{repo.stars}</span>
-                      <span className="text-muted-foreground text-xs">stars</span>
+                      <span className="text-muted-foreground text-xs">{dictionary.code.smallLabels.stars}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 16 16">
                         <path fillRule="evenodd" d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"/>
                       </svg>
                       <span className="text-foreground font-medium">{repo.forks}</span>
-                      <span className="text-muted-foreground text-xs">forks</span>
+                      <span className="text-muted-foreground text-xs">{dictionary.code.smallLabels.forks}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
@@ -587,14 +589,14 @@ export function CodeDashboard() {
                         <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
                       </svg>
                       <span className="text-foreground font-medium">{repo.watchers}</span>
-                      <span className="text-muted-foreground text-xs">watch</span>
+                      <span className="text-muted-foreground text-xs">{dictionary.code.smallLabels.watch}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                       </svg>
                       <span className="text-foreground font-medium">{repo.openIssues}</span>
-                      <span className="text-muted-foreground text-xs">issues</span>
+                      <span className="text-muted-foreground text-xs">{dictionary.code.smallLabels.issues}</span>
                     </div>
                   </div>
 
@@ -617,7 +619,7 @@ export function CodeDashboard() {
             ))
           ) : (
             <div className="col-span-full flex items-center justify-center py-12">
-              <p className="text-muted-foreground">Nenhum repositório encontrado</p>
+              <p className="text-muted-foreground">{dictionary.code.noResults}</p>
             </div>
           )}
         </div>

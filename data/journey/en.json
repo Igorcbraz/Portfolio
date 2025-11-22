@@ -1,0 +1,76 @@
+{
+  "experience": [
+    {
+      "startDate": "2025-03",
+      "endDate": null,
+      "title": "Full Stack Software Developer",
+      "company": "Grupo Raotes",
+      "description": "Responsible for the development and evolution of the products WebGR and Hub Intelligence, working across all stages of the application lifecycle from planning to production delivery. In addition to technical tasks, I mentor and collaborate with other developers on solution design and best practices.",
+      "icon": "🌟",
+      "highlights": [
+        "Vue.js",
+        "Quasar Framework",
+        "Node.js",
+        "Sequelize",
+        "REST API Architecture",
+        "Clean Architecture",
+        "ERP Integrations and Webhooks",
+        "Mobile (Cordova / Capacitor)",
+        "CI/CD (Docker, GitHub Actions, Portainer)",
+        "Technical Mentoring"
+      ]
+    },
+    {
+      "startDate": "2022-11",
+      "endDate": "2025-03",
+      "title": "Full Stack Software Developer - Junior",
+      "company": "Grupo Raotes",
+      "description": "Development of the WebGR system, working on frontend, backend, mobile and database. Integrations with third parties, testing, version control and active participation in improving the enterprise software.",
+      "icon": "🎨",
+      "highlights": [
+        "Vue.js",
+        "Quasar",
+        "Node.js",
+        "Sequelize",
+        "PostgreSQL",
+        "MongoDB",
+        "Digital Ocean / AWS",
+        "CI/CD",
+        "Unit Testing (Jest)",
+        "External Integrations (ERPs, Zapier, Neogrid)"
+      ]
+    },
+    {
+      "startDate": "2025-03",
+      "endDate": "2025-04",
+      "title": "IT Instructor",
+      "company": "Senac São Paulo",
+      "description": "Instructor of Microsoft Excel (basic to advanced) and IT fundamentals. Creating practical lessons, assessments and monitoring classes, always integrating technical concepts with real market needs.",
+      "icon": "📘",
+      "highlights": [
+        "Microsoft Excel",
+        "Lesson Planning",
+        "Didactics and Communication",
+        "Data Analysis",
+        "Practical Methodologies"
+      ]
+    },
+    {
+      "startDate": "2022-08",
+      "endDate": "2022-10",
+      "title": "Full Stack Software Developer - Intern",
+      "company": "WebGR (Freelance)",
+      "description": "Development of WebGR's service proposal generator, including frontend, backend, REST API and dynamic document creation. First practical experience in larger-scope projects.",
+      "icon": "⚡",
+      "highlights": [
+        "REST API",
+        "Vue.js",
+        "Quasar",
+        "Node.js",
+        "Sequelize",
+        "DocxJs",
+        "Git & GitHub"
+      ]
+    }
+  ]
+}

@@ -4,8 +4,11 @@
 import { Github, Linkedin, FileDown } from "lucide-react"
 import metadata from "../data/metadata.json"
 import { sendGAEvent } from '@next/third-parties/google'
+import { useLocale } from "@/contexts/LocaleContext"
 
 export function ContactSection() {
+  const { dictionary } = useLocale()
+
   const linkedinUrl = metadata.social.linkedin.url
   const githubUrl = metadata.social.github.url
 
@@ -18,10 +21,10 @@ export function ContactSection() {
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-            Vamos nos <span className="text-primary">Conectar</span>
+            {dictionary.contact.connectTitle.split("Conectar").shift()} <span className="text-primary">{dictionary.contact.connectHighlight}</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Aqui estão os melhores lugares para me encontrar e acompanhar meu trabalho.
+            {dictionary.contact.subtitle}
           </p>
         </div>
 
@@ -38,11 +41,11 @@ export function ContactSection() {
                 <Linkedin className="w-8 h-8" />
               </div>
               <div className="flex-1">
-                <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">LinkedIn</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">{dictionary.contact.linkedinLabel}</p>
                 <p className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
                   Igor Braz
                 </p>
-                <p className="text-sm text-muted-foreground">Conecte-se comigo profissionalmente</p>
+                <p className="text-sm text-muted-foreground">{dictionary.contact.linkedinSubtitle}</p>
               </div>
               <span className="text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
                 →
@@ -63,11 +66,11 @@ export function ContactSection() {
                 <Github className="w-8 h-8" />
               </div>
               <div className="flex-1">
-                <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">GitHub</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">{dictionary.contact.githubLabel}</p>
                 <p className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
                   Igorcbraz
                 </p>
-                <p className="text-sm text-muted-foreground">Explore meus projetos e código</p>
+                <p className="text-sm text-muted-foreground">{dictionary.contact.githubSubtitle}</p>
               </div>
               <span className="text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
                 →
@@ -88,10 +91,10 @@ export function ContactSection() {
 
               <div>
                 <h3 className="text-2xl font-bold text-foreground mb-3">
-                  Mesmo depois dessa apresentação precisa do CV à moda antiga?
+                  {dictionary.contact.cvTitle}
                 </h3>
                 <p className="text-muted-foreground">
-                  Sem problemas! Aqui está meu currículo completo para você conferir.
+                  {dictionary.contact.cvText}
                 </p>
               </div>
 
@@ -103,7 +106,7 @@ export function ContactSection() {
                 onClick={() => sendGAEvent('event', 'contact_cv_download_click', { label: 'Download CV' })}
               >
                 <FileDown className="w-5 h-5" />
-                Baixar Currículo
+                {dictionary.contact.cvButton}
               </a>
             </div>
           </div>
