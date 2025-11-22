@@ -4,7 +4,7 @@
       "id": 1,
       "title": "WebGR",
       "description": "O WebGR é uma plataforma completa para equipes externas que unifica operações comerciais e técnicas e organiza rotas, agendas e processos em um único sistema.",
-      "image": "/webgr.png",
+      "image": "/webgr.webp",
       "category": "Gestão Empresarial",
       "highlights": [
         "Gestão completa de equipes externas com visitas comerciais, técnicas e orçamentos",
@@ -46,7 +46,7 @@
       "id": 2,
       "title": "Hub Intelligence",
       "description": "Hub Intelligence é uma plataforma de BI que centraliza dados de diferentes sistemas e gera insights em tempo real com análise avançada, automação de relatórios e visualizações interativas.",
-      "image": "/hub-intelligence.png",
+      "image": "/hub-intelligence.webp",
       "category": "Business Intelligence",
       "highlights": [
         "Centralização de dados empresariais em uma única plataforma",

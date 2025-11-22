@@ -14,8 +14,32 @@ import { CustomCursor } from "@/components/custom-cursor"
 import { motion } from "framer-motion"
 
 export default function Home() {
+  const metadata = require("@/data/metadata.json")
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: metadata.author.name,
+    url: metadata.site.url,
+    jobTitle: metadata.author.role,
+    description: metadata.author.bio,
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: metadata.author.location
+    },
+    email: metadata.author.email,
+    sameAs: [
+      metadata.social.github.url,
+      metadata.social.linkedin.url
+    ]
+  }
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd)
+        }}
+      />
       <CustomCursor />
       <Navigation />
       <ScrollProgress />

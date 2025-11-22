@@ -1,39 +1,45 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Geist } from "next/font/google"
+import localFont from "next/font/local"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { UserProvider } from "@/contexts/UserContext"
 import metadataJson from "@/data/metadata.json"
 import "./globals.css"
 
-const geist = Geist({ subsets: ["latin"] })
+const geist = localFont({
+  src: "../public/fonts/Geist-VariableFont_wght.ttf",
+  variable: "--font-primary",
+  display: "swap",
+  weight: "400 700",
+  style: "normal",
+})
 
 export const metadata: Metadata = {
-  title: metadataJson.site.title,
+  metadataBase: new URL(metadataJson.site.url),
+  title: {
+    default: metadataJson.site.title,
+    template: "%s | Igor Braz",
+  },
   description: metadataJson.site.description,
   keywords: metadataJson.site.keywords,
   authors: [{ name: metadataJson.author.name }],
-  generator: "v0.app",
-  icons: {
-    icon: [
-      {
-        url: metadataJson.icons.light,
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: metadataJson.icons.dark,
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: metadataJson.icons.svg,
-        type: "image/svg+xml",
-      },
-    ],
-    apple: metadataJson.icons.apple,
+  creator: metadataJson.author.name,
+  publisher: metadataJson.author.name,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   openGraph: {
-    type: metadataJson.openGraph.type as "website",
+    type: "website",
+    locale: metadataJson.site.locale,
     url: metadataJson.site.url,
     title: metadataJson.site.title,
     description: metadataJson.site.description,
@@ -42,8 +48,23 @@ export const metadata: Metadata = {
         url: `${metadataJson.site.url}${metadataJson.openGraph.image}`,
         width: metadataJson.openGraph.imageWidth,
         height: metadataJson.openGraph.imageHeight,
+        alt: "Imagem principal do portfólio de Igor Braz",
       },
     ],
+    siteName: metadataJson.site.title,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: metadataJson.site.title,
+    description: metadataJson.site.description,
+    images: [`${metadataJson.site.url}${metadataJson.openGraph.image}`],
+  },
+  alternates: {
+    canonical: metadataJson.site.url,
+  },
+  other: {
+    'theme-color': metadataJson.site.themeColor,
+    'msapplication-TileColor': metadataJson.site.themeColor,
   },
 }
 
@@ -62,6 +83,67 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={metadataJson.site.locale} className="dark scroll-smooth">
+      <head>
+        <link
+          rel="preload"
+          href="/og-image.webp"
+          as="image"
+          type="image/webp"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/webgr.webp"
+          as="image"
+          type="image/webp"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/hub-intelligence.webp"
+          as="image"
+          type="image/webp"
+          fetchPriority="high"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "@id": `${metadataJson.site.url}#organization`,
+              "name": metadataJson.author.name,
+              "url": metadataJson.site.url,
+              "logo": {
+                "@type": "ImageObject",
+                "url": `${metadataJson.site.url}${metadataJson.icons.svg}`,
+                "width": 800,
+                "height": 600
+              },
+              "description": metadataJson.site.description,
+              "foundingDate": "2020",
+              "numberOfEmployees": {
+                "@type": "QuantitativeValue",
+                "value": "1-5"
+              },
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": metadataJson.author.location,
+                "addressRegion": "Brasil",
+                "addressCountry": "BR"
+              },
+              "areaServed": [
+                { "@type": "Place", "name": "Brasil" }
+              ],
+              "serviceType": [
+                "Desenvolvimento Web",
+                "Design de Interfaces",
+                "Consultoria Técnica"
+              ]
+            })
+          }}
+        />
+      </head>
       <body className={`${geist.className} antialiased dark`}>
         <UserProvider>
           {children}

@@ -126,7 +126,7 @@ export function Projects() {
             >
               <div className="relative h-64 overflow-hidden bg-card">
                 <img
-                  src={project.image || "/placeholder.svg"}
+                  src={project.image}
                   alt={project.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />

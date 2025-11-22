@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "Igor Braz - Software Developer & Designer",
+    "title": "Igor Braz - Software Developer",
     "description": "Modern portfolio showcasing creative development and design work. Specializing in React, Next.js, and interactive web experiences.",
-    "keywords": ["developer", "designer", "portfolio", "react", "next.js", "web development"],
+    "keywords": ["developer", "github", "portfolio", "react", "next.js", "node", "fullstack", "quasar", "typescript", "javascript", "projetos", "desenvolvedor", "igorcbraz", "igorbraz", "igorbraz.dev", "igor costa braz"],
     "url": "https://igorcbraz.vercel.app/",
     "locale": "pt-BR",
     "themeColor": "#1A1A1A"
@@ -11,7 +11,7 @@
     "name": "Igor Braz",
     "role": "Desenvolvedor Full Stack",
     "bio": "Focado em gerar resultado real, criando soluções digitais eficientes, escaláveis e entregues com a qualidade que o cliente final realmente merece.",
-    "email": "contato@igorbraz.dev",
+    "email": "igorcbraz1@gmail.com",
     "location": "Brasil"
   },
   "social": {
@@ -22,23 +22,19 @@
     "linkedin": {
       "username": "igorcbraz",
       "url": "https://www.linkedin.com/in/igorcbraz/"
-    },
-    "twitter": {
-      "username": "",
-      "url": ""
     }
   },
   "openGraph": {
     "type": "website",
-    "image": "/og-image.png",
+    "image": "/og-image.webp",
     "imageWidth": 1200,
-    "imageHeight": 630
+    "imageHeight": 665
   },
   "icons": {
-    "light": "/icon-light-32x32.png",
-    "dark": "/icon-dark-32x32.png",
+    "light": "/icon-light-32x32.webp",
+    "dark": "/icon-dark-32x32.webp",
     "svg": "/icon.svg",
-    "apple": "/apple-icon.png"
+    "apple": "/apple-icon.webp"
   },
   "analytics": {
     "vercel": true,
