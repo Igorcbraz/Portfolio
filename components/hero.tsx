@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { sendGAEvent } from '@next/third-parties/google'
 import { Shape3d } from "./3d-shape"
 import { useUser } from "@/contexts/UserContext"
 
@@ -14,6 +15,7 @@ export function Hero() {
   }, [])
 
   const scrollToNextSection = () => {
+    sendGAEvent('event', 'hero_me_conheca_click', { label: 'Me Conheça Melhor' })
     window.scrollTo({
       top: window.innerHeight,
       behavior: 'smooth'
@@ -21,6 +23,7 @@ export function Hero() {
   }
 
   const scrollToContact = () => {
+    sendGAEvent('event', 'hero_contato_click', { label: 'Entre em Contato' })
     const contactSection = document.getElementById('contact')
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: 'smooth' })

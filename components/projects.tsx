@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { sendGAEvent } from '@next/third-parties/google'
 import projectsData from "@/data/projects.json"
 
 interface Project {
@@ -51,7 +52,10 @@ export function Projects() {
           <div className="lg:hidden overflow-x-auto scrollbar-hide">
             <div className="flex gap-3 pb-2">
               <button
-                onClick={() => setActiveCategory(null)}
+                onClick={() => {
+                  sendGAEvent('event', 'projects_all_click', { label: 'All Projects' });
+                  setActiveCategory(null);
+                }}
                 className={`shrink-0 px-6 py-2 rounded-lg font-medium transition-all ${
                   activeCategory === null
                     ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
@@ -63,7 +67,10 @@ export function Projects() {
               {categories.map((cat) => (
                 <button
                   key={cat}
-                  onClick={() => setActiveCategory(cat)}
+                  onClick={() => {
+                    sendGAEvent('event', 'projects_category_click', { label: cat });
+                    setActiveCategory(cat);
+                  }}
                   className={`shrink-0 px-6 py-2 rounded-lg font-medium transition-all ${
                     activeCategory === cat
                       ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
@@ -78,7 +85,10 @@ export function Projects() {
 
           <div className="hidden lg:flex flex-wrap gap-3">
             <button
-              onClick={() => setActiveCategory(null)}
+              onClick={() => {
+                sendGAEvent('event', 'projects_all_click', { label: 'All Projects' });
+                setActiveCategory(null);
+              }}
               className={`px-6 py-2 rounded-lg font-medium transition-all ${
                 activeCategory === null
                   ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
@@ -90,7 +100,10 @@ export function Projects() {
             {categories.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => {
+                  sendGAEvent('event', 'projects_category_click', { label: cat });
+                  setActiveCategory(cat);
+                }}
                 className={`px-6 py-2 rounded-lg font-medium transition-all ${
                   activeCategory === cat
                     ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"

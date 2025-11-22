@@ -4,6 +4,7 @@ import localFont from "next/font/local"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { UserProvider } from "@/contexts/UserContext"
+import { GoogleAnalytics } from '@next/third-parties/google'
 import metadataJson from "@/data/metadata.json"
 import "./globals.css"
 
@@ -150,6 +151,7 @@ export default function RootLayout({
         </UserProvider>
         <Analytics />
         <SpeedInsights />
+        <GoogleAnalytics gaId="G-3CTJ4REMG8" />
       </body>
     </html>
   )

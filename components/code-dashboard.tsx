@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { sendGAEvent } from '@next/third-parties/google'
 import { useUser } from "@/contexts/UserContext"
 
 interface GitHubRepo {
@@ -408,7 +409,10 @@ export function CodeDashboard() {
             <div className="lg:hidden overflow-x-auto scrollbar-hide">
               <div className="flex gap-2 pb-2">
                 <button
-                  onClick={() => setSelectedLanguage(null)}
+                  onClick={() => {
+                    sendGAEvent('event', 'code_dashboard_all_languages_click', { label: 'All Languages' });
+                    setSelectedLanguage(null);
+                  }}
                   className={`shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                     selectedLanguage === null
                       ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
@@ -423,7 +427,10 @@ export function CodeDashboard() {
                   .map((lang) => (
                     <button
                       key={lang}
-                      onClick={() => setSelectedLanguage(lang)}
+                      onClick={() => {
+                        sendGAEvent('event', 'code_dashboard_language_click', { label: lang });
+                        setSelectedLanguage(lang);
+                      }}
                       className={`shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                         selectedLanguage === lang
                           ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
@@ -438,7 +445,10 @@ export function CodeDashboard() {
 
             <div className="hidden lg:flex flex-wrap gap-2">
               <button
-                onClick={() => setSelectedLanguage(null)}
+                onClick={() => {
+                  sendGAEvent('event', 'code_dashboard_all_languages_click', { label: 'All Languages' });
+                  setSelectedLanguage(null);
+                }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   selectedLanguage === null
                     ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
@@ -453,7 +463,10 @@ export function CodeDashboard() {
                 .map((lang) => (
                   <button
                     key={lang}
-                    onClick={() => setSelectedLanguage(lang)}
+                    onClick={() => {
+                      sendGAEvent('event', 'code_dashboard_language_click', { label: lang });
+                      setSelectedLanguage(lang);
+                    }}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       selectedLanguage === lang
                         ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
@@ -485,6 +498,7 @@ export function CodeDashboard() {
             {(searchTerm || selectedLanguage) && (
               <button
                 onClick={() => {
+                  sendGAEvent('event', 'code_dashboard_clear_filters_click', { label: 'Clear Filters' });
                   setSearchTerm("")
                   setSelectedLanguage(null)
                 }}
@@ -611,7 +625,10 @@ export function CodeDashboard() {
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-2 mt-8">
             <button
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              onClick={() => {
+                sendGAEvent('event', 'code_dashboard_prev_page_click', { label: 'Previous Page' });
+                setCurrentPage(prev => Math.max(prev - 1, 1));
+              }}
               disabled={currentPage === 1}
               className="px-4 py-2 rounded-lg bg-card border border-border/30 text-foreground hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
@@ -630,7 +647,10 @@ export function CodeDashboard() {
                   return (
                     <button
                       key={page}
-                      onClick={() => setCurrentPage(page)}
+                      onClick={() => {
+                        sendGAEvent('event', 'code_dashboard_page_click', { label: `Page ${page}` });
+                        setCurrentPage(page);
+                      }}
                       className={`w-10 h-10 rounded-lg font-medium transition-all ${
                         currentPage === page
                           ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
@@ -652,7 +672,10 @@ export function CodeDashboard() {
             </div>
 
             <button
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              onClick={() => {
+                sendGAEvent('event', 'code_dashboard_next_page_click', { label: 'Next Page' });
+                setCurrentPage(prev => Math.min(prev + 1, totalPages));
+              }}
               disabled={currentPage === totalPages}
               className="px-4 py-2 rounded-lg bg-card border border-border/30 text-foreground hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >

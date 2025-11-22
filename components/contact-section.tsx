@@ -3,6 +3,7 @@
 
 import { Github, Linkedin, FileDown } from "lucide-react"
 import metadata from "../data/metadata.json"
+import { sendGAEvent } from '@next/third-parties/google'
 
 export function ContactSection() {
   const linkedinUrl = metadata.social.linkedin.url
@@ -30,6 +31,7 @@ export function ContactSection() {
             target="_blank"
             rel="noopener noreferrer"
             className="group relative overflow-hidden p-8 rounded-xl border border-border/30 hover:border-primary/50 bg-card hover:bg-card/80 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1"
+            onClick={() => sendGAEvent('event', 'contact_linkedin_click', { label: 'LinkedIn' })}
           >
             <div className="relative z-10 flex items-center gap-6">
               <div className="p-4 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
@@ -54,6 +56,7 @@ export function ContactSection() {
             target="_blank"
             rel="noopener noreferrer"
             className="group relative overflow-hidden p-8 rounded-xl border border-border/30 hover:border-primary/50 bg-card hover:bg-card/80 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1"
+            onClick={() => sendGAEvent('event', 'contact_github_click', { label: 'GitHub' })}
           >
             <div className="relative z-10 flex items-center gap-6">
               <div className="p-4 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
@@ -97,6 +100,7 @@ export function ContactSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all hover:scale-105 active:scale-95"
+                onClick={() => sendGAEvent('event', 'contact_cv_download_click', { label: 'Download CV' })}
               >
                 <FileDown className="w-5 h-5" />
                 Baixar Currículo

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, ComponentType } from "react"
+import { sendGAEvent } from '@next/third-parties/google'
 import { Database, Cloud, Layout, Server, Terminal, Code, Smartphone } from "lucide-react"
 import {
   SiReact,
@@ -599,7 +600,10 @@ export function TechStack() {
             return (
               <button
                 key={category.name}
-                onClick={() => setSelectedCategory(category.name)}
+                onClick={() => {
+                  sendGAEvent('event', 'tech_stack_category_click', { label: category.name });
+                  setSelectedCategory(category.name);
+                }}
                 className={`flex items-center gap-3 px-6 py-4 rounded-xl border-2 font-semibold transition-all duration-300 focus:outline-none ${
                   isSelected
                     ? `border-primary ${category.bgColor} text-white shadow-lg shadow-primary/30 scale-105`
@@ -620,7 +624,10 @@ export function TechStack() {
                 return (
                   <button
                     key={category.name}
-                    onClick={() => setSelectedCategory(category.name)}
+                    onClick={() => {
+                      sendGAEvent('event', 'tech_stack_category_click', { label: category.name });
+                      setSelectedCategory(category.name);
+                    }}
                     className={`shrink-0 flex items-center gap-2 px-4 py-3 rounded-xl border-2 font-semibold transition-all duration-300 focus:outline-none whitespace-nowrap ${
                       isSelected
                         ? `border-primary ${category.bgColor} text-white shadow-lg shadow-primary/30 scale-105`
