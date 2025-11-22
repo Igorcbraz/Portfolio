@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { sendGAEvent } from '@next/third-parties/google'
 import projectsData from "@/data/projects.json"
+import Image from "next/image"
 
 interface Project {
   id: number
@@ -138,10 +139,14 @@ export function Projects() {
               className="group relative overflow-hidden rounded-xl border border-border/30 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10"
             >
               <div className="relative h-64 overflow-hidden bg-card">
-                <img
+                <Image
                   src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  alt={`Imagem do projeto ${project.title}: ${project.description}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  priority={project.featured}
+                  quality={80}
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent group-hover:from-background/80 transition-all"></div>
 

@@ -92,20 +92,6 @@ export default function RootLayout({
           type="image/webp"
           fetchPriority="high"
         />
-        <link
-          rel="preload"
-          href="/webgr.webp"
-          as="image"
-          type="image/webp"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/hub-intelligence.webp"
-          as="image"
-          type="image/webp"
-          fetchPriority="high"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
