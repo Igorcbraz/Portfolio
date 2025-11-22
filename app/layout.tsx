@@ -85,6 +85,10 @@ export default function RootLayout({
   return (
     <html lang={metadataJson.site.locale} className="dark scroll-smooth">
       <head>
+        <link rel="apple-touch-icon" href="/apple-icon.webp" type="image/webp" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/icon-dark-32x32.webp" type="image/webp" media="(prefers-color-scheme: dark)" />
+        <link rel="icon" href="/icon-light-32x32.webp" type="image/webp" media="(prefers-color-scheme: light)" />
         <link
           rel="preload"
           href="/og-image.webp"
