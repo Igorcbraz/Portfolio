@@ -1,24 +1,16 @@
 import { getDictionary } from "@/lib/utils"
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import localFont from "next/font/local"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { UserProvider } from "@/contexts/UserContext"
 import { LocaleProvider } from "@/contexts/LocaleContext"
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { geist } from "@/lib/fonts"
 import metadataJson from "@/data/metadata.json"
 import "../globals.css"
 
 const defaultLocale = "en";
-
-const geist = localFont({
-  src: "../../public/fonts/Geist-VariableFont_wght.ttf",
-  variable: "--font-primary",
-  display: "swap",
-  weight: "400 700",
-  style: "normal",
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL(metadataJson.site.url),

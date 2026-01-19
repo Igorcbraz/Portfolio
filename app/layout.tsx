@@ -1,16 +1,8 @@
 import type React from "react"
-import localFont from "next/font/local"
 import { headers } from "next/headers"
+import { geist } from "@/lib/fonts"
 import { locales, defaultLocale } from "@/proxy"
 import "./globals.css"
-
-const geist = localFont({
-  src: "../public/fonts/Geist-VariableFont_wght.ttf",
-  variable: "--font-primary",
-  display: "swap",
-  weight: "400 700",
-  style: "normal",
-})
 
 function getLocaleFromHeader(acceptLanguageHeader?: string | null) {
   if (!acceptLanguageHeader) return defaultLocale
@@ -32,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang={currentLang} className="dark scroll-smooth">
       <body className={`${geist.className} antialiased dark`}>
-         {children}
+        {children}
       </body>
     </html>
   )
