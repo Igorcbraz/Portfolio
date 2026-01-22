@@ -1,16 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
-
-export const locales = ["en", "pt"]
-export const defaultLocale = "en"
+import { locales, defaultLocale } from "@/lib/locales"
 
 function getLocale(request: NextRequest) {
   const acceptLanguageHeader = request.headers.get("accept-language")
   if (acceptLanguageHeader) {
     const preferredLanguages = acceptLanguageHeader.split(',').map(lang => lang.split(';')[0].trim())
     for (const lang of preferredLanguages) {
-      if (locales.includes(lang.split('-')[0])) {
-        return lang.split('-')[0]
-      }
+      const locale = lang.split('-')[0]
+      if (locales.includes(locale as any)) return locale
     }
   }
   return defaultLocale
@@ -31,6 +28,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next|.*\..*).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|fonts|.*\\..*).*)",
   ],
 }

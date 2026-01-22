@@ -1,0 +1,6 @@
+export { Hero } from './hero'
+export { Articles } from './articles'
+export { Projects } from './projects'
+export { ProfessionalJourney } from './professional-journey'
+export { TechStack } from './tech-stack'
+export { ContactSection } from './contact-section'

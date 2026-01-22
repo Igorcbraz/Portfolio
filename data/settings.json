@@ -1,0 +1,155 @@
+{
+  "__note": "Synced from personal VS Code gist: https://gist.github.com/Igorcbraz/e67a9b9428db0f2214262cd7f8cf79f8",
+  "emmet.syntaxProfiles": {
+    "javascript": "jsx"
+  },
+  "workbench.startupEditor": "newUntitledFile",
+  "editor.wordWrap": "on",
+  "editor.fontSize": 15,
+  "window.zoomLevel": -1.5,
+  "javascript.suggest.autoImports": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "editor.rulers": [
+    80,
+    120
+  ],
+  "extensions.ignoreRecommendations": true,
+  "files.associations": {
+    ".sequelizerc": "javascript",
+    ".stylelintrc": "json",
+    "*.tsx": "typescriptreact",
+    ".env.*": "dotenv",
+    ".prettierrc": "json"
+  },
+  "symbols.files.associations": {
+    "*.e2e-spec.ts": "ts-test"
+  },
+  "cSpell.userWords": [
+    "chakra",
+    "elysia",
+    "Elysia",
+    "elysiajs",
+    "Enkoji",
+    "IUGU",
+    "johndoegmail",
+    "middlewares",
+    "mixpanel",
+    "networkidle",
+    "Onboarded",
+    "paralleldrive",
+    "postgres",
+    "postgresql",
+    "prefetch",
+    "rocketseat",
+    "upsert",
+    "webp",
+    "Whatsapp"
+  ],
+  "editor.parameterHints.enabled": true,
+  "editor.renderLineHighlight": "gutter",
+  "cSpell.language": "en,pt",
+  "editor.lineHeight": 26,
+  "typescript.updateImportsOnFileMove.enabled": "never",
+  "material-icon-theme.activeIconPack": "nest",
+  "editor.suggestSelection": "first",
+  "explorer.confirmDelete": false,
+  "gitlens.codeLens.recentChange.enabled": false,
+  "terminal.integrated.showExitAlert": false,
+  "[prisma]": {
+    "editor.formatOnSave": true
+  },
+  "typescript.suggest.autoImports": true,
+  "terminal.integrated.env.osx": {
+    "FIG_NEW_SESSION": "1"
+  },
+  "workbench.editor.labelFormat": "short",
+  "editor.fontLigatures": true,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "explorer.compactFolders": false,
+  "git.enableSmartCommit": true,
+  "editor.accessibilitySupport": "off",
+  "explorer.confirmDragAndDrop": false,
+  "terminal.integrated.fontSize": 14,
+  "editor.semanticHighlighting.enabled": false,
+  "breadcrumbs.enabled": true,
+  "editor.fontFamily": "JetBrainsMono Nerd Font",
+  "gitlens.codeLens.authors.enabled": false,
+  "editor.tabSize": 2,
+  "security.workspace.trust.untrustedFiles": "newWindow",
+  "files.exclude": {
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/.hg": true,
+    "**/.svn": true,
+    "**/.git": true
+  },
+  "gitlens.codeLens.enabled": false,
+  "workbench.iconTheme": "symbols",
+  "editor.inlineSuggest.enabled": true,
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    },
+    "Windows PowerShell": {
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "Windows PowerShell",
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "editor.unicodeHighlight.invisibleCharacters": false,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "github.copilot.editor.enableAutoCompletions": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.format.enable": true,
+  "editor.scrollbar.vertical": "hidden",
+  "workbench.statusBar.visible": true,
+  "symbols.hidesExplorerArrows": false,
+  "workbench.colorTheme": "Bearded Theme Surprising Blueberry",
+  "security.allowedUNCHosts": [
+    "wsl.localhost"
+  ],
+  "liveServer.settings.donotShowInfoMsg": true,
+  "github.copilot.selectedCompletionModel": "",
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "gitlens.ai.model": "vscode",
+  "chat.agent.maxRequests": 100,
+  "chat.tools.terminal.autoApprove": {
+    "mv": true,
+    "npx": true,
+    "/^npm ci; npm test$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^npm ls babel-traverse json5 xlsx --all --depth=10$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^npm ls babel-traverse --all --depth=10 \\|\\| true; npm ls json5 --all --depth=10 \\|\\| true; npm ls xlsx --all --depth=10 \\|\\| true$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "npm ls": true,
+    "npm run lint": true,
+    "npm install": true,
+    "/^npx npm-check-updates -u; npm install; npm audit --audit-level=moderate$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^Move-Item -Path \"c:\\\\Repos\\\\GitFest\\\\src\\\\app\\\\page\\.tsx\" -Destination \"c:\\\\Repos\\\\GitFest\\\\src\\\\app\\\\page-backup\\.tsx\" -Force; Move-Item -Path \"c:\\\\Repos\\\\GitFest\\\\src\\\\app\\\\page-new\\.tsx\" -Destination \"c:\\\\Repos\\\\GitFest\\\\src\\\\app\\\\page\\.tsx\" -Force$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  },
+  "gitlens.ai.vscode.model": "copilot:gpt-4.1"
+}

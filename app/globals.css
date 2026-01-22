@@ -119,22 +119,62 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-background text-foreground overflow-x-hidden;
+    @apply bg-[#1e1e1e] text-foreground overflow-x-hidden;
   }
 
+  /* JetBrains Mono para código */
+  code, pre, .font-code {
+    font-family: var(--font-mono), monospace;
+    font-feature-settings: 'liga' 1, 'calt' 1;
+  }
+
+  /* IDE-style scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 14px;
+    height: 14px;
   }
   ::-webkit-scrollbar-track {
-    background: transparent;
+    background: #1e1e1e;
   }
   ::-webkit-scrollbar-thumb {
-    background: oklch(0.25 0 0);
-    border-radius: 4px;
+    background: #424242;
+    border: 3px solid #1e1e1e;
+    border-radius: 7px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: oklch(0.35 0 0);
+    background: #4e4e4e;
+  }
+  ::-webkit-scrollbar-corner {
+    background: #1e1e1e;
+  }
+
+  /* Scrollbar fino para elementos internos */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: #1e1e1e;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #424242;
+    border-radius: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #4e4e4e;
+  }
+
+  /* Scrollbar invisível para alguns casos */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 

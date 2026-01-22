@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { getDictionary } from "@/lib/utils"
-import { defaultLocale } from "@/proxy"
+import { defaultLocale } from "@/lib/locales"
 
 export default async function NotFound({ params }: { params?: { lang?: string } }) {
   const lang = params?.lang ?? defaultLocale

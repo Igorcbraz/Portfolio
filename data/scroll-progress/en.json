@@ -1,0 +1,67 @@
+{
+  "milestones": [
+    {
+      "key": "start",
+      "progress": 0,
+      "icon": "👋",
+      "sectionId": "hero",
+      "query": "BEGIN TRANSACTION; -- Starting connection..."
+    },
+    {
+      "key": "know",
+      "progress": 15,
+      "icon": "✨",
+      "sectionId": "hero",
+      "query": "SELECT name, role, bio FROM developers WHERE username = 'igorbraz';"
+    },
+    {
+      "key": "journey",
+      "progress": 30,
+      "icon": "🚀",
+      "sectionId": "journey",
+      "query": "SELECT company, role, duration, achievements FROM experiences WHERE developer_id = 'igor' ORDER BY start_date DESC;"
+    },
+    {
+      "key": "github",
+      "progress": 45,
+      "icon": "💻",
+      "sectionId": "github",
+      "query": "SELECT repository, stars, language, contributions FROM github_activity WHERE user = 'igorbraz' ORDER BY stars DESC;"
+    },
+    {
+      "key": "projects",
+      "progress": 60,
+      "icon": "💼",
+      "sectionId": "projects",
+      "query": "SELECT title, description, tech_stack, demo_url FROM projects WHERE status = 'featured' ORDER BY created_at DESC;"
+    },
+    {
+      "key": "articles",
+      "progress": 72,
+      "icon": "📝",
+      "sectionId": "articles",
+      "query": "SELECT title, summary, published_at, views FROM articles WHERE author = 'igorbraz' ORDER BY published_at DESC;"
+    },
+    {
+      "key": "tech",
+      "progress": 84,
+      "icon": "⚡",
+      "sectionId": "stack",
+      "query": "SELECT technology, proficiency_level, years_experience FROM skills WHERE developer_id = 'igor' ORDER BY proficiency_level DESC;"
+    },
+    {
+      "key": "contact",
+      "progress": 95,
+      "icon": "🎯",
+      "sectionId": "contact",
+      "query": "INSERT INTO connections (visitor_id, developer_id, message, status) VALUES (YOU, 'igor', 'Hello!', 'pending');"
+    },
+    {
+      "key": "end",
+      "progress": 100,
+      "icon": "🌟",
+      "sectionId": "contact",
+      "query": "COMMIT; -- Thanks for visiting! ✨"
+    }
+  ]
+}

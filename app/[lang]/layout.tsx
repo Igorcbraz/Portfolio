@@ -1,24 +1,12 @@
-import { getDictionary } from "@/lib/utils"
-import type React from "react"
 import type { Metadata, Viewport } from "next"
-import localFont from "next/font/local"
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { UserProvider } from "@/contexts/UserContext"
-import { LocaleProvider } from "@/contexts/LocaleContext"
-import { GoogleAnalytics } from '@next/third-parties/google'
+import type React from "react"
+import { getDictionary } from "@/lib/utils"
+import { geist, jetBrainsMono } from "@/lib/fonts"
 import metadataJson from "@/data/metadata.json"
+import LayoutClient from "@/components/layout/layout-client"
 import "../globals.css"
 
-const defaultLocale = "en";
-
-const geist = localFont({
-  src: "../../public/fonts/Geist-VariableFont_wght.ttf",
-  variable: "--font-primary",
-  display: "swap",
-  weight: "400 700",
-  style: "normal",
-})
+const defaultLocale = "en"
 
 export const metadata: Metadata = {
   metadataBase: new URL(metadataJson.site.url),
@@ -37,9 +25,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
@@ -59,17 +47,21 @@ export const metadata: Metadata = {
     siteName: metadataJson.site.title,
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
     title: metadataJson.site.title,
     description: metadataJson.site.description,
     images: [`${metadataJson.site.url}${metadataJson.openGraph.image}`],
   },
   alternates: {
     canonical: metadataJson.site.url,
+    languages: {
+      en: `${metadataJson.site.url}/en`,
+      pt: `${metadataJson.site.url}/pt`,
+    },
   },
   other: {
-    'theme-color': metadataJson.site.themeColor,
-    'msapplication-TileColor': metadataJson.site.themeColor,
+    "theme-color": metadataJson.site.themeColor,
+    "msapplication-TileColor": metadataJson.site.themeColor,
   },
 }
 
@@ -85,13 +77,45 @@ export default async function RootLayout({
   children,
   params,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
   params: Promise<{ lang: string }>
 }>) {
   const resolvedParams = await params
-  const { lang } = resolvedParams
-  const currentLang = lang || defaultLocale
+  const currentLang = resolvedParams?.lang || defaultLocale
   const dictionary = await getDictionary(currentLang)
+
+  const ldJson = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${metadataJson.site.url}#organization`,
+    name: metadataJson.author.name,
+    url: metadataJson.site.url,
+    logo: {
+      "@type": "ImageObject",
+      url: `${metadataJson.site.url}${metadataJson.icons.svg}`,
+      width: 800,
+      height: 600,
+    },
+    description: metadataJson.site.description,
+    foundingDate: "2020",
+    numberOfEmployees: {
+      "@type": "QuantitativeValue",
+      value: "1-5",
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: metadataJson.author.location,
+      addressRegion: "Brasil",
+      addressCountry: "BR",
+    },
+    areaServed: [{ "@type": "Place", name: "Brasil" }],
+    serviceType: [
+      "Desenvolvimento Web",
+      "Design de Interfaces",
+      "Consultoria Técnica",
+    ],
+  }
+
   return (
     <html lang={currentLang} className="dark scroll-smooth">
       <head>
@@ -99,62 +123,18 @@ export default async function RootLayout({
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="icon" href="/icon-dark-32x32.webp" type="image/webp" media="(prefers-color-scheme: dark)" />
         <link rel="icon" href="/icon-light-32x32.webp" type="image/webp" media="(prefers-color-scheme: light)" />
-        <link
-          rel="preload"
-          href="/og-image.webp"
-          as="image"
-          type="image/webp"
-          fetchPriority="high"
-        />
         <script
           suppressHydrationWarning
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "@id": `${metadataJson.site.url}#organization`,
-              "name": metadataJson.author.name,
-              "url": metadataJson.site.url,
-              "logo": {
-                "@type": "ImageObject",
-                "url": `${metadataJson.site.url}${metadataJson.icons.svg}`,
-                "width": 800,
-                "height": 600
-              },
-              "description": metadataJson.site.description,
-              "foundingDate": "2020",
-              "numberOfEmployees": {
-                "@type": "QuantitativeValue",
-                "value": "1-5"
-              },
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": metadataJson.author.location,
-                "addressRegion": "Brasil",
-                "addressCountry": "BR"
-              },
-              "areaServed": [
-                { "@type": "Place", "name": "Brasil" }
-              ],
-              "serviceType": [
-                "Desenvolvimento Web",
-                "Design de Interfaces",
-                "Consultoria Técnica"
-              ]
-            })
+            __html: JSON.stringify(ldJson),
           }}
         />
       </head>
-      <body className={`${geist.className} antialiased dark`}>
-        <LocaleProvider dictionary={dictionary} locale={currentLang}>
-          <UserProvider>
-            {children}
-          </UserProvider>
-        </LocaleProvider>
-        <Analytics />
-        <SpeedInsights />
-        <GoogleAnalytics gaId="G-3CTJ4REMG8" />
+      <body className={`${geist.className} ${jetBrainsMono.variable} antialiased dark`}>
+        <LayoutClient dictionary={dictionary} locale={currentLang}>
+          {children}
+        </LayoutClient>
       </body>
     </html>
   )

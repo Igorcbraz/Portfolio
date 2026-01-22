@@ -1,0 +1,49 @@
+{
+  "heading": "📘 README.md",
+  "sections": [
+    {
+      "title": "👋 Hello!",
+      "paragraphs": [
+        "Welcome to my interactive portfolio! This project was built with Next.js 15, React 19, and TypeScript, simulating a unique IDE-like experience."
+      ]
+    },
+    {
+      "title": "🚀 Technologies",
+      "list": [
+        "Next.js 15 (App Router)",
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS",
+        "Framer Motion",
+        "shadcn/ui"
+      ]
+    },
+    {
+      "title": "✨ Features",
+      "list": [
+        "IDE-style interface with breadcrumb and status bar",
+        "Expanded/minimized mode",
+        "Multiple file tabs",
+        "Smooth animations and transitions",
+        "Fully responsive"
+      ]
+    },
+    {
+      "title": "📫 Contact",
+      "paragraphs": [
+        "You can find me on"
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/igorbraz"
+        },
+        {
+          "label": "LinkedIn",
+          "url": "https://linkedin.com/in/igorbraz"
+        }
+      ],
+      "suffix": "."
+    }
+  ]
+}
