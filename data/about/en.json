@@ -1,0 +1,80 @@
+{
+  "name": "Igor Costa Braz",
+  "headline": "Full Stack Developer",
+  "title": "Software Developer",
+  "location": {
+    "country": "Brazil"
+  },
+  "professionalSummary": "Full Stack Developer with over 3 years of experience building modern, scalable web systems. Strong background in the JavaScript ecosystem, working across frontend, backend, relational databases, and cloud service integrations.",
+  "experienceLevel": "Mid-level",
+  "coreSkills": {
+    "frontend": [
+      "JavaScript",
+      "TypeScript",
+      "Vue.js",
+      "React",
+      "Quasar Framework"
+    ],
+    "backend": [
+      "Node.js",
+      "REST APIs",
+      "Sequelize ORM"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MySQL"
+    ],
+    "testing": [
+      "Unit Testing",
+      "Jest"
+    ],
+    "cloudAndDevOps": [
+      "AWS",
+      "Digital Ocean",
+      "Linux-based Deployments"
+    ],
+    "toolsAndWorkflow": [
+      "Git",
+      "GitHub",
+      "Jira",
+      "Confluence"
+    ]
+  },
+  "education": [
+    {
+      "degree": "Technologist Degree",
+      "course": "Systems Analysis and Development",
+      "institution": "SENAC",
+      "status": "Ongoing"
+    },
+    {
+      "degree": "Technical Degree",
+      "course": "Systems Development",
+      "institution": "ETEC",
+      "status": "Completed"
+    }
+  ],
+  "languages": [
+    {
+      "language": "Portuguese",
+      "level": "Native"
+    },
+    {
+      "language": "English",
+      "level": "Advanced (C1)",
+      "certification": "EF SET"
+    }
+  ],
+  "professionalInterests": [
+    "Web Development",
+    "Software Architecture",
+    "Scalable Systems",
+    "Clean Code Practices",
+    "JavaScript Technologies"
+  ],
+  "contact": {
+    "website": "https://igorcbraz.engineer",
+    "linkedin": "https://www.linkedin.com/in/igorcbraz",
+    "github": "https://github.com/Igorcbraz"
+  }
+}

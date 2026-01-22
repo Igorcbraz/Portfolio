@@ -24,7 +24,10 @@
     "stack": "Stack",
     "contact": "Contato",
     "contactButton": "Entrar em contato",
-    "articles": "Artigos"
+    "articles": "Artigos",
+    "ideMode": "Modo IDE",
+    "ideOn": "Ligado",
+    "ideOff": "Desligado"
   },
   "shape": {
     "dev": "DEV"
@@ -36,7 +39,13 @@
     "letsTalk": "Vamos conversar",
     "ctaText": "Pronto para tirar suas ideias do papel?",
     "contactButton": "Entrar em contato",
-    "copyright": "© {year} Igor Braz. Todos os direitos reservados."
+    "copyright": "© {year} Igor Braz. Todos os direitos reservados.",
+    "ideTitle": "Gostou do que viu?",
+    "ideSubtitle": "Explore a versão IDE deste portfólio para uma experiência ainda mais imersiva!",
+    "ideButton": "Abrir IDE",
+    "ideOpenTitle": "Explorando o modo IDE",
+    "ideOpenSubtitle": "Agora você está navegando pelo portfólio em uma interface estilo editor de código. Volte para o site quando quiser!",
+    "ideCloseButton": "Voltar ao Site"
   },
   "contact": {
     "connectTitle": "Vamos nos Conectar",
@@ -112,17 +121,45 @@
   "techStack": {
     "title": "Tech Stack",
     "subtitle": "Selecione uma categoria e explore as tecnologias"
-  }
-  ,
+  },
   "scrollProgress": {
     "milestones": {
-      "start": { "label": "Início", "message": "Bem-vindo!" },
-      "know": { "label": "Conheça", "message": "Descubra minha história" },
-      "journey": { "label": "Jornada", "message": "Minha evolução profissional" },
-      "projects": { "label": "Projetos", "message": "Explorando meu trabalho" },
-      "tech": { "label": "Tech", "message": "Minhas habilidades" },
-      "contact": { "label": "Contato", "message": "Quase lá!" },
-      "end": { "label": "Final", "message": "Você me conhece agora!" }
+      "start": {
+        "label": "Início",
+        "message": "Bem-vindo!"
+      },
+      "know": {
+        "label": "Conheça",
+        "message": "Descubra minha história"
+      },
+      "journey": {
+        "label": "Jornada",
+        "message": "Minha evolução profissional"
+      },
+      "github": {
+        "label": "GitHub",
+        "message": "Dashboard de código"
+      },
+      "projects": {
+        "label": "Projetos",
+        "message": "Explorando meu trabalho"
+      },
+      "articles": {
+        "label": "Artigos",
+        "message": "Compartilhando conhecimento"
+      },
+      "tech": {
+        "label": "Tech",
+        "message": "Minhas habilidades"
+      },
+      "contact": {
+        "label": "Contato",
+        "message": "Quase lá!"
+      },
+      "end": {
+        "label": "Final",
+        "message": "Você me conhece agora!"
+      }
     },
     "tooltip": {
       "title": "👋 Comece sua jornada!",

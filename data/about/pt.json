@@ -1,0 +1,80 @@
+{
+  "name": "Igor Costa Braz",
+  "headline": "Desenvolvedor Full Stack",
+  "title": "Desenvolvedor de Software",
+  "location": {
+    "country": "Brasil"
+  },
+  "professionalSummary": "Desenvolvedor Full Stack com mais de 3 anos de experiência no desenvolvimento de sistemas web modernos, escaláveis e orientados a boas práticas. Atua principalmente com o ecossistema JavaScript, envolvendo frontend, backend, bancos de dados relacionais e integração com serviços em nuvem.",
+  "experienceLevel": "Pleno",
+  "coreSkills": {
+    "frontend": [
+      "JavaScript",
+      "TypeScript",
+      "Vue.js",
+      "React",
+      "Quasar Framework"
+    ],
+    "backend": [
+      "Node.js",
+      "APIs REST",
+      "Sequelize ORM"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MySQL"
+    ],
+    "testing": [
+      "Testes unitários",
+      "Jest"
+    ],
+    "cloudAndDevOps": [
+      "AWS",
+      "Digital Ocean",
+      "Deploy em ambientes Linux"
+    ],
+    "toolsAndWorkflow": [
+      "Git",
+      "GitHub",
+      "Jira",
+      "Confluence"
+    ]
+  },
+  "education": [
+    {
+      "degree": "Tecnólogo",
+      "course": "Análise e Desenvolvimento de Sistemas",
+      "institution": "SENAC",
+      "status": "Em andamento"
+    },
+    {
+      "degree": "Técnico",
+      "course": "Desenvolvimento de Sistemas",
+      "institution": "ETEC",
+      "status": "Concluído"
+    }
+  ],
+  "languages": [
+    {
+      "language": "Português",
+      "level": "Nativo"
+    },
+    {
+      "language": "Inglês",
+      "level": "Avançado (C1)",
+      "certification": "EF SET"
+    }
+  ],
+  "professionalInterests": [
+    "Desenvolvimento Web",
+    "Arquitetura de Software",
+    "Sistemas Escaláveis",
+    "Boas Práticas de Código",
+    "Tecnologias JavaScript"
+  ],
+  "contact": {
+    "website": "https://igorcbraz.engineer",
+    "linkedin": "https://www.linkedin.com/in/igorcbraz",
+    "github": "https://github.com/Igorcbraz"
+  }
+}

@@ -24,7 +24,10 @@
     "stack": "Stack",
     "contact": "Contact",
     "contactButton": "Get in Touch",
-    "articles": "Articles"
+    "articles": "Articles",
+    "ideMode": "IDE Mode",
+    "ideOn": "On",
+    "ideOff": "Off"
   },
   "shape": {
     "dev": "DEV"
@@ -36,7 +39,13 @@
     "letsTalk": "Let's talk",
     "ctaText": "Ready to bring your ideas to life?",
     "contactButton": "Contact",
-    "copyright": "© {year} Igor Braz. All rights reserved."
+    "copyright": "© {year} Igor Braz. All rights reserved.",
+    "ideTitle": "Liked what you saw?",
+    "ideSubtitle": "Explore the IDE version of this portfolio for an even more immersive experience!",
+    "ideButton": "Open IDE",
+    "ideOpenTitle": "Exploring IDE Mode",
+    "ideOpenSubtitle": "You're now browsing the portfolio in a code editor-style interface. Return to the site whenever you want!",
+    "ideCloseButton": "Back to Site"
   },
   "contact": {
     "connectTitle": "Let's Connect",
@@ -112,17 +121,45 @@
   "techStack": {
     "title": "Tech Stack",
     "subtitle": "Select a category and explore the technologies"
-  }
-  ,
+  },
   "scrollProgress": {
     "milestones": {
-      "start": { "label": "Start", "message": "Welcome!" },
-      "know": { "label": "Meet", "message": "Discover my story" },
-      "journey": { "label": "Journey", "message": "My professional evolution" },
-      "projects": { "label": "Projects", "message": "Exploring my work" },
-      "tech": { "label": "Tech", "message": "My skills" },
-      "contact": { "label": "Contact", "message": "Almost there!" },
-      "end": { "label": "End", "message": "You know me now!" }
+      "start": {
+        "label": "Start",
+        "message": "Welcome!"
+      },
+      "know": {
+        "label": "Meet",
+        "message": "Discover my story"
+      },
+      "journey": {
+        "label": "Journey",
+        "message": "My professional evolution"
+      },
+      "github": {
+        "label": "GitHub",
+        "message": "Code dashboard"
+      },
+      "projects": {
+        "label": "Projects",
+        "message": "Exploring my work"
+      },
+      "articles": {
+        "label": "Articles",
+        "message": "Sharing knowledge"
+      },
+      "tech": {
+        "label": "Tech",
+        "message": "My skills"
+      },
+      "contact": {
+        "label": "Contact",
+        "message": "Almost there!"
+      },
+      "end": {
+        "label": "End",
+        "message": "You know me now!"
+      }
     },
     "tooltip": {
       "title": "👋 Start your journey!",
