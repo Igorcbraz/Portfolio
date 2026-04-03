@@ -1,10 +1,12 @@
 import metadataJson from "@/data/metadata.json"
 import { NextResponse } from "next/server"
 
-export const revalidate = 21600 // 6h cache to avoid rate limits
+const GITHUB_REVALIDATE_SECONDS = 21600 // 6h cache to avoid rate limits
+export const dynamic = "force-dynamic"
 
 const githubUser = metadataJson.social.github.username || "igorcbraz"
 const githubApiBase = "https://api.github.com"
+const githubToken = process.env.GITHUB_TOKEN
 
 type ApiPayload = {
   userData: UserData
@@ -56,19 +58,55 @@ type UserData = {
 let lastSuccessfulPayload: ApiPayload | null = null
 
 async function fetchJson<T>(url: string) {
-  const res = await fetch(url, {
-    headers: {
-      Accept: "application/vnd.github+json",
-      "User-Agent": "igorcbraz-portfolio",
-    },
-    next: { revalidate },
-  })
-
-  if (!res.ok) {
-    throw new Error(`GitHub request failed: ${res.status} ${res.statusText}`)
+  const baseHeaders: HeadersInit = {
+    Accept: "application/vnd.github+json",
+    "User-Agent": "igorcbraz-portfolio",
   }
 
-  return res.json() as Promise<T>
+  const requestInit = {
+    next: { revalidate: GITHUB_REVALIDATE_SECONDS },
+  }
+
+  const fetchWithHeaders = async (headers: HeadersInit) => {
+    const response = await fetch(url, {
+      headers,
+      ...requestInit,
+    })
+
+    if (!response.ok) {
+      const body = await response.text().catch(() => "")
+      const rateRemaining = response.headers.get("x-ratelimit-remaining")
+      const rateReset = response.headers.get("x-ratelimit-reset")
+      throw new Error(
+        `GitHub request failed: ${response.status} ${response.statusText}; remaining=${rateRemaining ?? "unknown"}; reset=${rateReset ?? "unknown"}; body=${body.slice(0, 300)}`
+      )
+    }
+
+    return response.json() as Promise<T>
+  }
+
+  if (githubToken) {
+    try {
+      return await fetchWithHeaders({
+        ...baseHeaders,
+        Authorization: `Bearer ${githubToken}`,
+      })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error"
+      const isAuthOrForbidden = message.includes(" 401 ") || message.includes(" 403 ")
+
+      if (!isAuthOrForbidden) {
+        throw error
+      }
+
+      console.error("GitHub token request failed, retrying without token", {
+        url,
+        reason: message,
+      })
+    }
+  }
+
+  return fetchWithHeaders(baseHeaders)
 }
 
 function buildFallback(): { userData: UserData; repos: RepoInfo[]; fromCache: boolean } {
@@ -174,13 +212,28 @@ export async function GET() {
 
     lastSuccessfulPayload = payload
 
-    return NextResponse.json(payload)
+    return NextResponse.json(payload, {
+      status: 200,
+      headers: {
+        "Cache-Control": `public, s-maxage=${GITHUB_REVALIDATE_SECONDS}, stale-while-revalidate=3600`,
+      },
+    })
   } catch (error) {
     console.error("/api/github error", error)
     if (lastSuccessfulPayload) {
-      return NextResponse.json({ ...lastSuccessfulPayload, fromCache: true }, { status: 200 })
+      return NextResponse.json({ ...lastSuccessfulPayload, fromCache: true }, {
+        status: 200,
+        headers: {
+          "Cache-Control": "no-store",
+        },
+      })
     }
     const fallback = buildFallback()
-    return NextResponse.json(fallback, { status: 200 })
+    return NextResponse.json(fallback, {
+      status: 200,
+      headers: {
+        "Cache-Control": "no-store",
+      },
+    })
   }
 }

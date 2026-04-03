@@ -2,14 +2,20 @@ import { useEffect, useRef, useState } from 'react'
 
 export function useCountUp(end: number, duration = 2000, enabled = true) {
   const [count, setCount] = useState(0)
-  const [hasStarted, setHasStarted] = useState(false)
+  const countRef = useRef(0)
 
   useEffect(() => {
-    if (!enabled || hasStarted) return
+    countRef.current = count
+  }, [count])
 
-    setHasStarted(true)
+  useEffect(() => {
+    if (!enabled) return
+
+    let animationFrame = 0
     let startTime: number | null = null
-    const startValue = 0
+    const startValue = countRef.current
+
+    if (startValue === end) return
 
     const animate = (currentTime: number) => {
       if (startTime === null) startTime = currentTime
@@ -18,13 +24,13 @@ export function useCountUp(end: number, duration = 2000, enabled = true) {
       const easeOutQuart = 1 - Math.pow(1 - progress, 4)
       setCount(Math.floor(easeOutQuart * (end - startValue) + startValue))
 
-      if (progress < 1) {
-        requestAnimationFrame(animate)
-      }
+      if (progress < 1) animationFrame = requestAnimationFrame(animate)
     }
 
-    requestAnimationFrame(animate)
-  }, [end, duration, enabled, hasStarted])
+    animationFrame = requestAnimationFrame(animate)
+
+    return () => { cancelAnimationFrame(animationFrame) }
+  }, [end, duration, enabled])
 
   return count
 }
