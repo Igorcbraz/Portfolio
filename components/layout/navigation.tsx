@@ -8,7 +8,6 @@ import { locales } from '@/lib/locales'
 import { FiGlobe } from 'react-icons/fi'
 import ReactCountryFlag from 'react-country-flag'
 import { Code2, Sparkles } from 'lucide-react'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui"
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -110,35 +109,24 @@ export function Navigation() {
               <span className="group-hover:text-primary transition-colors">.</span>
             </a>
 
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    className="hidden lg:flex items-center justify-center w-9 h-9 rounded-lg hover:scale-110 transition-all duration-300 group relative overflow-hidden border"
-                    style={{
-                      borderColor: isExpanded ? '#007acc40' : '#4ec9b040',
-                    }}
-                    aria-label={dictionary.navigation.ideMode}
-                  >
-                    <div className={`absolute inset-0 transition-all duration-300 ${isExpanded ? 'bg-[#007acc]/10' : 'bg-[#4ec9b0]/10'}`}></div>
-                    <div className="relative">
-                      {isExpanded ? (
-                        <Code2 className="w-4 h-4 text-[#007acc] transition-transform group-hover:rotate-12 duration-300" />
-                      ) : (
-                        <Sparkles className="w-4 h-4 text-[#4ec9b0] transition-transform group-hover:rotate-12 duration-300" />
-                      )}
-                    </div>
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="font-medium">{dictionary.navigation.ideMode}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {!isExpanded ? dictionary.navigation.ideOn : dictionary.navigation.ideOff}
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="hidden lg:flex items-center justify-center w-9 h-9 rounded-lg hover:scale-110 transition-all duration-300 group relative overflow-hidden border"
+              style={{
+                borderColor: isExpanded ? '#007acc40' : '#4ec9b040',
+              }}
+              aria-label={dictionary.navigation.ideMode}
+              title={`${dictionary.navigation.ideMode} - ${!isExpanded ? dictionary.navigation.ideOn : dictionary.navigation.ideOff}`}
+            >
+              <div className={`absolute inset-0 transition-all duration-300 ${isExpanded ? 'bg-[#007acc]/10' : 'bg-[#4ec9b0]/10'}`}></div>
+              <div className="relative">
+                {isExpanded ? (
+                  <Code2 className="w-4 h-4 text-[#007acc] transition-transform group-hover:rotate-12 duration-300" />
+                ) : (
+                  <Sparkles className="w-4 h-4 text-[#4ec9b0] transition-transform group-hover:rotate-12 duration-300" />
+                )}
+              </div>
+            </button>
           </div>
 
           <div className="hidden md:flex items-center gap-1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -211,13 +199,16 @@ export function Navigation() {
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, '#contact')}
-              className="hidden sm:block px-6 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all"
+              className="hidden sm:block px-6 py-2 bg-primary text-black rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all"
             >
               {dictionary.navigation.contactButton}
             </a>
 
             <button
               onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isOpen}
+              aria-controls="mobile-navigation"
               className="md:hidden p-2 rounded-lg hover:bg-card transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -232,7 +223,7 @@ export function Navigation() {
         </div>
 
         {isOpen && (
-          <div className="md:hidden pb-4 space-y-1 border-t border-border/30">
+          <div id="mobile-navigation" className="md:hidden pb-4 space-y-1 border-t border-border/30">
             <div className="px-4 pt-2 pb-1">
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
@@ -257,8 +248,10 @@ export function Navigation() {
 
             <div className="px-4 pb-1">
               <button
-                onClick={() => setLangOpenMobile(true)}
+                onClick={() => setLangOpenMobile((prev) => !prev)}
                 className="w-full flex items-center justify-between px-4 py-2 rounded-lg hover:bg-card transition-all duration-300 group relative overflow-hidden cursor-pointer"
+                aria-expanded={langOpenMobile}
+                aria-controls="mobile-language-panel"
               >
                 <div
                   className="absolute inset-0 transition-all duration-300"
@@ -267,7 +260,6 @@ export function Navigation() {
                 {switching ? (
                   <div className="relative flex items-center gap-2">
                     <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
                     </svg>
                     <span className="font-medium">Changing language...</span>
@@ -306,51 +298,47 @@ export function Navigation() {
                 )}
               </button>
 
-              <Dialog open={langOpenMobile} onOpenChange={setLangOpenMobile}>
-                <DialogContent className="sm:max-w-md" showCloseButton={true}>
-                  <DialogHeader>
-                    <DialogTitle className="flex items-center gap-2">
-                      <FiGlobe className="w-5 h-5" />
-                      Select Language
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="space-y-2 pt-2">
-                    {locales.map((l) => (
-                      <button
-                        key={l}
-                        onClick={() => {
-                          switchLocale(l)
-                          setLangOpenMobile(false)
-                        }}
-                        onMouseEnter={() => setHoveredLang(l)}
-                        onMouseLeave={() => setHoveredLang(null)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-colors cursor-pointer ${l === currentLocale ? 'font-semibold' : ''}`}
-                        style={{
-                          background: (hoveredLang === l || l === currentLocale) ? `${localeMeta[l]?.color}22` : undefined,
-                          color: (hoveredLang === l || l === currentLocale) ? localeMeta[l]?.color : undefined,
-                        }}
-                      >
-                        <span
-                          className="w-8 h-8 rounded-full flex items-center justify-center text-sm overflow-hidden"
-                          style={{ background: `${localeMeta[l]?.color}22`, color: localeMeta[l]?.color }}
-                        >
-                          {localeMeta[l]?.countryCode ? (
-                            <ReactCountryFlag svg countryCode={localeMeta[l]!.countryCode} style={{ width: '1.25rem', height: '1.25rem' }} />
-                          ) : (
-                            localeMeta[l]?.emoji ?? '🌐'
-                          )}
-                        </span>
-                        <span className="flex-1 text-left">{localeMeta[l]?.name ?? l.toUpperCase()}</span>
-                        {l === currentLocale && (
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        )}
-                      </button>
-                    ))}
+              {langOpenMobile && (
+                <div id="mobile-language-panel" className="mt-2 rounded-lg border border-border/20 bg-card p-2 space-y-2">
+                  <div className="flex items-center gap-2 px-2 py-1 text-sm font-semibold text-foreground">
+                    <FiGlobe className="w-4 h-4" />
+                    <span>Select Language</span>
                   </div>
-                </DialogContent>
-              </Dialog>
+                  {locales.map((l) => (
+                    <button
+                      key={l}
+                      onClick={() => {
+                        switchLocale(l)
+                        setLangOpenMobile(false)
+                      }}
+                      onMouseEnter={() => setHoveredLang(l)}
+                      onMouseLeave={() => setHoveredLang(null)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-colors cursor-pointer ${l === currentLocale ? 'font-semibold' : ''}`}
+                      style={{
+                        background: (hoveredLang === l || l === currentLocale) ? `${localeMeta[l]?.color}22` : undefined,
+                        color: (hoveredLang === l || l === currentLocale) ? localeMeta[l]?.color : undefined,
+                      }}
+                    >
+                      <span
+                        className="w-8 h-8 rounded-full flex items-center justify-center text-sm overflow-hidden"
+                        style={{ background: `${localeMeta[l]?.color}22`, color: localeMeta[l]?.color }}
+                      >
+                        {localeMeta[l]?.countryCode ? (
+                          <ReactCountryFlag svg countryCode={localeMeta[l]!.countryCode} style={{ width: '1.25rem', height: '1.25rem' }} />
+                        ) : (
+                          localeMeta[l]?.emoji ?? '🌐'
+                        )}
+                      </span>
+                      <span className="flex-1 text-left">{localeMeta[l]?.name ?? l.toUpperCase()}</span>
+                      {l === currentLocale && (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             {navItems.map((item) => (
               <a
@@ -371,7 +359,7 @@ export function Navigation() {
                 handleNavClick(e, '#contact')
                 setIsOpen(false)
               }}
-              className="block px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:shadow-lg transition-all text-center"
+              className="block px-4 py-2 bg-primary text-black rounded-lg text-sm font-semibold hover:shadow-lg transition-all text-center"
             >
               {dictionary.navigation.contactButton}
             </a>

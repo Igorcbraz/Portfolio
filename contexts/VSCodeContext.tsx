@@ -1,8 +1,9 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-import { type VSCodeTheme, type VSCodeThemeName, vscodeThemes } from "@/lib/vscode-themes"
+import { createContext, useContext, useState, useEffect, useRef, type ReactNode } from "react"
+import type { VSCodeTheme, VSCodeThemeName } from "@/lib/vscode-themes"
 import { type CursorConfig, type CursorPreset, type AccentColor, defaultCursorConfig } from "@/lib/cursor-styles"
+import { defaultTheme, DEFAULT_THEME_NAME, isThemeName, loadThemeByName } from "@/lib/vscode-theme-loader"
 
 interface VSCodeContextType {
   isExpanded: boolean
@@ -22,20 +23,40 @@ const VSCodeContext = createContext<VSCodeContextType | undefined>(undefined)
 export function VSCodeProvider({ children }: { children: ReactNode }) {
   const [isExpanded, setIsExpandedState] = useState(true)
   const [activeFile, setActiveFile] = useState("portfolio.tsx")
-  const [themeName, setThemeNameState] = useState<VSCodeThemeName>("beardedThemeSurprisingBlueberry")
+  const [themeName, setThemeNameState] = useState<VSCodeThemeName>(DEFAULT_THEME_NAME)
+  const [theme, setThemeState] = useState<VSCodeTheme>(defaultTheme)
   const [cursorConfig, setCursorConfigState] = useState<CursorConfig>(defaultCursorConfig)
-  const [isClient, setIsClient] = useState(false)
+  const themeRequestIdRef = useRef(0)
+
+  const applyTheme = (nextThemeName: VSCodeThemeName) => {
+    setThemeNameState(nextThemeName)
+    const requestId = themeRequestIdRef.current + 1
+    themeRequestIdRef.current = requestId
+
+    void loadThemeByName(nextThemeName)
+      .then((nextTheme) => {
+        if (themeRequestIdRef.current === requestId) {
+          setThemeState(nextTheme)
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to load VSCode theme", error)
+        if (themeRequestIdRef.current === requestId) {
+          setThemeState(defaultTheme)
+          setThemeNameState(DEFAULT_THEME_NAME)
+        }
+      })
+  }
 
   useEffect(() => {
-    setIsClient(true)
     const savedState = localStorage.getItem("ide-expanded")
     if (savedState !== null) {
       setIsExpandedState(savedState === "true")
     }
 
-    const savedTheme = localStorage.getItem("ide-theme") as VSCodeThemeName
-    if (savedTheme && vscodeThemes[savedTheme]) {
-      setThemeNameState(savedTheme)
+    const savedTheme = localStorage.getItem("ide-theme")
+    if (savedTheme && isThemeName(savedTheme)) {
+      applyTheme(savedTheme)
     }
 
     const savedCursor = localStorage.getItem("cursor-config")
@@ -50,35 +71,25 @@ export function VSCodeProvider({ children }: { children: ReactNode }) {
 
   const setIsExpanded = (expanded: boolean) => {
     setIsExpandedState(expanded)
-    if (isClient) {
-      localStorage.setItem("ide-expanded", String(expanded))
-    }
+    localStorage.setItem("ide-expanded", String(expanded))
   }
 
   const setTheme = (newThemeName: VSCodeThemeName) => {
-    setThemeNameState(newThemeName)
-    if (isClient) {
-      localStorage.setItem("ide-theme", newThemeName)
-    }
+    applyTheme(newThemeName)
+    localStorage.setItem("ide-theme", newThemeName)
   }
 
   const setCursorPreset = (preset: CursorPreset) => {
     const newConfig = { ...cursorConfig, preset }
     setCursorConfigState(newConfig)
-    if (isClient) {
-      localStorage.setItem("cursor-config", JSON.stringify(newConfig))
-    }
+    localStorage.setItem("cursor-config", JSON.stringify(newConfig))
   }
 
   const setCursorColor = (color: AccentColor) => {
     const newConfig = { ...cursorConfig, color }
     setCursorConfigState(newConfig)
-    if (isClient) {
-      localStorage.setItem("cursor-config", JSON.stringify(newConfig))
-    }
+    localStorage.setItem("cursor-config", JSON.stringify(newConfig))
   }
-
-  const theme = vscodeThemes[themeName]
 
   return (
     <VSCodeContext.Provider

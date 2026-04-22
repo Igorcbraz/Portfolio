@@ -73,7 +73,7 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="font-semibold text-foreground text-sm uppercase tracking-widest">{dictionary.footer.letsTalk}</h4>
             <p className="text-sm text-muted-foreground mb-4">{dictionary.footer.ctaText}</p>
-            <a href="#contact" className="w-full block px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:shadow-lg transition-all text-center">
+            <a href="#contact" className="w-full block px-4 py-2 bg-primary text-black rounded-lg text-sm font-semibold hover:shadow-lg transition-all text-center">
               {dictionary.footer.contactButton}
             </a>
           </div>

@@ -1,12 +1,27 @@
 "use client"
 
 import type React from "react"
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { GoogleAnalytics } from "@next/third-parties/google"
+import dynamic from "next/dynamic"
+import { useEffect, useState } from "react"
 import { UserProvider } from "@/contexts/UserContext"
 import { LocaleProvider } from "@/contexts/LocaleContext"
 import { VSCodeProvider, useVSCode } from "@/contexts/VSCodeContext"
+import metadataJson from "@/data/metadata.json"
+
+const Analytics = dynamic(() => import("@vercel/analytics/next").then((m) => m.Analytics), {
+  ssr: false,
+  loading: () => null,
+})
+
+const SpeedInsights = dynamic(() => import("@vercel/speed-insights/next").then((m) => m.SpeedInsights), {
+  ssr: false,
+  loading: () => null,
+})
+
+const GoogleAnalytics = dynamic(() => import("@next/third-parties/google").then((m) => m.GoogleAnalytics), {
+  ssr: false,
+  loading: () => null,
+})
 
 interface LayoutClientProps {
   children: React.ReactNode
@@ -15,6 +30,31 @@ interface LayoutClientProps {
 }
 
 export default function LayoutClient({ children, dictionary, locale }: LayoutClientProps) {
+  const [shouldLoadAnalytics, setShouldLoadAnalytics] = useState(false)
+  const [isLocalHost, setIsLocalHost] = useState(false)
+
+  useEffect(() => {
+    const hostname = window.location.hostname
+    setIsLocalHost(hostname === "localhost" || hostname === "127.0.0.1")
+  }, [])
+
+  useEffect(() => {
+    const enableAnalytics = () => setShouldLoadAnalytics(true)
+    const interactionEvents: Array<keyof WindowEventMap> = ["scroll", "pointerdown", "keydown", "touchstart"]
+
+    const idleTimer = window.setTimeout(enableAnalytics, 3500)
+    interactionEvents.forEach((eventName) => {
+      window.addEventListener(eventName, enableAnalytics, { once: true, passive: true })
+    })
+
+    return () => {
+      window.clearTimeout(idleTimer)
+      interactionEvents.forEach((eventName) => {
+        window.removeEventListener(eventName, enableAnalytics)
+      })
+    }
+  }, [])
+
   return (
     <VSCodeProvider>
       <VSCodeWrapper>
@@ -24,9 +64,15 @@ export default function LayoutClient({ children, dictionary, locale }: LayoutCli
           </UserProvider>
         </LocaleProvider>
       </VSCodeWrapper>
-      <Analytics />
-      <SpeedInsights />
-      <GoogleAnalytics gaId="G-3CTJ4REMG8" />
+      {shouldLoadAnalytics && metadataJson.analytics.vercel && !isLocalHost && (
+        <>
+          <Analytics />
+          <SpeedInsights />
+        </>
+      )}
+      {shouldLoadAnalytics && metadataJson.analytics.googleAnalytics && !isLocalHost && (
+        <GoogleAnalytics gaId={metadataJson.analytics.googleAnalytics} />
+      )}
     </VSCodeProvider>
   )
 }

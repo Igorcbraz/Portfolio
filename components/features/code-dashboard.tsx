@@ -469,7 +469,11 @@ export function CodeDashboard() {
             </div>
 
             <div className="relative">
+              <label htmlFor="repo-sort" className="sr-only">
+                Sort repositories
+              </label>
               <select
+                id="repo-sort"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
                 className="w-full sm:w-auto px-4 py-3 pr-10 bg-card border border-border/30 rounded-lg text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all appearance-none cursor-pointer"
@@ -499,7 +503,7 @@ export function CodeDashboard() {
                     setSelectedLanguage(null);
                   }}
                   className={`shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${selectedLanguage === null
-                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
+                    ? "bg-primary text-black shadow-lg shadow-primary/30"
                     : "bg-card border border-border/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
                     }`}
                 >
@@ -516,7 +520,7 @@ export function CodeDashboard() {
                         setSelectedLanguage(lang);
                       }}
                       className={`shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${selectedLanguage === lang
-                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
+                        ? "bg-primary text-black shadow-lg shadow-primary/30"
                         : "bg-card border border-border/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
                         }`}
                     >
@@ -533,7 +537,7 @@ export function CodeDashboard() {
                   setSelectedLanguage(null);
                 }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${selectedLanguage === null
-                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
+                  ? "bg-primary text-black shadow-lg shadow-primary/30"
                   : "bg-card border border-border/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
                   }`}
               >
@@ -550,7 +554,7 @@ export function CodeDashboard() {
                       setSelectedLanguage(lang);
                     }}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${selectedLanguage === lang
-                      ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
+                      ? "bg-primary text-black shadow-lg shadow-primary/30"
                       : "bg-card border border-border/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
                       }`}
                   >
@@ -862,8 +866,10 @@ export function CodeDashboard() {
                 setCurrentPage(prev => Math.max(prev - 1, 1));
               }}
               disabled={currentPage === 1}
+              aria-label="Previous page"
               className="px-4 py-2 rounded-lg bg-card border border-border/30 text-foreground hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
+              <span className="sr-only">Previous page</span>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
@@ -908,8 +914,10 @@ export function CodeDashboard() {
                 setCurrentPage(prev => Math.min(prev + 1, totalPages));
               }}
               disabled={currentPage === totalPages}
+              aria-label="Next page"
               className="px-4 py-2 rounded-lg bg-card border border-border/30 text-foreground hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
+              <span className="sr-only">Next page</span>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>

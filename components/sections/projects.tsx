@@ -224,7 +224,7 @@ export function Projects() {
                 }}
                 layout
               >
-                <div className="relative h-64 overflow-hidden bg-card">
+                <div className="relative aspect-16/10 overflow-hidden bg-card">
                   <Image
                     src={project.image}
                     alt={`Imagem do projeto ${project.title}: ${project.description}`}
@@ -232,8 +232,9 @@ export function Projects() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                     priority={project.featured}
-                    quality={80}
-                    unoptimized
+                    loading={project.featured ? "eager" : "lazy"}
+                    fetchPriority={project.featured ? "high" : "auto"}
+                    quality={project.featured ? 80 : 70}
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent group-hover:from-background/90 transition-all duration-300 pointer-events-none" />
 

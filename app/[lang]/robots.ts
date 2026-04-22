@@ -23,7 +23,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/api/',
           '/admin/',
-          '/_next/',
           '/private/',
           '/404',
           '/500',
@@ -37,7 +36,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/api/',
           '/admin/',
-          '/_next/',
           '/private/',
         ],
       },

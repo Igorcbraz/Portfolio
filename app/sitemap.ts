@@ -29,5 +29,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ]
   })
 
-  return localizedPages
+  return [
+    {
+      url: baseUrl,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    ...localizedPages,
+  ]
 }

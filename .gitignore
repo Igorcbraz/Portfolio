@@ -126,3 +126,12 @@ test-results/
 
 # Turborepo
 .turbo/
+
+# SEO Agent / Lighthouse
+seo-agent/reports/mcp-delete-list.txt
+seo-agent/reports/*.tmp
+seo-agent/reports/*.tmp.json
+seo-agent/reports/*.html
+seo-agent/reports/lighthouse-iteration-*.json
+!seo-agent/reports/lighthouse-iteration-*-valid.json
+!seo-agent/reports/.gitkeep

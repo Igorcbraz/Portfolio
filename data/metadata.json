@@ -1,8 +1,25 @@
 {
   "site": {
-    "title": "Igor Braz - Software Developer",
-    "description": "Modern portfolio showcasing creative development and design work. Specializing in React, Next.js, and interactive web experiences.",
-    "keywords": ["developer", "github", "portfolio", "react", "next.js", "node", "fullstack", "quasar", "typescript", "javascript", "projetos", "desenvolvedor", "igorcbraz", "igorbraz", "igorbraz.dev", "igor costa braz"],
+    "title": "Igor Braz | Portfolio de Desenvolvedor JavaScript, Node e Quasar",
+    "description": "Portfolio de Igor Braz com projetos em JavaScript, Node.js e Quasar. Veja repositorios no GitHub, stars e aplicacoes reais em producao.",
+    "keywords": [
+      "developer",
+      "github",
+      "portfolio",
+      "react",
+      "next.js",
+      "node",
+      "fullstack",
+      "quasar",
+      "typescript",
+      "javascript",
+      "projetos",
+      "desenvolvedor",
+      "igorcbraz",
+      "igorbraz",
+      "igorbraz.dev",
+      "igor costa braz"
+    ],
     "url": "https://igorcbraz.vercel.app/",
     "locale": "pt-BR",
     "themeColor": "#1A1A1A"
@@ -33,12 +50,12 @@
   "icons": {
     "light": "/icon-light-32x32.webp",
     "dark": "/icon-dark-32x32.webp",
-    "svg": "/icon.svg",
+    "svg": "/favicon.svg",
     "apple": "/apple-icon.webp"
   },
   "analytics": {
     "vercel": true,
-    "googleAnalytics": ""
+    "googleAnalytics": "G-3CTJ4REMG8"
   },
   "viewport": {
     "width": "device-width",

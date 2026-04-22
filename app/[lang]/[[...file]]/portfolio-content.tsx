@@ -1,78 +1,136 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useEffect, useRef, useState, type ComponentType } from "react"
 import dynamic from "next/dynamic"
-import { Articles, ContactSection, Hero, ProfessionalJourney, Projects, TechStack } from "@/components/sections"
-import { Footer } from "@/components/layout"
+import { Hero } from "@/components/sections/hero"
 
-const ScrollProgress = dynamic(() => import("@/components/features/scroll-progress").then(m => m.ScrollProgress), {
+const ScrollProgress = dynamic(() => import("@/components/features/scroll-progress").then((m) => m.ScrollProgress), {
   ssr: false,
   loading: () => null,
 })
 
-const CodeDashboard = dynamic(() => import("@/components/features/code-dashboard").then(m => m.CodeDashboard), {
-  ssr: false,
-  loading: () => null,
-})
+type SectionComponent = ComponentType<Record<string, never>>
+type SectionLoader = () => Promise<SectionComponent>
+
+const loadProfessionalJourney: SectionLoader = () =>
+  import("@/components/sections/professional-journey").then((m) => m.ProfessionalJourney)
+
+const loadCodeDashboard: SectionLoader = () =>
+  import("@/components/features/code-dashboard").then((m) => m.CodeDashboard)
+
+const loadProjects: SectionLoader = () =>
+  import("@/components/sections/projects").then((m) => m.Projects)
+
+const loadArticles: SectionLoader = () =>
+  import("@/components/sections/articles").then((m) => m.Articles)
+
+const loadTechStack: SectionLoader = () =>
+  import("@/components/sections/tech-stack").then((m) => m.TechStack)
+
+const loadContactSection: SectionLoader = () =>
+  import("@/components/sections/contact-section").then((m) => m.ContactSection)
+
+const loadFooter: SectionLoader = () =>
+  import("@/components/layout/footer").then((m) => m.Footer)
+
+function DeferredSection({
+  loader,
+  rootMargin = "0px 0px",
+  minHeight = 1,
+}: {
+  loader: SectionLoader
+  rootMargin?: string
+  minHeight?: number
+}) {
+  const [LoadedComponent, setLoadedComponent] = useState<SectionComponent | null>(null)
+  const triggerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (LoadedComponent) return
+
+    const element = triggerRef.current
+    if (!element) return
+    let isCancelled = false
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          loader().then((Component) => {
+            if (!isCancelled) {
+              setLoadedComponent(() => Component)
+            }
+          })
+          observer.disconnect()
+        }
+      },
+      { rootMargin }
+    )
+
+    observer.observe(element)
+    return () => {
+      isCancelled = true
+      observer.disconnect()
+    }
+  }, [LoadedComponent, loader, rootMargin])
+
+  return (
+    <div ref={triggerRef} style={LoadedComponent ? undefined : { minHeight }}>
+      {LoadedComponent ? <LoadedComponent /> : null}
+    </div>
+  )
+}
 
 export function PortfolioContent() {
+  const [shouldMountScrollProgress, setShouldMountScrollProgress] = useState(false)
+
+  useEffect(() => {
+    if (window.scrollY > 0) {
+      setShouldMountScrollProgress(true)
+      return
+    }
+
+    const enableScrollProgress = () => setShouldMountScrollProgress(true)
+    const interactionEvents: Array<keyof WindowEventMap> = ["wheel", "touchstart", "pointerdown", "keydown", "scroll"]
+
+    interactionEvents.forEach((eventName) => {
+      window.addEventListener(eventName, enableScrollProgress, { once: true, passive: true })
+    })
+
+    return () => {
+      interactionEvents.forEach((eventName) => {
+        window.removeEventListener(eventName, enableScrollProgress)
+      })
+    }
+  }, [])
+
   return (
     <>
-      <ScrollProgress />
+      {shouldMountScrollProgress ? <ScrollProgress /> : null}
       <div className="relative z-10 bg-black">
         <main className="w-full pb-8 mb-8">
           <section id="hero">
             <Hero />
           </section>
           <section id="journey">
-            <ProfessionalJourney />
+            <DeferredSection loader={loadProfessionalJourney} minHeight={400} />
           </section>
-          <motion.section
-            id="github"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-          >
-            <CodeDashboard />
-          </motion.section>
-          <motion.section
-            id="projects"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-          >
-            <Projects />
-          </motion.section>
-          <motion.section
-            id="articles"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
-          >
-            <Articles />
-          </motion.section>
-          <motion.section
-            id="stack"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
-          >
-            <TechStack />
-          </motion.section>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.4 }}
-          >
-            <ContactSection />
-          </motion.div>
+          <section id="github">
+            <DeferredSection loader={loadCodeDashboard} minHeight={600} />
+          </section>
+          <section id="projects">
+            <DeferredSection loader={loadProjects} minHeight={500} />
+          </section>
+          <section id="articles">
+            <DeferredSection loader={loadArticles} minHeight={500} />
+          </section>
+          <section id="stack">
+            <DeferredSection loader={loadTechStack} minHeight={500} />
+          </section>
+          <div>
+            <DeferredSection loader={loadContactSection} minHeight={360} />
+          </div>
         </main>
-        <Footer />
+        <DeferredSection loader={loadFooter} minHeight={260} />
       </div>
     </>
   )

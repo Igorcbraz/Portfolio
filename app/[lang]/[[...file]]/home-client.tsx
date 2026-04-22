@@ -3,15 +3,30 @@
 import { useEffect, useState, type ComponentType } from "react"
 import dynamic from "next/dynamic"
 import { Navigation } from "@/components/layout"
-import { IDEStatusBar, IDEBreadcrumb } from "@/components/ide"
-import SettingsView from "@/app/(file-views)/settings-view"
-import AboutView from "@/app/(file-views)/about-view"
 import { useVSCode } from "@/contexts/VSCodeContext"
 import { resolveFile } from "@/lib/file-registry"
 import { PortfolioContent } from "./portfolio-content"
 
+const IDEBreadcrumb = dynamic(() => import("@/components/ide/ide-breadcrumb").then((m) => m.IDEBreadcrumb), {
+  ssr: false,
+  loading: () => null,
+})
+
+const IDEStatusBar = dynamic(() => import("@/components/ide/ide-status-bar").then((m) => m.IDEStatusBar), {
+  ssr: false,
+  loading: () => null,
+})
+
 const CustomCursor = dynamic(() => import("@/components/features/custom-cursor").then(m => m.CustomCursor), {
   ssr: false,
+})
+
+const SettingsView = dynamic(() => import("@/app/(file-views)/settings-view"), {
+  loading: () => null,
+})
+
+const AboutView = dynamic(() => import("@/app/(file-views)/about-view"), {
+  loading: () => null,
 })
 
 type HomeClientProps = {
@@ -30,6 +45,7 @@ export default function HomeClient({ fileId }: HomeClientProps) {
   const entry = resolveFile(fileId)
   const { activeFile, isExpanded, setActiveFile } = useVSCode()
   const [enableCursor, setEnableCursor] = useState(false)
+  const [shouldMountStatusBar, setShouldMountStatusBar] = useState(false)
 
   useEffect(() => {
     if (entry && entry.id !== activeFile) {
@@ -43,6 +59,34 @@ export default function HomeClient({ fileId }: HomeClientProps) {
       setEnableCursor(true)
     }
   }, [])
+
+  useEffect(() => {
+    if (!entry) return
+
+    if (entry.component !== "portfolio") {
+      setShouldMountStatusBar(true)
+      return
+    }
+
+    let isMounted = true
+    const mountStatusBar = () => {
+      if (!isMounted) return
+      setShouldMountStatusBar(true)
+    }
+
+    window.addEventListener("pointerdown", mountStatusBar, { once: true, passive: true })
+    window.addEventListener("touchstart", mountStatusBar, { once: true, passive: true })
+    window.addEventListener("keydown", mountStatusBar, { once: true })
+    window.addEventListener("wheel", mountStatusBar, { once: true, passive: true })
+
+    return () => {
+      isMounted = false
+      window.removeEventListener("pointerdown", mountStatusBar)
+      window.removeEventListener("touchstart", mountStatusBar)
+      window.removeEventListener("keydown", mountStatusBar)
+      window.removeEventListener("wheel", mountStatusBar)
+    }
+  }, [entry])
 
   if (!entry) return null
 
@@ -61,7 +105,7 @@ export default function HomeClient({ fileId }: HomeClientProps) {
           <FileComponent />
         </div>
       </div>
-      {showStatusBar && (isFileView || !isExpanded) && <IDEStatusBar />}
+      {shouldMountStatusBar && showStatusBar && (isFileView || !isExpanded) && <IDEStatusBar />}
     </>
   )
 }
