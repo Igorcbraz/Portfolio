@@ -60,22 +60,30 @@
     "cvButton": "Download Resume"
   },
   "projects": {
-    "title": "Projects",
+    "sectionLabel": "Projects",
+    "title": "Professional",
+    "titleHighlight": "Projects",
     "subtitle": "Real production work showcasing my software development contributions",
     "all": "All",
     "featured": "In Production"
   },
   "journey": {
-    "title": "Professional Journey",
+    "sectionLabel": "Trajectory",
+    "title": "Professional",
+    "titleHighlight": "Journey",
     "subtitle": "A continuous learning journey and growth as a developer"
   },
   "articles": {
-    "title": "Articles & Blog",
+    "sectionLabel": "Articles",
+    "title": "Articles",
+    "titleHighlight": "Blog",
     "subtitle": "Thoughts and insights about web development, design and technology",
     "read": "Read Article"
   },
   "code": {
-    "title": "Code Dashboard",
+    "sectionLabel": "GitHub",
+    "title": "Code",
+    "titleHighlight": "Dashboard",
     "subtitle": "Explore my main projects, contributions and code highlights",
     "searchPlaceholder": "Search repositories, topics...",
     "all": "All",
@@ -119,7 +127,9 @@
     "foundPlural": "repositories found"
   },
   "techStack": {
-    "title": "Tech Stack",
+    "sectionLabel": "Tech",
+    "title": "Tech",
+    "titleHighlight": "Stack",
     "subtitle": "Select a category and explore the technologies"
   },
   "scrollProgress": {

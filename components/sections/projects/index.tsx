@@ -125,7 +125,7 @@ export function Projects() {
           >
             <div className="w-8 h-px bg-primary" />
             <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.25em] font-display">
-              {dictionary.projects.title ?? "Projetos"}
+              {dictionary.projects.sectionLabel}
             </span>
           </motion.div>
 
@@ -144,7 +144,7 @@ export function Projects() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.35, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
-              Profissionais
+              {dictionary.projects.titleHighlight}
             </motion.span>
           </h2>
 

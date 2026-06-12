@@ -120,7 +120,7 @@ export function TechStack() {
             >
               <div className="w-8 h-px bg-primary" />
               <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.25em] font-display">
-                {dictionary.techStack.title.split(" ").shift()}
+                {dictionary.techStack.sectionLabel}
               </span>
               <div className="w-8 h-px bg-primary" />
             </motion.div>
@@ -132,7 +132,7 @@ export function TechStack() {
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: 0.2, duration: 0.6 }}
               >
-                Tech{" "}
+                {dictionary.techStack.title}{" "}
               </motion.span>
               <motion.span
                 className="inline-block bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]"
@@ -140,7 +140,7 @@ export function TechStack() {
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ delay: 0.4, duration: 0.6, ease: "backOut" }}
               >
-                {dictionary.techStack.title.split(" ").pop()}
+                {dictionary.techStack.titleHighlight}
               </motion.span>
             </h2>
 

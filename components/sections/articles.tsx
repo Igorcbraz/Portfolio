@@ -237,14 +237,14 @@ export function Articles() {
           <div className="flex items-center gap-3 mb-5">
             <div className="w-8 h-px bg-primary" />
             <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.25em] font-display">
-              {dictionary.articles.title.split(' & ')[0] || 'Artigos'}
+              {dictionary.articles.sectionLabel}
             </span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display leading-[0.95]">
-            {dictionary.articles.title.split(' & ')[0]}{' '}
+            {dictionary.articles.title}{' '}
             <span className="bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]">
-              {dictionary.articles.title.split(' & ')[1] || 'Publicações'}
+              & {dictionary.articles.titleHighlight}
             </span>
           </h2>
 

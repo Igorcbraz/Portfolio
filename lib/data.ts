@@ -1,9 +1,9 @@
-import articlesEn from '@/data/articles/en.json'
-import articlesPt from '@/data/articles/pt.json'
-import projectsEn from '@/data/projects/en.json'
-import projectsPt from '@/data/projects/pt.json'
-import journeyEn from '@/data/journey/en.json'
-import journeyPt from '@/data/journey/pt.json'
+import articlesEn from '@/locales/articles/en.json'
+import articlesPt from '@/locales/articles/pt.json'
+import projectsEn from '@/locales/projects/en.json'
+import projectsPt from '@/locales/projects/pt.json'
+import journeyEn from '@/locales/journey/en.json'
+import journeyPt from '@/locales/journey/pt.json'
 
 const defaultLocale = 'pt'
 

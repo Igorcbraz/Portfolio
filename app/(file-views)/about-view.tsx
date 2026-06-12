@@ -1,7 +1,7 @@
 "use client"
 
-import aboutEn from "@/data/about/en.json"
-import aboutPt from "@/data/about/pt.json"
+import aboutEn from "@/locales/about/en.json"
+import aboutPt from "@/locales/about/pt.json"
 import { useLocale } from "@/contexts/LocaleContext"
 import { useVSCode } from "@/contexts/VSCodeContext"
 import { RenderJsonWithSyntaxHighlight } from "@/components/features"

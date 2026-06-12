@@ -60,22 +60,30 @@
     "cvButton": "Baixar Currículo"
   },
   "projects": {
+    "sectionLabel": "Projetos",
     "title": "Projetos",
+    "titleHighlight": "Profissionais",
     "subtitle": "Trabalhos reais em produção, demonstrando minha atuação em desenvolvimento de software",
     "all": "Todos",
     "featured": "Em Produção"
   },
   "journey": {
+    "sectionLabel": "Trajetória",
     "title": "Jornada",
+    "titleHighlight": "Profissional",
     "subtitle": "Uma jornada de aprendizado contínuo e evolução como desenvolvedor"
   },
   "articles": {
-    "title": "Artigos & Blog",
+    "sectionLabel": "Artigos",
+    "title": "Artigos",
+    "titleHighlight": "Blog",
     "subtitle": "Pensamentos e insights sobre web development, design e tecnologia",
     "read": "Ler Artigo"
   },
   "code": {
-    "title": "Code Dashboard",
+    "sectionLabel": "GitHub",
+    "title": "Code",
+    "titleHighlight": "Dashboard",
     "subtitle": "Explore meus principais projetos, contribuições e destaques em código",
     "searchPlaceholder": "Buscar repositórios, topics...",
     "all": "Todas",
@@ -119,7 +127,9 @@
     "foundPlural": "repositórios encontrados"
   },
   "techStack": {
-    "title": "Tech Stack",
+    "sectionLabel": "Tech",
+    "title": "Tech",
+    "titleHighlight": "Stack",
     "subtitle": "Selecione uma categoria e explore as tecnologias"
   },
   "scrollProgress": {

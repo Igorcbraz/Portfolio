@@ -23,8 +23,8 @@ import {
   MoreHorizontal
 } from "lucide-react"
 
-import aboutEn from "@/data/about/en.json"
-import aboutPt from "@/data/about/pt.json"
+import aboutEn from "@/locales/about/en.json"
+import aboutPt from "@/locales/about/pt.json"
 import settingsData from "@/data/settings.json"
 
 export function IDESidebar() {

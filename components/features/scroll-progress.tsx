@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo, memo } from "react"
 import { useLocale } from "@/contexts/LocaleContext"
 import { AnimatePresence, motion } from "framer-motion"
-import scrollDataEn from "@/data/scroll-progress/en.json"
-import scrollDataPt from "@/data/scroll-progress/pt.json"
+import scrollDataEn from "@/locales/scroll-progress/en.json"
+import scrollDataPt from "@/locales/scroll-progress/pt.json"
 import { Terminal, User, Briefcase, Code, FolderGit, BookOpen, Cpu, Send, CheckCircle2, MousePointerClick } from "lucide-react"
 
 type ScrollMilestone = {

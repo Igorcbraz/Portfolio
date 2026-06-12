@@ -146,7 +146,7 @@ export function ProfessionalJourney() {
           <p
             className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-4 font-display"
           >
-            Trajetória
+            {dictionary.journey.sectionLabel}
           </p>
           <h2
             className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-foreground font-display"
@@ -155,7 +155,7 @@ export function ProfessionalJourney() {
             <span
               className="bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]"
             >
-              Profissional
+              {dictionary.journey.titleHighlight}
             </span>
           </h2>
         </motion.div>

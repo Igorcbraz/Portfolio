@@ -209,12 +209,12 @@ export function CodeDashboard() {
           transition={{ duration: 0.7, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
         >
           <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-4 font-display">
-            GitHub
+            {dictionary.code.sectionLabel}
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-foreground font-display mb-5">
-            {dictionary.code.title.split(" ").shift()}{" "}
+            {dictionary.code.title}{" "}
             <span className="bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]">
-              {dictionary.code.title.split(" ").slice(1).join(" ")}
+              {dictionary.code.titleHighlight}
             </span>
           </h2>
           <p className="text-base text-muted-foreground max-w-2xl leading-relaxed">
