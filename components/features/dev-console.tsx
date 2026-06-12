@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react"
 import { Terminal, X, Minimize2, Maximize2 } from "lucide-react"
 import { Button } from "@/components/ui"
-import { motion, AnimatePresence } from "framer-motion"
+import { m, AnimatePresence } from "framer-motion"
 import { useVSCode } from "@/contexts/VSCodeContext"
 
 interface ConsoleLog {
@@ -121,7 +121,7 @@ export function DevConsole({ isOpen, onClose }: DevConsoleProps) {
   return (
     <AnimatePresence mode="wait">
       {isOpen && (
-        <motion.div
+        <m.div
           initial={{ y: "100%", opacity: 0 }}
           animate={{
             y: 0,
@@ -239,7 +239,7 @@ export function DevConsole({ isOpen, onClose }: DevConsoleProps) {
           </div>
           <AnimatePresence mode="wait">
             {!isMinimized && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "calc(100% - 40px)" }}
                 exit={{ opacity: 0, height: 0 }}
@@ -253,7 +253,7 @@ export function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                 } as React.CSSProperties}
               >
                 {logs.map((log, index) => (
-                  <motion.div
+                  <m.div
                     key={index}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -266,10 +266,10 @@ export function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                     >
                       {log.message}
                     </span>
-                  </motion.div>
+                  </m.div>
                 ))}
                 {logs.length === 0 && (
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
@@ -278,12 +278,12 @@ export function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                   >
                     <span style={{ color: theme.colors["terminal.ansiBlue"] }}>PS</span>{" "}
                     <span style={{ color: theme.colors["terminal.ansiYellow"] }}>C:\Portfolio&gt;</span>
-                  </motion.div>
+                  </m.div>
                 )}
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   )

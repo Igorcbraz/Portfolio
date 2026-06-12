@@ -83,10 +83,17 @@ async function fixDynamicPageMetadata(projectRoot: string): Promise<AppliedChang
         "}",
       ].join("\n")
 
-      updated = updated.replace(
-        "export const dynamicParams = false\n",
-        `export const dynamicParams = false\n\n${helperBlock}\n`,
-      )
+      if (updated.includes("export const dynamicParams = false")) {
+        updated = updated.replace(
+          "export const dynamicParams = false",
+          `export const dynamicParams = false\n\n${helperBlock}`
+        )
+      } else if (updated.includes("export function generateStaticParams")) {
+        updated = updated.replace(
+          "export function generateStaticParams",
+          `${helperBlock}\n\nexport function generateStaticParams`
+        )
+      }
     }
 
     const pagePathLine = "  const pagePath = fileId === defaultFile ? `/${lang}` : `/${lang}/${fileId}`\n"
@@ -102,8 +109,10 @@ async function fixDynamicPageMetadata(projectRoot: string): Promise<AppliedChang
       updated = updated.replace(pagePathLine, `${metadataVars}\n`)
     }
 
-    updated = updated.replace("title: `${entry.title} | ${metadataJson.site.title}`,", "title: pageTitle,")
-    updated = updated.replace("description: metadataJson.site.description,", "description: pageDescription,")
+    if (updated.includes("pageTitle") && updated.includes("pageDescription")) {
+      updated = updated.replace("title: `${entry.title} | ${metadataJson.site.title}`,", "title: pageTitle,")
+      updated = updated.replace("description: metadataJson.site.description,", "description: pageDescription,")
+    }
 
     if (!updated.includes("openGraph:")) {
       const openGraphBlock = [
@@ -152,8 +161,11 @@ async function fixMissingImageAltText(projectRoot: string): Promise<AppliedChang
 
     for (const filePath of files) {
       const changed = await applyTextTransform(filePath, (source) => {
-        const imgWithoutAlt = /<img\b(?![^>]*\balt=)([^>]*?)\/?>(?!<\/img>)/g
-        return source.replace(imgWithoutAlt, (tag) => tag.replace("<img", "<img alt=\"Portfolio image\""))
+        const imgWithoutAlt = /<img\s+(?![^>]*\balt=)[^>]*?>/gi
+        return source.replace(imgWithoutAlt, (tag) => {
+          if (tag.includes("alt=")) return tag;
+          return tag.replace(/<img/i, "<img alt=\"Portfolio image\"");
+        })
       })
 
       if (changed) changes.push(changed)
@@ -164,7 +176,7 @@ async function fixMissingImageAltText(projectRoot: string): Promise<AppliedChang
 }
 
 async function optimizeProjectImages(projectRoot: string): Promise<AppliedChange | null> {
-  const targetFile = path.join(projectRoot, "components", "sections", "projects.tsx")
+  const targetFile = path.join(projectRoot, "components", "sections", "projects", "project-card.tsx")
 
   return applyTextTransform(targetFile, (source) => {
     let updated = source
@@ -193,7 +205,7 @@ async function addNetworkHintsToLayout(projectRoot: string): Promise<AppliedChan
       return source
     }
 
-    const insertionPoint = "        <style>{`html,body{min-height:100%;background:#1e1e1e;color:#f5f5f5}#hero{min-height:100svh}`}</style>"
+    const insertionPoint = "<head>"
     const hints = [
       insertionPoint,
       "        <link rel=\"dns-prefetch\" href=\"https://github.com\" />",

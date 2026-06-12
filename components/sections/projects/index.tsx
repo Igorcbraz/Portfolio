@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { m, AnimatePresence } from "framer-motion"
 import { useLocale } from "@/contexts/LocaleContext"
 import { sendGAEvent } from '@next/third-parties/google'
 import { getProjects } from '@/lib/data'
@@ -58,13 +58,13 @@ export function Projects() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,transparent_40%,var(--background)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,transparent_30%,var(--background)_90%)]" />
 
-        <motion.div
+        <m.div
           className="absolute top-[-5%] left-[5%] w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] rounded-full blur-[80px] bg-[radial-gradient(circle,oklch(0.62_0.22_41.1/0.12)_0%,transparent_70%)]"
           animate={{ scale: [1, 1.08, 1], opacity: [0.5, 0.9, 0.5] }}
           transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        <motion.div
+        <m.div
           className="absolute bottom-[-10%] right-[-5%] w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] rounded-full blur-[80px] bg-[radial-gradient(circle,oklch(0.55_0.18_260/0.07)_0%,transparent_70%)]"
           animate={{ scale: [1, 1.06, 1], opacity: [0.4, 0.75, 0.4] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 3 }}
@@ -75,7 +75,7 @@ export function Projects() {
         <div className="absolute left-4 top-0 bottom-0 w-px bg-[linear-gradient(to_bottom,transparent,oklch(0.62_0.22_41.1/0.12)_30%,oklch(0.62_0.22_41.1/0.12)_70%,transparent)]" />
         <div className="absolute right-4 top-0 bottom-0 w-px bg-[linear-gradient(to_bottom,transparent,oklch(0.62_0.22_41.1/0.08)_30%,oklch(0.62_0.22_41.1/0.08)_70%,transparent)]" />
 
-        <motion.div
+        <m.div
           className="absolute top-8 left-8 hidden sm:flex flex-col gap-1 opacity-40"
           initial={{ opacity: 0, x: -16 }}
           animate={isInView ? { opacity: 0.4, x: 0 } : {}}
@@ -87,9 +87,9 @@ export function Projects() {
             <span>STATUS:</span>
             <span className="text-primary prj-blink">ACTIVE</span>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="absolute bottom-8 right-8 hidden sm:flex flex-col items-end gap-1 opacity-30"
           initial={{ opacity: 0, x: 16 }}
           animate={isInView ? { opacity: 0.3, x: 0 } : {}}
@@ -98,7 +98,7 @@ export function Projects() {
           <div className="w-px h-16 bg-[linear-gradient(to_bottom,oklch(0.62_0.22_41.1/0.6),transparent)]" />
           <div className="text-[9px] font-mono text-primary tracking-widest uppercase rotate-0">PORTFOLIO.PROJECTS</div>
           <div className="text-[9px] font-mono text-muted-foreground/60 tracking-widest">v2.0 // 2026</div>
-        </motion.div>
+        </m.div>
 
         <div className="absolute left-[8%] top-1/3 hidden xl:block pointer-events-none opacity-10">
           <div className="relative w-8 h-8">
@@ -111,13 +111,13 @@ export function Projects() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <motion.div
+        <m.div
           className="mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <motion.div
+          <m.div
             className="flex items-center gap-3 mb-5"
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -127,38 +127,38 @@ export function Projects() {
             <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.25em] font-display">
               {dictionary.projects.sectionLabel}
             </span>
-          </motion.div>
+          </m.div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground font-display leading-[0.95] mb-6">
-            <motion.span
+            <m.span
               className="inline-block"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.2, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
               {dictionary.projects.title}
-            </motion.span>{" "}
-            <motion.span
+            </m.span>{" "}
+            <m.span
               className="inline-block bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.35, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
               {dictionary.projects.titleHighlight}
-            </motion.span>
+            </m.span>
           </h2>
 
-          <motion.p
+          <m.p
             className="text-base text-muted-foreground max-w-xl leading-relaxed"
             initial={{ opacity: 0, y: 16 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.5, duration: 0.6 }}
           >
             {dictionary.projects.subtitle}
-          </motion.p>
-        </motion.div>
+          </m.p>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="relative mb-10"
           initial={{ opacity: 0, y: 16 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -200,7 +200,7 @@ export function Projects() {
               }}
             />
             {categories.map((cat, idx) => (
-              <motion.div
+              <m.div
                 key={cat}
                 initial={{ opacity: 0, y: 10 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -214,7 +214,7 @@ export function Projects() {
                     setActiveCategory(cat)
                   }}
                 />
-              </motion.div>
+              </m.div>
             ))}
           </div>
 
@@ -222,10 +222,10 @@ export function Projects() {
             <span className="text-primary prj-blink">■</span>
             <span>{filteredProjects.length} PROJECTS</span>
           </div>
-        </motion.div>
+        </m.div>
 
         <AnimatePresence mode="popLayout">
-          <motion.div
+          <m.div
             key={activeCategory ?? "all"}
             className="space-y-6"
             initial={{ opacity: 0 }}
@@ -245,10 +245,10 @@ export function Projects() {
                 />
               ))}
             </div>
-          </motion.div>
+          </m.div>
         </AnimatePresence>
 
-        <motion.div
+        <m.div
           className="mt-16 flex items-center gap-4"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
@@ -259,7 +259,7 @@ export function Projects() {
             END // SEC-04
           </span>
           <div className="flex-1 h-px bg-[linear-gradient(to_left,oklch(0.62_0.22_41.1/0.4),transparent)]" />
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

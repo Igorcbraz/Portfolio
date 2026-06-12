@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { m } from "framer-motion"
 
 export function FilterButton({
   label,
@@ -20,7 +20,7 @@ export function FilterButton({
         }`}
     >
       {active && (
-        <motion.div
+        <m.div
           className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
           layoutId="filter-indicator"
           transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}

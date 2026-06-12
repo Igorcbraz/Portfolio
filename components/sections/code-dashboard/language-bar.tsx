@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { getLangBgClass } from "./constants";
 
 export function LanguageBar({
@@ -18,7 +18,7 @@ export function LanguageBar({
   const pct = (count / total) * 100;
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, x: -16 }}
       animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
       transition={{
@@ -39,7 +39,7 @@ export function LanguageBar({
         </span>
       </div>
       <div className="h-1.5 bg-border/30 rounded-full overflow-hidden">
-        <motion.div
+        <m.div
           className={`h-full rounded-full opacity-80 ${getLangBgClass(lang)}`}
           initial={{ width: 0 }}
           animate={inView ? { width: `${pct}%` } : { width: 0 }}
@@ -50,6 +50,6 @@ export function LanguageBar({
           }}
         />
       </div>
-    </motion.div>
+    </m.div>
   );
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { motion } from "framer-motion"
+import { m } from "framer-motion"
 import Image from "next/image"
 import { ExternalLink } from "lucide-react"
 import { Project } from "./types"
@@ -38,7 +38,7 @@ export function ProjectCard({
   const cardNumber = String(idx + 1).padStart(2, "0")
 
   return (
-    <motion.a
+    <m.a
       ref={cardRef}
       href={project.link}
       target="_blank"
@@ -91,7 +91,7 @@ export function ProjectCard({
         <div className="absolute inset-0 bg-[linear-gradient(transparent_49%,oklch(0.62_0.22_41.1/0.03)_50%,transparent_51%)] bg-size-[100%_4px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
         {project.featured && (
-          <motion.div
+          <m.div
             className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 bg-[oklch(0.62_0.22_41.1/0.07)] border border-[oklch(0.62_0.22_41.1/0.3)] backdrop-blur-sm z-10"
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -101,7 +101,7 @@ export function ProjectCard({
             <span className="text-[10px] font-semibold text-primary font-display tracking-[0.18em] uppercase">
               {dictionary.projects.featured}
             </span>
-          </motion.div>
+          </m.div>
         )}
 
         <div className="absolute bottom-4 left-4 z-10">
@@ -125,7 +125,7 @@ export function ProjectCard({
         {project.metrics && project.metrics.length > 0 && (
           <div className="grid grid-cols-3 gap-3 py-4 border-t border-b border-[oklch(1_0_0/0.06)]">
             {project.metrics.map((metric, i) => (
-              <motion.div
+              <m.div
                 key={i}
                 className="text-center group/metric"
                 title={metric.description}
@@ -143,7 +143,7 @@ export function ProjectCard({
                 <p className="hidden lg:block text-[9px] text-muted-foreground/60 mt-1 opacity-0 group-hover/metric:opacity-100 transition-opacity font-mono">
                   {metric.description}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         )}
@@ -162,7 +162,7 @@ export function ProjectCard({
         <div className="pt-2 border-t border-[oklch(1_0_0/0.06)]">
           <div className="hidden lg:flex flex-wrap gap-1.5">
             {project.technologies.map((tech, i) => (
-              <motion.span
+              <m.span
                 key={i}
                 className="px-2 py-0.5 bg-card border border-border text-muted-foreground text-[10px] font-mono transition-colors duration-200 hover:bg-[oklch(0.62_0.22_41.1/0.08)] hover:border-[oklch(0.62_0.22_41.1/0.4)] hover:text-primary cursor-default"
                 initial={{ opacity: 0, scale: 0.85 }}
@@ -171,7 +171,7 @@ export function ProjectCard({
                 whileHover={{ scale: 1.05 }}
               >
                 {tech}
-              </motion.span>
+              </m.span>
             ))}
           </div>
           <div className="lg:hidden relative">
@@ -188,6 +188,6 @@ export function ProjectCard({
           </div>
         </div>
       </div>
-    </motion.a>
+    </m.a>
   )
 }

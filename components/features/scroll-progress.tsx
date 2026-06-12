@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, memo } from "react"
 import { useLocale } from "@/contexts/LocaleContext"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, m } from "framer-motion"
 import scrollDataEn from "@/locales/scroll-progress/en.json"
 import scrollDataPt from "@/locales/scroll-progress/pt.json"
 import { Terminal, User, Briefcase, Code, FolderGit, BookOpen, Cpu, Send, CheckCircle2, MousePointerClick } from "lucide-react"
@@ -140,7 +140,7 @@ const SQLConsole = memo(function SQLConsole({ query, label, layout }: SQLConsole
   const statusIndicator = (
     <AnimatePresence mode="wait">
       {isExecuting ? (
-        <motion.div
+        <m.div
           key="executing"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -150,9 +150,9 @@ const SQLConsole = memo(function SQLConsole({ query, label, layout }: SQLConsole
         >
           <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse"></div>
           <span className="text-yellow-500 font-mono text-[9px] uppercase tracking-wider">executing</span>
-        </motion.div>
+        </m.div>
       ) : (
-        <motion.div
+        <m.div
           key="ready"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -162,7 +162,7 @@ const SQLConsole = memo(function SQLConsole({ query, label, layout }: SQLConsole
         >
           <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
           <span className="text-green-500 font-mono text-[9px] uppercase tracking-wider">ready</span>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   )

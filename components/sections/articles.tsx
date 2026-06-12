@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import { motion } from "framer-motion"
+import { m } from "framer-motion"
 import { useLocale } from "@/contexts/LocaleContext"
 import { getArticles } from '@/lib/data'
 import { useInView } from "@/hooks/use-animations"
@@ -41,7 +41,7 @@ function ArticleCard({ article, idx, isInView }: { article: Article; idx: number
   }
 
   return (
-    <motion.a
+    <m.a
       ref={cardRef}
       href={article.link}
       target="_blank"
@@ -143,7 +143,7 @@ function ArticleCard({ article, idx, isInView }: { article: Article; idx: number
           </div>
         </div>
       </div>
-    </motion.a>
+    </m.a>
   )
 }
 
@@ -198,7 +198,7 @@ export function Articles() {
       <div className="absolute left-0 top-0 bottom-0 w-px pointer-events-none bg-[linear-gradient(to_bottom,transparent,oklch(0.62_0.22_41.1/0.3),transparent)]" />
       <div className="absolute right-0 top-0 bottom-0 w-px pointer-events-none bg-[linear-gradient(to_bottom,transparent,oklch(0.62_0.22_41.1/0.3),transparent)]" />
 
-      <motion.div
+      <m.div
         className="absolute top-5 left-5 z-10 pointer-events-none hidden xl:block"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
@@ -212,9 +212,9 @@ export function Articles() {
             <span className="art-blink text-primary">▮</span>
           </div>
         </div>
-      </motion.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         className="absolute bottom-5 right-5 z-10 pointer-events-none hidden xl:flex items-end gap-3"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
@@ -224,11 +224,11 @@ export function Articles() {
           PORTFOLIO.ARTICLES v1.0 // 2026
         </span>
         <div className="w-px h-6 bg-[oklch(0.62_0.22_41.1/0.3)]" />
-      </motion.div>
+      </m.div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <motion.div
+        <m.div
           className="mb-16"
           initial={{ opacity: 0, y: 22 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -248,15 +248,15 @@ export function Articles() {
             </span>
           </h2>
 
-          <motion.p
+          <m.p
             className="mt-4 text-sm text-muted-foreground max-w-xl leading-relaxed"
             initial={{ opacity: 0, y: 16 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.35, duration: 0.6 }}
           >
             {dictionary.articles.subtitle}
-          </motion.p>
-        </motion.div>
+          </m.p>
+        </m.div>
 
         <div className="grid sm:grid-cols-2 gap-6">
           {articles.map((article, idx) => (
@@ -269,7 +269,7 @@ export function Articles() {
           ))}
         </div>
 
-        <motion.div
+        <m.div
           className="mt-16 flex items-center gap-4"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
@@ -280,7 +280,7 @@ export function Articles() {
             END // SEC-05
           </span>
           <div className="flex-1 h-px bg-[linear-gradient(to_left,oklch(0.62_0.22_41.1/0.4),transparent)]" />
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

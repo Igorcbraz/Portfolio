@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { GitHubRepo } from "./types";
 import { getLangBgClass, getLangShadowClass } from "./constants";
 
@@ -23,7 +23,7 @@ export function RepoCard({
   formatSize,
 }: RepoCardProps) {
   return (
-    <motion.a
+    <m.a
       href={repo.url}
       target="_blank"
       rel="noopener noreferrer"
@@ -157,6 +157,6 @@ export function RepoCard({
       </div>
 
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,oklch(0.62_0.22_41.1/0.05),transparent)] pointer-events-none" />
-    </motion.a>
+    </m.a>
   );
 }

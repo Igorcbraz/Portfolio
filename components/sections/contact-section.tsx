@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { motion } from "framer-motion"
+import { m } from "framer-motion"
 import { Github, Linkedin, FileDown, Code2, Sparkles } from "lucide-react"
 import metadata from "@/data/metadata.json"
 import { analytics } from "@/lib/analytics"
@@ -70,7 +70,7 @@ function ContactCard({
 
   return (
     <div className={`h-full ${outerClassName}`}>
-      <motion.div
+      <m.div
         variants={variants}
         className="h-full w-full"
       >
@@ -105,7 +105,7 @@ function ContactCard({
             {children}
           </div>
         </CardWrapper>
-      </motion.div>
+      </m.div>
     </div>
   )
 }
@@ -211,7 +211,7 @@ export function ContactSection() {
       <div ref={parallaxRef} className="absolute inset-0 pointer-events-none select-none z-0">
         <div className="absolute inset-0 hero-grid-pattern opacity-40" />
 
-        <motion.div
+        <m.div
           className="absolute inset-0 bg-linear-to-t from-primary/2 to-transparent"
           style={{ y: offset }}
         />
@@ -225,7 +225,7 @@ export function ContactSection() {
 
         <div className="contact-scanline" />
 
-        <motion.div
+        <m.div
           className="absolute top-20 right-[10%] w-96 h-96 bg-[oklch(0.62_0.22_41.1/0.12)] rounded-full blur-[120px]"
           animate={{
             scale: [1, 1.2, 1],
@@ -237,7 +237,7 @@ export function ContactSection() {
             ease: "easeInOut"
           }}
         />
-        <motion.div
+        <m.div
           className="absolute bottom-20 left-[10%] w-80 h-80 bg-[oklch(0.55_0.18_260/0.07)] rounded-full blur-[100px]"
           animate={{
             scale: [1.2, 1, 1.2],
@@ -267,7 +267,7 @@ export function ContactSection() {
 
       <div ref={sectionRef} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-between">
 
-        <motion.div
+        <m.div
           className="text-center mb-16 flex flex-col items-center"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -292,9 +292,9 @@ export function ContactSection() {
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl font-sans leading-relaxed">
             {dictionary.contact.subtitle}
           </p>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="flex flex-col gap-10 max-w-5xl mx-auto w-full"
           variants={staggerContainer}
           initial="initial"
@@ -427,7 +427,7 @@ export function ContactSection() {
 
           <div className="w-full">
 
-            <motion.div
+            <m.div
               variants={fadeInUp}
             >
               <ContactCard
@@ -487,10 +487,10 @@ export function ContactSection() {
 
                 </div>
               </ContactCard>
-            </motion.div>
+            </m.div>
           </div>
 
-        </motion.div>
+        </m.div>
 
         <div className="mt-20 flex items-center gap-4 w-full">
           <div className="flex-1 h-px bg-[linear-gradient(to_right,oklch(0.62_0.22_41.1/0.3),transparent)]" />

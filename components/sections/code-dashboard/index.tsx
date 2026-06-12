@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { sendGAEvent } from "@next/third-parties/google";
 import { useUser } from "@/contexts/UserContext";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -202,7 +202,7 @@ export function CodeDashboard() {
         ref={sectionRef}
         className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
       >
-        <motion.div
+        <m.div
           className="mb-16"
           initial={{ opacity: 0, y: 22 }}
           animate={sectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
@@ -220,7 +220,7 @@ export function CodeDashboard() {
           <p className="text-base text-muted-foreground max-w-2xl leading-relaxed">
             {dictionary.code.subtitle}
           </p>
-        </motion.div>
+        </m.div>
 
         <div
           ref={statsRef}
@@ -238,7 +238,7 @@ export function CodeDashboard() {
           ))}
         </div>
 
-        <motion.div
+        <m.div
           className="grid lg:grid-cols-2 gap-5 mb-12"
           initial={{ opacity: 0, y: 32 }}
           animate={statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
@@ -273,9 +273,9 @@ export function CodeDashboard() {
           </div>
 
           <RepoOrbitPanel repos={repos} inView={statsInView} />
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="mb-8 space-y-4"
           initial={{ opacity: 0, y: 20 }}
           animate={sectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -427,7 +427,7 @@ export function CodeDashboard() {
               </button>
             )}
           </div>
-        </motion.div>
+        </m.div>
 
         <div
           ref={cardsRef}
@@ -436,7 +436,7 @@ export function CodeDashboard() {
           {reposLoading ? (
             <div className="col-span-full flex flex-col items-center justify-center py-20 gap-4">
               <div className="relative w-12 h-12">
-                <motion.div
+                <m.div
                   className="w-12 h-12 rounded-full border-2 border-transparent border-t-primary"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
@@ -462,7 +462,7 @@ export function CodeDashboard() {
               ))}
             </AnimatePresence>
           ) : (
-            <motion.div
+            <m.div
               className="col-span-full flex flex-col items-center justify-center py-16 gap-3"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -484,12 +484,12 @@ export function CodeDashboard() {
               <p className="text-muted-foreground font-mono text-sm">
                 {dictionary.code.noResults}
               </p>
-            </motion.div>
+            </m.div>
           )}
         </div>
 
         {totalPages > 1 && (
-          <motion.div
+          <m.div
             className="flex items-center justify-center gap-2 mt-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -589,7 +589,7 @@ export function CodeDashboard() {
                 />
               </svg>
             </button>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </section>

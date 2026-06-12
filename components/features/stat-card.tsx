@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { AnimatedCounter } from "./animated-counter";
 
 export interface StatCardProps {
@@ -12,7 +12,7 @@ export interface StatCardProps {
 
 export function StatCard({ label, value, icon, inView, delay }: StatCardProps) {
   return (
-    <motion.div
+    <m.div
       className="group relative bg-card/60 backdrop-blur-sm border border-[oklch(0.62_0.22_41.1/0.18)] rounded-lg p-5 overflow-hidden cursor-default"
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
@@ -36,6 +36,6 @@ export function StatCard({ label, value, icon, inView, delay }: StatCardProps) {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-px bg-[linear-gradient(90deg,transparent,oklch(0.62_0.22_41.1/0.40),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-    </motion.div>
+    </m.div>
   );
 }

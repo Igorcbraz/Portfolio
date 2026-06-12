@@ -11,10 +11,7 @@ const Shape3d = dynamic(() => import("@/components/features/3d-shape").then(m =>
   loading: () => null,
 })
 
-const HeroPhoto = dynamic(() => import("@/components/features/hero-photo").then(m => m.HeroPhoto), {
-  ssr: false,
-  loading: () => null,
-})
+const HeroPhoto = dynamic(() => import("@/components/features/hero-photo").then(m => m.HeroPhoto))
 
 type ViewMode = "3d" | "photo"
 

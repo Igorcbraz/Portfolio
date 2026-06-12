@@ -29,6 +29,10 @@ interface LayoutClientProps {
   locale: string
 }
 
+import { LazyMotion } from "framer-motion"
+
+const loadFeatures = () => import("framer-motion").then((res) => res.domAnimation)
+
 export default function LayoutClient({ children, dictionary, locale }: LayoutClientProps) {
   const [shouldLoadAnalytics, setShouldLoadAnalytics] = useState(false)
   const [isLocalHost, setIsLocalHost] = useState(false)
@@ -56,24 +60,26 @@ export default function LayoutClient({ children, dictionary, locale }: LayoutCli
   }, [])
 
   return (
-    <VSCodeProvider>
-      <VSCodeWrapper>
-        <LocaleProvider dictionary={dictionary} locale={locale}>
-          <UserProvider>
-            {children}
-          </UserProvider>
-        </LocaleProvider>
-      </VSCodeWrapper>
-      {shouldLoadAnalytics && metadataJson.analytics.vercel && !isLocalHost && (
-        <>
-          <Analytics />
-          <SpeedInsights />
-        </>
-      )}
-      {shouldLoadAnalytics && metadataJson.analytics.googleAnalytics && !isLocalHost && (
-        <GoogleAnalytics gaId={metadataJson.analytics.googleAnalytics} />
-      )}
-    </VSCodeProvider>
+    <LazyMotion features={loadFeatures}>
+      <VSCodeProvider>
+        <VSCodeWrapper>
+          <LocaleProvider dictionary={dictionary} locale={locale}>
+            <UserProvider>
+              {children}
+            </UserProvider>
+          </LocaleProvider>
+        </VSCodeWrapper>
+        {shouldLoadAnalytics && metadataJson.analytics.vercel && !isLocalHost && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
+        {shouldLoadAnalytics && metadataJson.analytics.googleAnalytics && !isLocalHost && (
+          <GoogleAnalytics gaId={metadataJson.analytics.googleAnalytics} />
+        )}
+      </VSCodeProvider>
+    </LazyMotion>
   )
 }
 

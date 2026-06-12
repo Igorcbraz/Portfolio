@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState, useCallback } from "react"
-import { motion, AnimatePresence, type Variants } from "framer-motion"
+import { m, AnimatePresence, type Variants } from "framer-motion"
 import { getExperience } from '@/lib/data'
 import { useLocale } from "@/contexts/LocaleContext"
 import { ArrowLeft, ArrowRight, Server, Database, LayoutTemplate, Network, Blocks, Shield, Users, Terminal, Table } from "lucide-react"
@@ -137,7 +137,7 @@ export function ProfessionalJourney() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <motion.div
+        <m.div
           className="mb-16"
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
@@ -158,9 +158,9 @@ export function ProfessionalJourney() {
               {dictionary.journey.titleHighlight}
             </span>
           </h2>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="flex gap-8 lg:gap-16 items-start"
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
@@ -221,7 +221,7 @@ export function ProfessionalJourney() {
             >
               <AnimatePresence mode="wait" custom={dir}>
                 {step && (
-                  <motion.div
+                  <m.div
                     key={`card-${displayIdx}`}
                     custom={dir}
                     variants={cardVariants}
@@ -289,7 +289,7 @@ export function ProfessionalJourney() {
                       </div>
                     </div>
 
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
             </div>
@@ -354,7 +354,7 @@ export function ProfessionalJourney() {
               })}
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

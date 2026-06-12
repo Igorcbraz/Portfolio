@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { m, AnimatePresence } from "framer-motion"
 import { sendGAEvent } from "@next/third-parties/google"
 import { useLocale } from "@/contexts/LocaleContext"
 import { useInView } from "@/hooks/use-animations"
@@ -82,12 +82,12 @@ export function TechStack() {
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute inset-0 hero-grid-pattern opacity-60" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 0%, transparent 40%, var(--background) 100%)" }} />
-          <motion.div
+          <m.div
             className="absolute top-[-5%] right-[5%] w-[500px] h-[500px] rounded-full bg-[oklch(0.62_0.22_41.1/0.08)] blur-[90px]"
             animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
             transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
           />
-          <motion.div
+          <m.div
             className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full bg-[oklch(0.55_0.18_260/0.05)] blur-[80px]"
             animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.7, 0.4] }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 3 }}
@@ -106,13 +106,13 @@ export function TechStack() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          <motion.div
+          <m.div
             className="mb-14 text-center"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
           >
-            <motion.div
+            <m.div
               className="flex items-center justify-center gap-3 mb-5"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
@@ -123,38 +123,38 @@ export function TechStack() {
                 {dictionary.techStack.sectionLabel}
               </span>
               <div className="w-8 h-px bg-primary" />
-            </motion.div>
+            </m.div>
 
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display leading-[0.95]">
-              <motion.span
+              <m.span
                 className="inline-block text-foreground"
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: 0.2, duration: 0.6 }}
               >
                 {dictionary.techStack.title}{" "}
-              </motion.span>
-              <motion.span
+              </m.span>
+              <m.span
                 className="inline-block bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ delay: 0.4, duration: 0.6, ease: "backOut" }}
               >
                 {dictionary.techStack.titleHighlight}
-              </motion.span>
+              </m.span>
             </h2>
 
-            <motion.p
+            <m.p
               className="mt-5 text-base sm:text-lg text-muted-foreground max-w-xl mx-auto font-sans leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.6, duration: 0.6 }}
             >
               {dictionary.techStack.subtitle}
-            </motion.p>
-          </motion.div>
+            </m.p>
+          </m.div>
 
-          <motion.div
+          <m.div
             className="mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -165,7 +165,7 @@ export function TechStack() {
                 const IconComponent = category.icon
                 const isSelected = selectedCategory === category.name
                 return (
-                  <motion.button
+                  <m.button
                     key={category.name}
                     onClick={() => {
                       sendGAEvent("event", "tech_stack_category_click", { label: category.name })
@@ -185,7 +185,7 @@ export function TechStack() {
                     </span>
                     <IconComponent className="w-4 h-4" />
                     <span className="text-sm font-display">{category.name}</span>
-                  </motion.button>
+                  </m.button>
                 )
               })}
             </div>
@@ -196,7 +196,7 @@ export function TechStack() {
                   const IconComponent = category.icon
                   const isSelected = selectedCategory === category.name
                   return (
-                    <motion.button
+                    <m.button
                       key={category.name}
                       onClick={() => {
                         sendGAEvent("event", "tech_stack_category_click", { label: category.name })
@@ -213,15 +213,15 @@ export function TechStack() {
                     >
                       <IconComponent className="w-4 h-4" />
                       <span className="text-[9px] font-mono tracking-widest">{category.code}</span>
-                    </motion.button>
+                    </m.button>
                   )
                 })}
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
           <AnimatePresence mode="wait">
-            <motion.div
+            <m.div
               key={selectedCategory}
               ref={containerRef}
               onMouseMove={handleMouseMove}
@@ -233,7 +233,7 @@ export function TechStack() {
               exit={{ opacity: 0, scale: 0.88, rotateY: -50 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             >
-              <motion.div
+              <m.div
                 style={{
                   transformStyle: "preserve-3d",
                   transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
@@ -241,11 +241,11 @@ export function TechStack() {
                 }}
               >
                 {renderShape()}
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
           </AnimatePresence>
 
-          <motion.div
+          <m.div
             className="mt-20 flex items-center gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -253,7 +253,7 @@ export function TechStack() {
           >
             <div className="flex-1 h-px bg-[linear-gradient(to_right,oklch(0.62_0.22_41.1/0.3),transparent)]" />
             <div className="flex-1 h-px bg-[linear-gradient(to_left,oklch(0.62_0.22_41.1/0.3),transparent)]" />
-          </motion.div>
+          </m.div>
         </div>
       </section>
     </>

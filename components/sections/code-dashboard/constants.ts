@@ -4,7 +4,7 @@ export const CODE_SNIPPETS = [
   "npm run build --production",
   "export default function Portfolio()",
   "useState<GitHubRepo[]>([])",
-  "import { motion } from 'framer-motion'",
+  "import { m } from 'framer-motion'",
   "type Props = { stars: number }",
   "await Promise.all(repos.map(...))",
 ];
