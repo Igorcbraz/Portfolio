@@ -37,24 +37,14 @@ interface TechSpec {
 
 export function IDEStatusBar() {
   const { dictionary } = useLocale()
-  const { isExpanded, setIsExpanded, theme, themeName, setTheme, cursorConfig, setCursorPreset, setCursorColor } = useVSCode()
+  const { isExpanded, setIsExpanded, theme, themeName, setTheme, cursorConfig, setCursorPreset, setCursorColor, isConsoleOpen, setIsConsoleOpen } = useVSCode()
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [loadTime, setLoadTime] = useState<number>(0)
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading")
   const [copied, setCopied] = useState(false)
-  const [isConsoleOpen, setIsConsoleOpen] = useState(false)
-  const [isSpecsOpen, setIsSpecsOpen] = useState(false)
   const [isCursorDialogOpen, setIsCursorDialogOpen] = useState(false)
 
-  const techSpecs: TechSpec[] = [
-    { name: "Next.js", version: "15", category: "Framework" },
-    { name: "React", version: "19", category: "Library" },
-    { name: "TypeScript", version: "5", category: "Language" },
-    { name: "Tailwind CSS", version: "3", category: "Styling" },
-    { name: "Framer Motion", category: "Animation" },
-    { name: "Three.js", category: "3D Graphics" },
-    { name: "shadcn/ui", category: "Components" },
-  ]
+
 
   const colorOptions: { value: AccentColor; label: string }[] = [
     { value: "blue", label: "Azul" },
@@ -152,18 +142,7 @@ export function IDEStatusBar() {
     }
   }
 
-  const getCategoryIcon = (category: string) => {
-    const icons: Record<string, typeof Box> = {
-      "Framework": Box,
-      "Library": Package,
-      "Language": Code2,
-      "Styling": Paintbrush,
-      "Animation": Sparkles,
-      "3D Graphics": Box,
-      "Components": Package
-    }
-    return icons[category] || Package
-  }
+
 
   const StatusButton = ({
     children,
@@ -628,110 +607,7 @@ export function IDEStatusBar() {
             />
           </StatusButton>
 
-          <Sheet open={isSpecsOpen} onOpenChange={setIsSpecsOpen}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <SheetTrigger asChild>
-                  <button className="flex items-center gap-1 p-1 rounded transition-opacity hover:opacity-80 cursor-pointer">
-                    <Cpu
-                      className="w-3.5 h-3.5"
-                      style={{
-                        color: isSpecsOpen
-                          ? theme.colors["activityBar.activeBorder"]
-                          : theme.colors["statusBar.foreground"]
-                      }}
-                    />
-                  </button>
-                </SheetTrigger>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Especificações técnicas</p>
-              </TooltipContent>
-            </Tooltip>
-            <SheetContent
-              side="right"
-              className="w-[85vw] sm:w-[420px] md:w-[480px] overflow-y-auto font-(family-name:--font-primary) rounded-l-xl px-4 sm:px-6"
-              style={{
-                backgroundColor: theme.colors["sideBar.background"],
-                borderLeft: `1px solid ${theme.colors["sideBar.border"]}`,
-                color: theme.colors["sideBar.foreground"]
-              }}
-            >
-              <SheetHeader className="mb-6">
-                <SheetTitle
-                  className="flex items-center gap-2.5 text-sm font-semibold"
-                  style={{ color: theme.colors["sideBar.foreground"] }}
-                >
-                  <Cpu className="w-4 h-4" style={{ color: theme.colors["activityBar.activeBorder"] }} />
-                  DEPENDENCIES
-                </SheetTitle>
-                <SheetDescription
-                  className="text-xs"
-                  style={{ color: theme.colors["statusBar.foreground"] }}
-                >
-                  {techSpecs.length} packages installed
-                </SheetDescription>
-              </SheetHeader>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-5">
-                {Object.entries(
-                  techSpecs.reduce((acc, spec) => {
-                    if (!acc[spec.category]) acc[spec.category] = []
-                    acc[spec.category].push(spec)
-                    return acc
-                  }, {} as Record<string, TechSpec[]>)
-                ).map(([category, specs]) => {
-                  const IconComponent = getCategoryIcon(category)
-                  return (
-                    <div
-                      key={category}
-                      className="space-y-2"
-                    >
-                      <div
-                        className="flex items-center gap-2 px-2 py-1.5 rounded-md"
-                        style={{ backgroundColor: theme.colors["editor.background"] }}
-                      >
-                        <IconComponent className="w-3.5 h-3.5" style={{ color: theme.colors["activityBar.activeBorder"] }} />
-                        <h3
-                          className="text-xs font-semibold uppercase tracking-wider"
-                          style={{ color: theme.colors["sideBar.foreground"] }}
-                        >
-                          {category}
-                        </h3>
-                      </div>
-                      <div className="space-y-0.5 pl-1">
-                        {specs.map((spec) => (
-                          <div
-                            key={spec.name}
-                            className="flex items-center justify-between gap-3 px-2 py-1.5 rounded-md hover:bg-opacity-50 transition-colors cursor-default"
-                            style={{
-                              backgroundColor: "transparent"
-                            }}
-                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme.colors["list.hoverBackground"] || ""}
-                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
-                          >
-                            <span
-                              className="text-sm font-medium flex-1"
-                              style={{ color: theme.colors["sideBar.foreground"] }}
-                            >
-                              {spec.name}
-                            </span>
-                            {spec.version && (
-                              <span
-                                className="text-[11px] font-normal opacity-60"
-                                style={{ color: theme.colors["statusBar.foreground"] }}
-                              >
-                                ^{spec.version}.0.0
-                              </span>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </SheetContent>
-          </Sheet>
+
 
           <StatusButton onClick={handleShare} tooltip={copied ? "Link copiado!" : "Compartilhar"}>
             {copied ? (

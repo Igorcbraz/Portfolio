@@ -7,7 +7,17 @@ import { useVSCode } from "@/contexts/VSCodeContext"
 import { resolveFile } from "@/lib/file-registry"
 import { PortfolioContent } from "./portfolio-content"
 
-const IDEBreadcrumb = dynamic(() => import("@/components/ide/ide-breadcrumb").then((m) => m.IDEBreadcrumb), {
+const IDETitleBar = dynamic(() => import("@/components/ide/ide-breadcrumb").then((m) => m.IDETitleBar), {
+  ssr: false,
+  loading: () => null,
+})
+
+const IDEEditorHeader = dynamic(() => import("@/components/ide/ide-breadcrumb").then((m) => m.IDEEditorHeader), {
+  ssr: false,
+  loading: () => null,
+})
+
+const IDESidebar = dynamic(() => import("@/components/ide/ide-sidebar").then((m) => m.IDESidebar), {
   ssr: false,
   loading: () => null,
 })
@@ -43,7 +53,7 @@ const componentMap: Record<ComponentKey, ComponentType> = {
 
 export default function HomeClient({ fileId }: HomeClientProps) {
   const entry = resolveFile(fileId)
-  const { activeFile, isExpanded, setActiveFile } = useVSCode()
+  const { activeFile, isExpanded, setActiveFile, isSidebarOpen } = useVSCode()
   const [enableCursor, setEnableCursor] = useState(false)
   const [shouldMountStatusBar, setShouldMountStatusBar] = useState(false)
 
@@ -98,9 +108,16 @@ export default function HomeClient({ fileId }: HomeClientProps) {
   return (
     <>
       {enableCursor && <CustomCursor />}
-      <div className="relative">
-        <IDEBreadcrumb />
-        <div className={`transition-all duration-700 ease-in-out origin-top ${!isExpanded ? 'pt-[68px]' : 'pt-0'}`}>
+      <div className="relative w-full min-h-screen">
+        <IDETitleBar />
+        <IDESidebar />
+        <IDEEditorHeader />
+        <div
+          className={`transition-[padding] duration-500 ease-in-out ${!isExpanded
+              ? `pt-[92px] ${isSidebarOpen ? 'pl-0 md:pl-72' : 'pl-0 md:pl-12'}`
+              : 'pt-0 pl-0'
+            }`}
+        >
           {showNavigation && <Navigation />}
           <FileComponent />
         </div>

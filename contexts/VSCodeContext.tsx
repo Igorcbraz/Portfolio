@@ -16,6 +16,12 @@ interface VSCodeContextType {
   cursorConfig: CursorConfig
   setCursorPreset: (preset: CursorPreset) => void
   setCursorColor: (color: AccentColor) => void
+  isSidebarOpen: boolean
+  setIsSidebarOpen: (open: boolean) => void
+  activeSidebarTab: string
+  setActiveSidebarTab: (tab: string) => void
+  isConsoleOpen: boolean
+  setIsConsoleOpen: (open: boolean) => void
 }
 
 const VSCodeContext = createContext<VSCodeContextType | undefined>(undefined)
@@ -26,6 +32,9 @@ export function VSCodeProvider({ children }: { children: ReactNode }) {
   const [themeName, setThemeNameState] = useState<VSCodeThemeName>(DEFAULT_THEME_NAME)
   const [theme, setThemeState] = useState<VSCodeTheme>(defaultTheme)
   const [cursorConfig, setCursorConfigState] = useState<CursorConfig>(defaultCursorConfig)
+  const [isSidebarOpen, setIsSidebarOpenState] = useState(true)
+  const [activeSidebarTab, setActiveSidebarTabState] = useState("explorer")
+  const [isConsoleOpen, setIsConsoleOpen] = useState(false)
   const themeRequestIdRef = useRef(0)
 
   const applyTheme = (nextThemeName: VSCodeThemeName) => {
@@ -54,6 +63,16 @@ export function VSCodeProvider({ children }: { children: ReactNode }) {
       setIsExpandedState(savedState === "true")
     }
 
+    const savedSidebarState = localStorage.getItem("ide-sidebar-open")
+    if (savedSidebarState !== null) {
+      setIsSidebarOpenState(savedSidebarState === "true")
+    }
+
+    const savedSidebarTab = localStorage.getItem("ide-sidebar-tab")
+    if (savedSidebarTab !== null) {
+      setActiveSidebarTabState(savedSidebarTab)
+    }
+
     const savedTheme = localStorage.getItem("ide-theme")
     if (savedTheme && isThemeName(savedTheme)) {
       applyTheme(savedTheme)
@@ -72,6 +91,16 @@ export function VSCodeProvider({ children }: { children: ReactNode }) {
   const setIsExpanded = (expanded: boolean) => {
     setIsExpandedState(expanded)
     localStorage.setItem("ide-expanded", String(expanded))
+  }
+
+  const setIsSidebarOpen = (open: boolean) => {
+    setIsSidebarOpenState(open)
+    localStorage.setItem("ide-sidebar-open", String(open))
+  }
+
+  const setActiveSidebarTab = (tab: string) => {
+    setActiveSidebarTabState(tab)
+    localStorage.setItem("ide-sidebar-tab", tab)
   }
 
   const setTheme = (newThemeName: VSCodeThemeName) => {
@@ -103,7 +132,13 @@ export function VSCodeProvider({ children }: { children: ReactNode }) {
         setTheme,
         cursorConfig,
         setCursorPreset,
-        setCursorColor
+        setCursorColor,
+        isSidebarOpen,
+        setIsSidebarOpen,
+        activeSidebarTab,
+        setActiveSidebarTab,
+        isConsoleOpen,
+        setIsConsoleOpen
       }}
     >
       {children}

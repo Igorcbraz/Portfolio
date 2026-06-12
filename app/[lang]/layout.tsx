@@ -159,7 +159,7 @@ export default async function RootLayout({
   return (
     <html lang={currentLang} className="dark scroll-smooth">
       <head>
-        <style>{`html,body{min-height:100%;background:#1e1e1e;color:#f5f5f5}#hero{min-height:100svh}`}</style>
+        <style>{`html,body{min-height:100%;background:oklch(0.09 0 0);color:#f5f5f5}#hero{min-height:100svh}`}</style>
         <link rel="dns-prefetch" href="https://github.com" />
         <link rel="preconnect" href="https://github.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.linkedin.com" />

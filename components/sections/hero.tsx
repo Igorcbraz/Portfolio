@@ -141,7 +141,6 @@ export function Hero() {
           animation: "pulse 6s ease-in-out infinite",
         }}
       />
-
       <div
         className="absolute pointer-events-none"
         style={{
@@ -159,7 +158,6 @@ export function Hero() {
           animationDelay: "2s",
         }}
       />
-
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
 
@@ -267,7 +265,7 @@ export function Hero() {
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(100%)" }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(-100%)" }}
                 />
-                <span className="relative flex items-center gap-2">
+                <span className="relative flex items-center justify-center gap-2 w-full">
                   {dictionary.hero.knowMeBetter}
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transition: "transform 200ms ease" }}>
                     <path d="M5 12h14M12 5l7 7-7 7" />

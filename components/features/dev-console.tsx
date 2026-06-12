@@ -21,8 +21,8 @@ export function DevConsole({ isOpen, onClose }: DevConsoleProps) {
   const [isMinimized, setIsMinimized] = useState(false)
   const [logs, setLogs] = useState<ConsoleLog[]>([])
   const consoleRef = useRef<HTMLDivElement>(null)
-  const { theme } = useVSCode()
-
+  const { theme, isExpanded, isSidebarOpen } = useVSCode()
+  
   const addLog = (type: ConsoleLog["type"], message: string) => {
     const timestamp = new Date().toLocaleTimeString("pt-BR", {
       hour: "2-digit",
@@ -134,7 +134,13 @@ export function DevConsole({ isOpen, onClose }: DevConsoleProps) {
             damping: 30,
             stiffness: 400
           }}
-          className="fixed left-0 right-0 bottom-8 z-999 border-t shadow-2xl"
+          className={`fixed right-0 bottom-8 z-999 border-t shadow-2xl transition-[left] duration-300 ${
+            !isExpanded
+              ? isSidebarOpen
+                ? "left-0 md:left-[288px]"
+                : "left-0 md:left-12"
+              : "left-0"
+          }`}
           style={{
             fontFamily: "'JetBrains Mono', monospace",
             backgroundColor: theme.colors["panel.background"],

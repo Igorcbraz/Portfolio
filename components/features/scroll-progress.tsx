@@ -1,10 +1,9 @@
-"use client"
-
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, memo } from "react"
 import { useLocale } from "@/contexts/LocaleContext"
-import { AnimatePresence, motion, useSpring, useTransform } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import scrollDataEn from "@/data/scroll-progress/en.json"
 import scrollDataPt from "@/data/scroll-progress/pt.json"
+import { Terminal, User, Briefcase, Code, FolderGit, BookOpen, Cpu, Send, CheckCircle2, MousePointerClick } from "lucide-react"
 
 type ScrollMilestone = {
   key: string
@@ -14,13 +13,13 @@ type ScrollMilestone = {
   query: string
 }
 
-const highlightSQL = (query: string, animate = true) => {
+const highlightSQL = (query: string, typedLength?: number) => {
   const keywords = ['SELECT', 'FROM', 'WHERE', 'INSERT', 'INTO', 'VALUES', 'ORDER', 'BY', 'DESC', 'ASC', 'LIMIT', 'BEGIN', 'COMMIT', 'TRANSACTION']
   const functions = ['COUNT', 'MAX', 'MIN', 'AVG', 'SUM']
 
   const tokens = query.split(/(\s+|,|\(|\)|'[^']*'|--[^\n]*)/g).filter(Boolean)
 
-  if (!animate) {
+  if (typedLength === undefined) {
     return tokens.map((token, index) => {
       let colorClass = "text-foreground"
       let fontWeight = ""
@@ -67,32 +66,145 @@ const highlightSQL = (query: string, animate = true) => {
     }
 
     const chars = token.split('')
-    const animatedChars = chars.map((char, i) => {
-      const currentCharIndex = charIndex++
-      return (
-        <motion.span
-          key={`${tokenIndex}-${i}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: 0.05,
-            delay: currentCharIndex * 0.03,
-            ease: "easeOut"
-          }}
-          className="inline-block"
-        >
-          {char}
-        </motion.span>
-      )
-    })
+    const visibleChars = chars.map((char) => {
+      const isVisible = charIndex < typedLength
+      charIndex++
+      return isVisible ? char : ''
+    }).join('')
+
+    if (!visibleChars) return null
 
     return (
       <span key={tokenIndex} className={`${colorClass} ${fontWeight}`}>
-        {animatedChars}
+        {visibleChars}
       </span>
     )
   })
 }
+
+const iconMap: Record<string, React.ComponentType<{ className?: string; size?: number }>> = {
+  start: Terminal,
+  know: User,
+  journey: Briefcase,
+  github: Code,
+  projects: FolderGit,
+  articles: BookOpen,
+  tech: Cpu,
+  contact: Send,
+  end: CheckCircle2,
+}
+
+type SQLConsoleProps = {
+  query: string
+  label: string
+  layout: "desktop" | "mobile"
+}
+
+const SQLConsole = memo(function SQLConsole({ query, label, layout }: SQLConsoleProps) {
+  const [typedLength, setTypedLength] = useState(0)
+  const [isExecuting, setIsExecuting] = useState(true)
+
+  useEffect(() => {
+    setTypedLength(0)
+    setIsExecuting(true)
+
+    let cancelled = false
+
+    const typeWriter = () => {
+      let current = 0
+
+      const tick = () => {
+        if (cancelled) return
+
+        current++
+
+        setTypedLength(current)
+
+        if (current < query.length) {
+          setTimeout(tick, 15)
+        } else {
+          setIsExecuting(false)
+        }
+      }
+
+      tick()
+    }
+
+    typeWriter()
+
+    return () => {
+      cancelled = true
+    }
+  }, [query])
+
+  const statusIndicator = (
+    <AnimatePresence mode="wait">
+      {isExecuting ? (
+        <motion.div
+          key="executing"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="flex items-center gap-1"
+        >
+          <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse"></div>
+          <span className="text-yellow-500 font-mono text-[9px] uppercase tracking-wider">executing</span>
+        </motion.div>
+      ) : (
+        <motion.div
+          key="ready"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="flex items-center gap-1"
+        >
+          <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+          <span className="text-green-500 font-mono text-[9px] uppercase tracking-wider">ready</span>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+
+  if (layout === "mobile") {
+    return (
+      <div className="space-y-1">
+        <div className="flex justify-end text-[9px] h-3.5">
+          {statusIndicator}
+        </div>
+        <div className="bg-muted/30 border border-border rounded-none p-2 text-[9px] sm:text-[10px] leading-relaxed overflow-x-auto">
+          <code className="whitespace-pre-wrap break-all font-mono">
+            {highlightSQL(query, typedLength)}
+            <span className="text-primary cursor-blink ml-0.5 font-bold">■</span>
+          </code>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex-1">
+          <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold font-mono">
+            -- {label}
+          </p>
+        </div>
+        <div className="text-[9px] h-3.5">
+          {statusIndicator}
+        </div>
+      </div>
+
+      <div className="bg-muted/30 border border-border rounded-none p-2 text-[10px] leading-relaxed overflow-x-auto">
+        <code className="whitespace-pre-wrap break-all font-mono">
+          {highlightSQL(query, typedLength)}
+          <span className="text-primary cursor-blink ml-0.5 font-bold">■</span>
+        </code>
+      </div>
+    </div>
+  )
+})
 
 export function ScrollProgress() {
   const { dictionary, locale } = useLocale()
@@ -106,6 +218,7 @@ export function ScrollProgress() {
   const staticMilestones = bundles[locale]?.milestones || bundles.en.milestones
 
   const milestones = useMemo(() => staticMilestones.map((s) => ({
+    key: s.key,
     progress: s.progress,
     icon: s.icon,
     query: s.query,
@@ -115,40 +228,16 @@ export function ScrollProgress() {
   })), [dictionary, staticMilestones])
 
   const [scrollProgress, setScrollProgress] = useState(0)
-  const [currentMilestone, setCurrentMilestone] = useState(milestones[0])
+  const currentMilestone = useMemo(() => {
+    return [...milestones].reverse().find(
+      m => scrollProgress >= m.progress
+    ) || milestones[0]
+  }, [scrollProgress, milestones])
   const [showTooltip, setShowTooltip] = useState(true)
-  const [isExecuting, setIsExecuting] = useState(true)
 
   useEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const isDesktop = window.innerWidth >= 1024
-    setEnabled(!reduceMotion && isDesktop)
+    setEnabled(true)
   }, [])
-
-  const springProgress = useSpring(0, {
-    stiffness: 100,
-    damping: 30,
-    mass: 0.8
-  })
-  const displayProgress = useTransform(springProgress, (value) => Math.round(value))
-
-  useEffect(() => {
-    springProgress.set(scrollProgress)
-  }, [scrollProgress, springProgress])
-
-  useEffect(() => {
-    if (!enabled) return
-
-    setIsExecuting(true)
-    const queryLength = currentMilestone.query.length
-    const animationDuration = queryLength * 30 + 200
-
-    const timer = setTimeout(() => {
-      setIsExecuting(false)
-    }, animationDuration)
-
-    return () => clearTimeout(timer)
-  }, [currentMilestone.query, enabled])
 
   useEffect(() => {
     if (!enabled) return
@@ -162,37 +251,6 @@ export function ScrollProgress() {
       const progress = Math.min(100, Math.max(0, (scrolled / documentHeight) * 100))
 
       setScrollProgress(progress)
-
-      let currentSectionId = 'hero'
-
-      if (progress >= 92) {
-        currentSectionId = 'contact'
-      } else {
-        const sections = ['stack', 'articles', 'projects', 'github', 'journey', 'hero']
-
-        for (const sectionId of sections) {
-          const element = document.getElementById(sectionId)
-          if (element) {
-            const rect = element.getBoundingClientRect()
-            if (rect.top <= windowHeight * 0.5 && rect.bottom >= windowHeight * 0.2) {
-              currentSectionId = sectionId
-              break
-            }
-          }
-        }
-      }
-
-      let current = milestones.find(m => m.sectionId === currentSectionId)
-
-      if (!current) {
-        current = [...milestones].reverse().find(m => progress >= m.progress) || milestones[0]
-      }
-
-      if (progress >= 92 && current.progress < 85) {
-        current = milestones.find(m => m.sectionId === 'contact') || current
-      }
-
-      setCurrentMilestone(current)
 
       if (scrolled > 100 && showTooltip) {
         setShowTooltip(false)
@@ -219,8 +277,8 @@ export function ScrollProgress() {
     <>
       <div className="hidden lg:flex fixed right-3 sm:right-5 top-1/2 -translate-y-1/2 z-50 group">
         <div className="relative">
-          <div className="relative transition-all duration-300 w-4 sm:w-5">
-            <div className="relative h-[50vh] bg-card/90 backdrop-blur-md border border-border/40 rounded-2xl shadow-xl overflow-hidden">
+          <div className="relative transition-all duration-300 w-1.5">
+            <div className="relative h-[50vh] bg-card/95 backdrop-blur-md border border-border/50 rounded-none shadow-2xl overflow-hidden">
               <div
                 className="absolute bottom-0 left-0 right-0 transition-all duration-500 ease-out"
                 style={{
@@ -295,7 +353,7 @@ export function ScrollProgress() {
 
                   <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full">
                     <div
-                      className="w-2 h-2 bg-primary rounded-full shadow-lg shadow-primary/50"
+                      className="w-1.5 h-1.5 bg-primary shadow-lg shadow-primary/50"
                       style={{
                         animation: 'gentlePulse 2s ease-in-out infinite'
                       }}
@@ -303,7 +361,7 @@ export function ScrollProgress() {
                   </div>
                   <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full">
                     <div
-                      className="w-2 h-2 bg-primary rounded-full shadow-lg shadow-primary/50"
+                      className="w-1.5 h-1.5 bg-primary shadow-lg shadow-primary/50"
                       style={{
                         animation: 'gentlePulse 2s ease-in-out infinite 0.3s'
                       }}
@@ -329,19 +387,24 @@ export function ScrollProgress() {
 
                   <div className={`absolute left-full ml-2 top-1/2 -translate-y-1/2 transition-all duration-500 ${scrollProgress >= milestone.progress ? "opacity-100 translate-x-0" : "opacity-40 -translate-x-2"
                     }`}>
-                    <div className={`rounded-lg px-2 py-1.5 shadow-lg transition-all duration-500 ${scrollProgress >= milestone.progress
+                    <div className={`rounded-none px-2 py-1.5 shadow-lg transition-all duration-500 ${scrollProgress >= milestone.progress
                       ? "bg-primary/10 border border-primary/30 backdrop-blur-sm"
                       : "bg-card/80 border border-border/30 backdrop-blur-sm"
                       }`}>
                       <div className="flex items-center gap-1.5">
-                        <span className="text-base">{milestone.icon}</span>
+                        <span className="text-base flex items-center justify-center">
+                          {(() => {
+                            const IconComponent = iconMap[milestone.key]
+                            return IconComponent ? <IconComponent size={13} className={scrollProgress >= milestone.progress ? "text-primary" : "text-muted-foreground"} /> : milestone.icon
+                          })()}
+                        </span>
                         <div>
-                          <p className={`text-[10px] font-bold transition-colors ${scrollProgress >= milestone.progress ? "text-primary" : "text-muted-foreground"
+                          <p className={`text-[9px] font-bold transition-colors font-mono uppercase tracking-wider ${scrollProgress >= milestone.progress ? "text-primary" : "text-muted-foreground"
                             }`}>
                             {milestone.label}
                           </p>
                           {scrollProgress >= milestone.progress && (
-                            <p className="text-[8px] text-muted-foreground">
+                            <p className="text-[8px] text-muted-foreground font-mono">
                               {milestone.progress}%
                             </p>
                           )}
@@ -355,105 +418,39 @@ export function ScrollProgress() {
           </div>
 
           {!(showTooltip && scrollProgress < 20) && (
-            <div className="absolute right-full mr-2 top-1/2 -translate-y-1/2 w-56 bg-card/95 backdrop-blur-md border border-primary/30 rounded-lg p-3 shadow-2xl">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentMilestone.label}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="space-y-2"
-                >
-                  <motion.div
-                    initial={{ y: -5, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.05, duration: 0.2 }}
-                    className="flex items-center justify-between gap-2"
-                  >
-                    <div className="flex-1">
-                      <motion.p
-                        initial={{ x: -10, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.2, duration: 0.2 }}
-                        className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold"
-                      >
-                        -- {currentMilestone.label}
-                      </motion.p>
-                    </div>
-
-                    <motion.div
-                      initial={{ x: 10, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.45, duration: 0.2 }}
-                      className="text-[9px]"
-                    >
-                      <AnimatePresence mode="wait">
-                        {isExecuting ? (
-                          <motion.div
-                            key="executing"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="flex items-center gap-1"
-                          >
-                            <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse"></div>
-                            <span className="text-yellow-500">executing</span>
-                          </motion.div>
-                        ) : (
-                          <motion.div
-                            key="ready"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="flex items-center gap-1"
-                          >
-                            <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                            <span className="text-green-500">ready</span>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ scale: 0.95, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.15, duration: 0.25, ease: "easeOut" }}
-                    className="space-y-1"
-                  >
-                    <div className="bg-muted/30 border border-border rounded p-2 text-[10px] leading-relaxed overflow-x-auto">
-                      <code className="whitespace-pre-wrap break-all">
-                        {highlightSQL(currentMilestone.query, true)}
-                      </code>
-                    </div>
-                    <div className="flex justify-center">
-                      <div className="text-[8px] text-gray-500 font-mono tabular-nums">
-                        <motion.span>{displayProgress}</motion.span>%
-                      </div>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              </AnimatePresence>
-
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-0 h-0 border-t-6 border-t-transparent border-b-6 border-b-transparent border-l-6 border-l-primary/30"></div>
+            <div className="absolute right-full mr-2 top-1/2 -translate-y-1/2 w-56 bg-card/95 backdrop-blur-md border border-primary/40 rounded-none p-3 shadow-2xl space-y-2">
+              <SQLConsole
+                key={currentMilestone.key}
+                query={currentMilestone.query}
+                label={currentMilestone.label}
+                layout="desktop"
+              />
+              <div className="flex justify-center mt-1">
+                <div className="text-[8px] text-gray-500 font-mono tabular-nums">
+                  {Math.round(scrollProgress)}%
+                </div>
+              </div>
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-0 h-0 border-t-6 border-t-transparent border-b-6 border-b-transparent border-l-6 border-l-primary/40"></div>
             </div>
           )}
         </div>
 
         {showTooltip && scrollProgress < 20 && (
-          <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 w-48 bg-primary text-primary-foreground rounded-lg p-3 shadow-2xl animate-bounce">
-            <p className="text-sm font-bold text-center mb-1.5">{dictionary.scrollProgress.tooltip.title}</p>
-            <p className="text-xs text-center opacity-95">{dictionary.scrollProgress.tooltip.subtitle}</p>
+          <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 w-48 bg-primary text-primary-foreground rounded-none p-3 shadow-2xl animate-gentle-bounce font-mono">
+            <div className="flex items-center justify-center gap-1.5 mb-1.5 text-xs font-bold text-center uppercase tracking-wider">
+              <MousePointerClick size={12} className="animate-pulse" />
+              <span>{dictionary.scrollProgress.tooltip.title}</span>
+            </div>
+            <p className="text-[10px] text-center opacity-90">{dictionary.scrollProgress.tooltip.subtitle}</p>
             <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-0 h-0 border-t-6 border-t-transparent border-b-6 border-b-transparent border-l-6 border-l-primary"></div>
           </div>
         )}
       </div>
 
+
+
       <style jsx>{`
-        @keyframes smoothWave {
+       @keyframes smoothWave {
           0%, 100% {
             transform: translateY(0px);
           }
@@ -521,12 +518,36 @@ export function ScrollProgress() {
             opacity: 0.7;
           }
         }
+
+        @keyframes cursorBlink {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0;
+          }
+        }
+        .cursor-blink {
+          animation: cursorBlink 1s step-start infinite;
+        }
+
+        @keyframes gentleBounce {
+          0%, 100% {
+            transform: translateY(-50%) translateY(0);
+          }
+          50% {
+            transform: translateY(-50%) translateY(-6px);
+          }
+        }
+        .animate-gentle-bounce {
+          animation: gentleBounce 2s ease-in-out infinite;
+        }
       `}</style>
 
       <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden">
         <div className="bg-card/95 backdrop-blur-md border-t border-border/30 shadow-2xl">
           <div className="relative px-4 pt-3 pb-1">
-            <div className="relative h-1 bg-border/30 rounded-full overflow-hidden">
+            <div className="relative h-1 bg-border/30 rounded-none overflow-hidden">
               <div
                 className="absolute h-full transition-all duration-500 ease-out"
                 style={{
@@ -537,7 +558,7 @@ export function ScrollProgress() {
                 <div className="absolute inset-0 bg-linear-to-r from-primary via-accent to-primary"></div>
                 <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent animate-pulse"></div>
 
-                <div className="absolute right-0 top-0 bottom-0 w-4 `bg-linear-to-l from-accent/40 to-transparent blur-sm"></div>
+                <div className="absolute right-0 top-0 bottom-0 w-4 bg-linear-to-l from-accent/40 to-transparent blur-sm"></div>
               </div>
 
               {milestones.map((milestone, index) => (
@@ -547,8 +568,8 @@ export function ScrollProgress() {
                   style={{ left: `${milestone.progress}%` }}
                 >
                   <div
-                    className={`rounded-full transition-all duration-500 ${scrollProgress >= milestone.progress
-                      ? "w-3 h-3 bg-primary border-2 border-background shadow-lg shadow-primary/50"
+                    className={`rotate-45 transition-all duration-500 ${scrollProgress >= milestone.progress
+                      ? "w-2.5 h-2.5 bg-primary border-2 border-background shadow-lg shadow-primary/50"
                       : "w-1.5 h-1.5 bg-border/50 border border-background"
                       }`}
                   ></div>
@@ -557,81 +578,22 @@ export function ScrollProgress() {
             </div>
           </div>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentMilestone.label}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="border-t border-border/30 px-4 py-2"
-            >
-              <div className="flex items-center justify-between gap-2 mb-1.5">
-                <motion.p
-                  initial={{ x: -10, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.1, duration: 0.2 }}
-                  className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold"
-                >
-                  -- {currentMilestone.label}
-                </motion.p>
-                <div className="flex items-center gap-2">
-                  <motion.p
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.2, duration: 0.2 }}
-                    className="text-[10px] font-medium text-muted-foreground/70 tabular-nums"
-                  >
-                    {Math.round(scrollProgress)}%
-                  </motion.p>
-                  <motion.div
-                    initial={{ x: 10, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.2 }}
-                    className="text-[9px]"
-                  >
-                    <AnimatePresence mode="wait">
-                      {isExecuting ? (
-                        <motion.div
-                          key="executing"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="flex items-center gap-1"
-                        >
-                          <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse"></div>
-                          <span className="text-yellow-500">executing</span>
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          key="ready"
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="flex items-center gap-1"
-                        >
-                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                          <span className="text-green-500">ready</span>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                </div>
-              </div>
-              <motion.div
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.15, duration: 0.25 }}
-                className="bg-muted/30 border border-border rounded p-2 text-[9px] sm:text-[10px] leading-relaxed overflow-x-auto"
-              >
-                <code className="whitespace-pre-wrap break-all">
-                  {highlightSQL(currentMilestone.query, true)}
-                </code>
-              </motion.div>
-            </motion.div>
-          </AnimatePresence>
+          <div className="border-t border-border/30 px-4 py-2 space-y-1">
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold font-mono">
+                -- {currentMilestone.label}
+              </p>
+              <p className="text-[10px] font-medium text-muted-foreground/70 tabular-nums font-mono">
+                {Math.round(scrollProgress)}%
+              </p>
+            </div>
+            <SQLConsole
+              key={`mobile-${currentMilestone.key}`}
+              query={currentMilestone.query}
+              label={currentMilestone.label}
+              layout="mobile"
+            />
+          </div>
         </div>
       </div>
     </>

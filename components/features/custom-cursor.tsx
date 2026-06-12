@@ -474,11 +474,11 @@ export function CustomCursor() {
   return (
     <>
       {renderCursorStyle()}
-      <style jsx global>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         * {
           cursor: none !important;
         }
-      `}</style>
+      `}} />
     </>
   )
 }

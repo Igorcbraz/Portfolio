@@ -707,7 +707,7 @@ export function Shape3d() {
         />
       </div>
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes shape3d-ring1 {
           from { transform: translate(-50%, -50%) rotateX(72deg) rotateZ(0deg); }
           to   { transform: translate(-50%, -50%) rotateX(72deg) rotateZ(360deg); }
@@ -720,7 +720,7 @@ export function Shape3d() {
           from { transform: translate(-50%, -50%) rotateX(55deg) rotateZ(30deg); }
           to   { transform: translate(-50%, -50%) rotateX(55deg) rotateZ(390deg); }
         }
-      `}</style>
+      `}} />
     </div>
   )
 }

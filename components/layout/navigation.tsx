@@ -17,7 +17,8 @@ const VISUAL_EASE = 'ease'
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const { dictionary, locale: currentLocale } = useLocale()
-  const { isExpanded, setIsExpanded } = useVSCode()
+  const { isExpanded, setIsExpanded, isSidebarOpen } = useVSCode()
+  const [windowWidth, setWindowWidth] = useState(0)
   const [langOpen, setLangOpen] = useState(false)
   const [langOpenMobile, setLangOpenMobile] = useState(false)
   const [switching, setSwitching] = useState(false)
@@ -33,6 +34,13 @@ export function Navigation() {
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   }, [])
 
   useEffect(() => {
@@ -130,28 +138,65 @@ export function Navigation() {
     mounted ? `${props} ${duration}ms ${ease}` : 'none'
 
   const navTransition = [
-    T('top', 520, LAYOUT_EASE),
-    T('width', 520, LAYOUT_EASE),
-    T('border-radius', 520, LAYOUT_EASE),
+    T('top', 400, LAYOUT_EASE),
+    T('left', 400, LAYOUT_EASE),
+    T('width', 400, LAYOUT_EASE),
+    T('border-radius', 400, LAYOUT_EASE),
     T('height', 400, LAYOUT_EASE),
-    T('box-shadow', 400, VISUAL_EASE),
-    T('border-color', 350, VISUAL_EASE),
+    T('box-shadow', 300, VISUAL_EASE),
+    T('border-color', 300, VISUAL_EASE),
     T('background', 300, VISUAL_EASE),
+    T('transform', 400, LAYOUT_EASE),
   ].join(', ')
+
+  let navLeft: string | number | undefined = undefined
+  let navWidth: string | number | undefined = undefined
+  let navTransform: string = 'translateX(-50%)'
+
+  if (mounted) {
+    if (isExpanded) {
+      navLeft = '50%'
+      if (scrolled) {
+        navWidth = 'min(880px, calc(100vw - 32px))'
+      } else {
+        navWidth = '100%'
+      }
+    } else {
+      const containerLeft = Math.max(0, (windowWidth - 1920) / 2)
+      const sidebarW = windowWidth >= 768 ? (isSidebarOpen ? 288 : 48) : 0
+      const editorLeft = containerLeft + sidebarW
+      const editorWidth = Math.min(windowWidth, 1920) - sidebarW
+
+      navLeft = editorLeft + editorWidth / 2
+
+      if (scrolled) {
+        navWidth = Math.min(880, editorWidth - 32)
+      } else {
+        navWidth = editorWidth
+      }
+    }
+  } else {
+    navLeft = '50%'
+  }
 
   return (
     <>
       <div className="h-[72px] shrink-0" aria-hidden />
 
       <nav
-        className={`fixed left-1/2 -translate-x-1/2 z-50 overflow-visible backdrop-blur-[20px] border border-solid transition-[top,width,border-radius,height,box-shadow,border-color,background] ${scrolled
-          ? `${isExpanded ? 'top-4' : 'top-[84px]'} w-[min(880px,calc(100vw-32px))] h-14 rounded-[14px]`
-          : `${isExpanded ? 'top-0' : 'top-[68px]'} w-screen h-[72px] rounded-none`
+        className={`fixed ${isExpanded ? 'z-50' : 'z-30'} overflow-visible border border-solid backdrop-blur-[20px] ${scrolled ? 'h-14 rounded-[14px]' : 'h-[72px] rounded-none'
+          } ${isExpanded
+            ? scrolled
+              ? 'top-4'
+              : 'top-0'
+            : scrolled
+              ? 'top-[108px]'
+              : 'top-[92px]'
           }`}
         style={{
           background: scrolled
             ? 'oklch(0.10 0 0 / 0.78)'
-            : 'oklch(0.09 0 0 / 0.82)',
+            : 'oklch(0.09 0 0)',
           borderTopColor: scrolled ? 'oklch(0.95 0 0 / 0.10)' : 'transparent',
           borderLeftColor: scrolled ? 'oklch(0.95 0 0 / 0.08)' : 'transparent',
           borderRightColor: scrolled ? 'oklch(0.95 0 0 / 0.08)' : 'transparent',
@@ -160,6 +205,9 @@ export function Navigation() {
             ? '0 8px 48px -8px oklch(0 0 0 / 0.65), inset 0 1px 0 oklch(0.95 0 0 / 0.06)'
             : 'none',
           transition: navTransition,
+          left: navLeft,
+          width: navWidth,
+          transform: navTransform,
         }}
       >
         <div className="hidden md:flex absolute left-1/2 top-0 bottom-0 -translate-x-1/2 items-center gap-0.5 z-1">
@@ -185,7 +233,7 @@ export function Navigation() {
             }`}
           style={{
             transition: mounted
-              ? `padding 520ms ${LAYOUT_EASE}, max-width 520ms ${LAYOUT_EASE}`
+              ? `padding 400ms ${LAYOUT_EASE}, max-width 400ms ${LAYOUT_EASE}`
               : 'none',
           }}
         >
@@ -285,7 +333,7 @@ export function Navigation() {
                 }`}
               style={{
                 transition: mounted
-                  ? `transform 200ms ease, box-shadow 200ms ease, padding 520ms ${LAYOUT_EASE}`
+                  ? `transform 200ms ease, box-shadow 200ms ease, padding 400ms ${LAYOUT_EASE}`
                   : 'none',
               }}
             >

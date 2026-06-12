@@ -88,9 +88,9 @@ function VSCodeWrapper({ children }: { children: React.ReactNode }) {
       }}
     >
       <div
-        className="mx-auto max-w-[1920px] overflow-hidden transition-all duration-500"
+        className={`mx-auto max-w-[1920px] transition-all duration-500 ${isExpanded ? "" : "overflow-hidden"}`}
         style={{
-          backgroundColor: theme.colors["editor.background"],
+          backgroundColor: isExpanded ? undefined : theme.colors["editor.background"],
           borderRadius: isExpanded ? 0 : '0.75rem',
           boxShadow: isExpanded ? 'none' : '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
           border: isExpanded ? 'none' : `1px solid ${theme.colors["editorGroup.border"]}`

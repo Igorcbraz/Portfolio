@@ -209,12 +209,12 @@ export function ProfessionalJourney() {
 
           <div
             ref={sceneRef}
-            className="flex-1 relative min-h-[520px] perspective-distant perspective-origin-[50%_40%]"
+            className="flex-1 relative min-h-[520px] perspective-distant perspective-origin-[50%_40%] w-full min-w-0"
             onMouseMove={handleMouseMove}
             onMouseLeave={() => setTilt({ x: 0, y: 0 })}
           >
             <div
-              className="relative z-10 transform-3d transition-transform duration-550 ease-out"
+              className="relative z-10 transform-3d transition-transform duration-550 ease-out w-full min-w-0"
               style={{
                 transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
               }}
@@ -228,10 +228,10 @@ export function ProfessionalJourney() {
                     initial="enter"
                     animate="center"
                     exit="exit"
-                    className="transform-3d"
+                    className="transform-3d w-full min-w-0"
                   >
                     <div
-                      className="relative rounded-2xl overflow-hidden bg-card border border-border flex flex-col h-[480px] shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_20px_40px_-10px_rgba(0,0,0,0.5)] transform-[translateZ(0px)] backdrop-blur-xl backdrop-saturate-120"
+                      className="relative rounded-2xl overflow-hidden bg-card border border-border flex flex-col h-[480px] shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_20px_40px_-10px_rgba(0,0,0,0.5)] transform-[translateZ(0px)] backdrop-blur-xl backdrop-saturate-120 w-full min-w-0"
                     >
                       <div
                         className="absolute select-none pointer-events-none font-display text-[clamp(180px,26vw,320px)] font-extrabold top-[-5%] right-[-5%] leading-[0.85] tracking-[-0.04em] z-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,transparent_90%)] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] tabular-nums"
@@ -273,8 +273,8 @@ export function ProfessionalJourney() {
                           </p>
                         </div>
 
-                        <div className="scrollbar-none overflow-x-auto mt-auto shrink-0 relative z-10 border-t border-border/50 pt-4">
-                          <div className="flex flex-wrap gap-2 pb-1">
+                        <div className="scrollbar-none overflow-x-auto mt-auto shrink-0 relative z-10 border-t border-border/50 pt-4 w-full min-w-0">
+                          <div className="flex flex-nowrap md:flex-wrap gap-2 pb-1">
                             {step.highlights.map((tech, i) => (
                               <span
                                 key={i}
@@ -331,7 +331,7 @@ export function ProfessionalJourney() {
                   <button
                     key={navIdx}
                     onClick={() => goTo(navIdx)}
-                    className={`flex items-center gap-3 text-left py-2.5 px-3 rounded-xl transition-colors duration-150 cursor-pointer border ${isActive ? "bg-accent border-border" : "bg-transparent border-transparent"
+                    className={`flex items-center gap-3 text-left py-2.5 px-3 rounded-xl transition-colors duration-150 cursor-pointer border ${isActive ? "bg-primary/10 border-primary/20" : "bg-transparent border-transparent"
                       }`}
                   >
                     <span

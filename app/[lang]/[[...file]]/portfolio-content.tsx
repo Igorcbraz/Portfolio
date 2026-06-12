@@ -81,32 +81,10 @@ function DeferredSection({
 }
 
 export function PortfolioContent() {
-  const [shouldMountScrollProgress, setShouldMountScrollProgress] = useState(false)
-
-  useEffect(() => {
-    if (window.scrollY > 0) {
-      setShouldMountScrollProgress(true)
-      return
-    }
-
-    const enableScrollProgress = () => setShouldMountScrollProgress(true)
-    const interactionEvents: Array<keyof WindowEventMap> = ["wheel", "touchstart", "pointerdown", "keydown", "scroll"]
-
-    interactionEvents.forEach((eventName) => {
-      window.addEventListener(eventName, enableScrollProgress, { once: true, passive: true })
-    })
-
-    return () => {
-      interactionEvents.forEach((eventName) => {
-        window.removeEventListener(eventName, enableScrollProgress)
-      })
-    }
-  }, [])
-
   return (
     <>
-      {shouldMountScrollProgress ? <ScrollProgress /> : null}
-      <div className="relative z-10 bg-black">
+      <ScrollProgress />
+      <div className="relative z-10 bg-[oklch(0.09_0_0)]">
         <main className="w-full pb-8 mb-8">
           <section id="hero">
             <Hero />
