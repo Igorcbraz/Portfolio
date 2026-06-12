@@ -597,14 +597,13 @@ export function Shape3d() {
     >
       <div
         className="w-full h-full relative"
-        style={{
-          transformStyle: "preserve-3d",
-        }}
+        style={{ transformStyle: "preserve-3d" }}
       >
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-            <div className="text-center font-mono text-xs sm:text-sm text-[#f97316] tracking-widest animate-pulse uppercase">
-              Initializing Hologram...
+            <div className="text-center font-mono text-xs sm:text-sm tracking-widest animate-pulse uppercase"
+              style={{ color: "var(--primary)" }}>
+              Initializing...
             </div>
           </div>
         )}
@@ -616,134 +615,110 @@ export function Shape3d() {
           />
         )}
 
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-          <div className="w-20 h-20 sm:w-32 sm:h-32 lg:w-44 lg:h-44 rounded-full bg-linear-to-br from-[#f97316]/40 via-[#ff5100]/40 to-[#f97316]/40 blur-2xl animate-pulse" />
-
-          <div className="absolute inset-0 w-20 h-20 sm:w-32 sm:h-32 lg:w-44 lg:h-44 rounded-full border-2 border-[#f97316]/60 animate-ping" style={{ animationDuration: "2s" }} />
-          <div className="absolute inset-2 w-16 h-16 sm:w-26 sm:h-26 lg:w-38 lg:h-38 rounded-full border border-[#ff5100]/40 animate-spin" style={{ animationDuration: "8s" }} />
-          <div className="absolute inset-4 w-12 h-12 sm:w-20 sm:h-20 lg:w-32 lg:h-32 rounded-full border border-[#f97316]/20" style={{ animation: "spin-reverse 12s linear infinite" }} />
-        </div>
-
-        {[...Array(8)].map((_, i) => {
-          const angle = (i * Math.PI * 2) / 8
-          const baseRadius = isClient ? (window.innerWidth < 640 ? 270 : window.innerWidth < 1024 ? 380 : 520) : 380
-          const x = isClient ? Math.cos(angle) * baseRadius : 0
-          const z = isClient ? Math.sin(angle) * baseRadius : 0
-
-          return (
-            <div
-              key={`status-${i}`}
-              className="absolute top-1/2 left-1/2"
-              style={{
-                transformStyle: "preserve-3d",
-                transform: `translate(-50%, -50%) translate3d(${x}px, 0px, ${z}px)`,
-              }}
-            >
-              <div
-                className="w-1 h-10 bg-linear-to-b from-[#f97316] to-transparent"
-                style={{
-                  animation: `status-blink ${1 + i * 0.2}s ease-in-out infinite`,
-                  animationDelay: `${i * 0.1}s`
-                }}
-              />
-            </div>
-          )
-        })}
-
-        <div
-          className="absolute top-1/2 left-1/2 w-[340px] h-[340px] sm:w-[480px] sm:h-[480px] lg:w-[650px] lg:h-[650px] rounded-full border border-[#f97316]/30"
-          style={{
-            transformStyle: "preserve-3d",
-            transform: "translate(-50%, -50%) rotateX(75deg)",
-            animation: "rotate-ring-1 18s linear infinite",
-          }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 w-[370px] h-[370px] sm:w-[520px] sm:h-[520px] lg:w-[700px] lg:h-[700px] rounded-full border border-[#ff5100]/25"
-          style={{
-            transformStyle: "preserve-3d",
-            transform: "translate(-50%, -50%) rotateY(75deg)",
-            animation: "rotate-ring-2 22s linear infinite",
-          }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 w-[400px] h-[400px] sm:w-[560px] sm:h-[560px] lg:w-[750px] lg:h-[750px] rounded-full border border-[#f97316]/20"
-          style={{
-            transformStyle: "preserve-3d",
-            transform: "translate(-50%, -50%) rotateX(60deg) rotateZ(45deg)",
-            animation: "rotate-ring-3 26s linear infinite",
-          }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 w-[430px] h-[430px] sm:w-[600px] sm:h-[600px] lg:w-[800px] lg:h-[800px] rounded-full border border-[#ff5100]/15"
-          style={{
-            transformStyle: "preserve-3d",
-            transform: "translate(-50%, -50%) rotateY(60deg) rotateZ(-30deg)",
-            animation: "rotate-ring-4 30s linear infinite",
-          }}
-        />
-
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[430px] h-[430px] sm:w-[600px] sm:h-[600px] lg:w-[800px] lg:h-[800px] pointer-events-none"
-          style={{ transformStyle: "preserve-3d", transform: "rotateX(80deg) translateZ(-100px)" }}>
-          {[...Array(15)].map((_, i) => (
-            <div key={`grid-h-${i}`} className="absolute w-full h-px bg-[#f97316]/10" style={{ top: `${i * 100 / 15}%` }} />
-          ))}
-          {[...Array(15)].map((_, i) => (
-            <div key={`grid-v-${i}`} className="absolute h-full w-px bg-[#f97316]/10" style={{ left: `${i * 100 / 15}%` }} />
-          ))}
-        </div>
-
-        {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
           <div
-            key={`line-${i}`}
-            className="absolute top-1/2 left-1/2 w-32 sm:w-48 lg:w-64 h-px bg-linear-to-r from-[#f97316]/50 via-[#ff5100]/20 to-transparent origin-left"
+            className="w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-full"
             style={{
-              transformStyle: "preserve-3d",
-              transform: `translate(-50%, -50%) rotateZ(${angle}deg)`,
-              animation: `pulse-line ${2 + (i % 4) * 0.3}s ease-in-out infinite`,
-              animationDelay: `${i * 0.1}s`,
+              background: "radial-gradient(circle, oklch(0.62 0.22 41.1 / 0.16) 0%, oklch(0.62 0.22 41.1 / 0.05) 55%, transparent 75%)",
+              filter: "blur(28px)",
+              animation: "pulse 4s ease-in-out infinite",
+            }}
+          />
+        </div>
+
+        <div
+          className="absolute top-1/2 left-1/2 pointer-events-none rounded-full"
+          style={{
+            width: "min(320px, 58vw)",
+            height: "min(320px, 58vw)",
+            marginLeft: "calc(min(320px, 58vw) / -2)",
+            marginTop: "calc(min(320px, 58vw) / -2)",
+            border: "1px solid oklch(0.62 0.22 41.1 / 0.28)",
+            transformStyle: "preserve-3d",
+            animation: "shape3d-ring1 20s linear infinite",
+          }}
+        />
+
+        <div
+          className="absolute top-1/2 left-1/2 pointer-events-none rounded-full"
+          style={{
+            width: "min(400px, 72vw)",
+            height: "min(400px, 72vw)",
+            marginLeft: "calc(min(400px, 72vw) / -2)",
+            marginTop: "calc(min(400px, 72vw) / -2)",
+            border: "1px solid oklch(0.62 0.22 41.1 / 0.14)",
+            transformStyle: "preserve-3d",
+            animation: "shape3d-ring2 30s linear infinite",
+          }}
+        />
+
+        <div
+          className="absolute top-1/2 left-1/2 pointer-events-none rounded-full"
+          style={{
+            width: "min(480px, 88vw)",
+            height: "min(480px, 88vw)",
+            marginLeft: "calc(min(480px, 88vw) / -2)",
+            marginTop: "calc(min(480px, 88vw) / -2)",
+            border: "1px solid oklch(0.62 0.22 41.1 / 0.07)",
+            transformStyle: "preserve-3d",
+            animation: "shape3d-ring3 42s linear infinite",
+          }}
+        />
+
+        {[
+          { top: "14%", left: "72%", size: 3, delay: "0s", dur: "3.2s" },
+          { top: "78%", left: "18%", size: 2, delay: "0.8s", dur: "4s" },
+          { top: "22%", left: "12%", size: 2, delay: "1.4s", dur: "2.8s" },
+          { top: "68%", left: "80%", size: 3, delay: "0.3s", dur: "3.6s" },
+          { top: "42%", left: "88%", size: 2, delay: "1.8s", dur: "4.4s" },
+          { top: "88%", left: "54%", size: 2, delay: "0.6s", dur: "3s" },
+        ].map((dot, i) => (
+          <div
+            key={`dot-${i}`}
+            className="absolute pointer-events-none rounded-full"
+            style={{
+              top: dot.top,
+              left: dot.left,
+              width: dot.size,
+              height: dot.size,
+              background: "oklch(0.62 0.22 41.1 / 0.7)",
+              boxShadow: `0 0 ${dot.size * 4}px ${dot.size + 1}px oklch(0.62 0.22 41.1 / 0.22)`,
+              animation: `pulse ${dot.dur} ease-in-out infinite`,
+              animationDelay: dot.delay,
             }}
           />
         ))}
 
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#f97316]/15 rounded-full blur-3xl animate-pulse pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#ff5100]/10 rounded-full blur-3xl animate-pulse pointer-events-none" style={{ animationDelay: "1s" }} />
+        <div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          style={{
+            width: "55%",
+            height: "1px",
+            background: "linear-gradient(90deg, transparent 0%, oklch(0.62 0.22 41.1 / 0.3) 50%, transparent 100%)",
+          }}
+        />
+        <div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          style={{
+            width: "55%",
+            height: "40px",
+            background: "linear-gradient(to top, oklch(0.62 0.22 41.1 / 0.05), transparent)",
+          }}
+        />
       </div>
 
       <style jsx>{`
-        @keyframes status-blink {
-          0%, 100% { opacity: 0.3; height: 2rem; }
-          50% { opacity: 1; height: 3rem; }
+        @keyframes shape3d-ring1 {
+          from { transform: translate(-50%, -50%) rotateX(72deg) rotateZ(0deg); }
+          to   { transform: translate(-50%, -50%) rotateX(72deg) rotateZ(360deg); }
         }
-
-        @keyframes rotate-ring-1 {
-          from { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(0deg); }
-          to { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(360deg); }
+        @keyframes shape3d-ring2 {
+          from { transform: translate(-50%, -50%) rotateY(68deg) rotateZ(0deg); }
+          to   { transform: translate(-50%, -50%) rotateY(68deg) rotateZ(-360deg); }
         }
-
-        @keyframes rotate-ring-2 {
-          from { transform: translate(-50%, -50%) rotateY(75deg) rotateZ(0deg); }
-          to { transform: translate(-50%, -50%) rotateY(75deg) rotateZ(360deg); }
-        }
-
-        @keyframes rotate-ring-3 {
-          from { transform: translate(-50%, -50%) rotateX(60deg) rotateZ(45deg); }
-          to { transform: translate(-50%, -50%) rotateX(60deg) rotateZ(405deg); }
-        }
-
-        @keyframes rotate-ring-4 {
-          from { transform: translate(-50%, -50%) rotateY(60deg) rotateZ(-30deg); }
-          to { transform: translate(-50%, -50%) rotateY(60deg) rotateZ(330deg); }
-        }
-
-        @keyframes spin-reverse {
-          from { transform: rotateZ(360deg); }
-          to { transform: rotateZ(0deg); }
-        }
-
-        @keyframes pulse-line {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 0.7; }
+        @keyframes shape3d-ring3 {
+          from { transform: translate(-50%, -50%) rotateX(55deg) rotateZ(30deg); }
+          to   { transform: translate(-50%, -50%) rotateX(55deg) rotateZ(390deg); }
         }
       `}</style>
     </div>

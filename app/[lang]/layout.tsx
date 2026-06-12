@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next"
 import type React from "react"
 import { getDictionary } from "@/lib/utils"
 import { locales } from "@/lib/locales"
-import { geist } from "@/lib/fonts"
+import { geist, spaceGrotesk } from "@/lib/fonts"
 import metadataJson from "@/data/metadata.json"
 import LayoutClient from "@/components/layout/layout-client"
 import "../globals.css"
@@ -172,7 +172,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className={`${geist.className} antialiased dark`}>
+      <body className={`${geist.className} ${spaceGrotesk.variable} antialiased dark`}>
         <LayoutClient dictionary={dictionary} locale={currentLang}>
           {children}
         </LayoutClient>

@@ -100,7 +100,7 @@ export default function HomeClient({ fileId }: HomeClientProps) {
       {enableCursor && <CustomCursor />}
       <div className="relative">
         <IDEBreadcrumb />
-        <div className={`transition-all duration-700 ease-in-out origin-top ${!isExpanded ? 'pt-[50px]' : 'pt-0'}`}>
+        <div className={`transition-all duration-700 ease-in-out origin-top ${!isExpanded ? 'pt-[68px]' : 'pt-0'}`}>
           {showNavigation && <Navigation />}
           <FileComponent />
         </div>

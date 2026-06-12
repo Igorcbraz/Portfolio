@@ -16,7 +16,7 @@ const loadProfessionalJourney: SectionLoader = () =>
   import("@/components/sections/professional-journey").then((m) => m.ProfessionalJourney)
 
 const loadCodeDashboard: SectionLoader = () =>
-  import("@/components/features/code-dashboard").then((m) => m.CodeDashboard)
+  import("@/components/sections/code-dashboard").then((m) => m.CodeDashboard)
 
 const loadProjects: SectionLoader = () =>
   import("@/components/sections/projects").then((m) => m.Projects)

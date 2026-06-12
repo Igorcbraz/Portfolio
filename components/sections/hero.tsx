@@ -49,7 +49,7 @@ export function Hero() {
   const [viewMode, setViewMode] = useState<ViewMode>("photo")
   const { userData } = useUser()
   const { dictionary } = useLocale()
-  const [headlinePrefix, , headlineSuffix] = dictionary.hero.greeting.split("Igor Braz")
+  const [headlinePrefix, , headlineSuffix] = dictionary.hero.greeting.split("Igor")
 
   const reposCount = userData?.github.totalRepos || 0
   const starsCount = userData?.github.totalStars || 0
@@ -109,67 +109,251 @@ export function Hero() {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] animate-pulse" />
-        <div
-          className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[100px] animate-pulse"
-          style={{ animationDelay: "1s" }}
-        />
-      </div>
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{ background: "var(--background)" }}
+    >
+
+      <div className="absolute inset-0 hero-grid-pattern opacity-100 pointer-events-none" />
+
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% 0%, transparent 40%, var(--background) 100%)",
+        }}
+      />
+
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "-10%",
+          right: "-5%",
+          width: "55vw",
+          height: "55vw",
+          maxWidth: 700,
+          maxHeight: 700,
+          background:
+            "radial-gradient(circle, oklch(0.62 0.22 41.1 / 0.13) 0%, transparent 70%)",
+          borderRadius: "50%",
+          filter: "blur(40px)",
+          animation: "pulse 6s ease-in-out infinite",
+        }}
+      />
+
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          bottom: "-15%",
+          left: "-8%",
+          width: "50vw",
+          height: "50vw",
+          maxWidth: 650,
+          maxHeight: 650,
+          background:
+            "radial-gradient(circle, oklch(0.55 0.18 260 / 0.07) 0%, transparent 70%)",
+          borderRadius: "50%",
+          filter: "blur(60px)",
+          animation: "pulse 8s ease-in-out infinite",
+          animationDelay: "2s",
+        }}
+      />
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full backdrop-blur-sm">
-                <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                <span className="text-sm text-primary font-medium">{dictionary.hero.role}</span>
-              </div>
-              <div>
-                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-4 leading-tight">
-                  <span>{headlinePrefix}</span>
-                  <span className="text-primary">Igor Braz</span>
-                  <span>{headlineSuffix}</span>
-                </h1>
-                <p className="text-base sm:text-lg text-muted-foreground font-normal max-w-2xl leading-relaxed">
-                  {dictionary.hero.description}
+
+          <div className="flex flex-col gap-0">
+
+            <div className="hero-animate-1 mb-8 inline-flex w-fit items-center gap-2.5 px-4 py-2 rounded-full border border-primary/20 bg-primary/[0.07] backdrop-blur-sm">
+              <span
+                className="w-2 h-2 rounded-full bg-primary"
+                style={{
+                  boxShadow: "0 0 6px 2px oklch(0.62 0.22 41.1 / 0.6)",
+                  animation: "pulse 2s ease-in-out infinite",
+                }}
+              />
+              <span
+                className="text-xs font-semibold tracking-widest uppercase"
+                style={{ color: "var(--primary)", fontFamily: "var(--font-display, sans-serif)", letterSpacing: "0.12em" }}
+              >
+                {dictionary.hero.role}
+              </span>
+            </div>
+
+            <div className="hero-animate-2 mb-6">
+              {headlinePrefix && (
+                <p
+                  className="text-base sm:text-lg text-muted-foreground mb-3 font-light tracking-wide"
+                  style={{ fontFamily: "var(--font-display, sans-serif)" }}
+                >
+                  {headlinePrefix.trim()}
                 </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <button
-                  onClick={scrollToNextSection}
-                  className="group relative px-8 py-4 bg-primary text-black rounded-lg font-semibold overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]"
+              )}
+
+              <h1
+                className="leading-[0.95] tracking-tight mb-4"
+                style={{
+                  fontFamily: "var(--font-display, sans-serif)",
+                  fontWeight: 700,
+                  fontSize: "clamp(3rem, 8vw, 6rem)",
+                  lineHeight: 0.95,
+                }}
+              >
+                <span className="block text-foreground/90">Igor</span>
+                <span
+                  className="block"
+                  style={{
+                    background: "linear-gradient(90deg, var(--primary) 0%, oklch(0.85 0.22 80) 25%, var(--primary) 50%, oklch(0.75 0.25 50) 75%, var(--primary) 100%)",
+                    backgroundSize: "200% auto",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    color: "transparent",
+                    animation: "shimmer 4s linear infinite",
+                  }}
+                >Costa Braz</span>
+              </h1>
+
+              {headlineSuffix && (
+                <p
+                  className="text-sm sm:text-base text-muted-foreground/70 mt-4 font-light"
+                  style={{ fontFamily: "var(--font-display, sans-serif)", letterSpacing: "0.02em" }}
                 >
-                  <span className="relative flex items-center gap-2">
-                    {dictionary.hero.knowMeBetter}
-                    <span aria-hidden="true">→</span>
-                  </span>
-                </button>
-                <button
-                  onClick={scrollToContact}
-                  className="px-8 py-4 text-foreground rounded-lg font-semibold border border-border/50 hover:border-primary/50 backdrop-blur-sm cursor-pointer transition-transform hover:scale-[1.02]"
+                  {headlineSuffix.trim()}
+                </p>
+              )}
+            </div>
+
+            <p
+              className="hero-animate-3 text-base sm:text-[1.05rem] text-muted-foreground leading-relaxed max-w-md mb-10"
+              style={{ lineHeight: 1.75 }}
+            >
+              {dictionary.hero.description}
+            </p>
+
+            <div className="hero-animate-4 flex flex-col sm:flex-row gap-3 mb-10">
+              <button
+                onClick={scrollToNextSection}
+                className="group relative overflow-hidden cursor-pointer"
+                style={{
+                  padding: "14px 32px",
+                  background: "var(--primary)",
+                  color: "#000",
+                  borderRadius: "0",
+                  fontWeight: 600,
+                  fontSize: "0.925rem",
+                  letterSpacing: "0.01em",
+                  fontFamily: "var(--font-display, sans-serif)",
+                  border: "none",
+                  transition: "transform 200ms ease, box-shadow 200ms ease",
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)"
+                    ; (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 12px 40px -8px oklch(0.62 0.22 41.1 / 0.5)"
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)"
+                    ; (e.currentTarget as HTMLButtonElement).style.boxShadow = "none"
+                }}
+              >
+                <span
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.35) 50%, transparent 60%)",
+                    transform: "translateX(-100%)",
+                    transition: "transform 400ms ease",
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(100%)" }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(-100%)" }}
+                />
+                <span className="relative flex items-center gap-2">
+                  {dictionary.hero.knowMeBetter}
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transition: "transform 200ms ease" }}>
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </button>
+
+              <button
+                onClick={scrollToContact}
+                className="group cursor-pointer"
+                style={{
+                  padding: "14px 32px",
+                  background: "transparent",
+                  color: "var(--foreground)",
+                  borderRadius: "0",
+                  fontWeight: 500,
+                  fontSize: "0.925rem",
+                  letterSpacing: "0.01em",
+                  fontFamily: "var(--font-display, sans-serif)",
+                  border: "1px solid oklch(0.95 0 0 / 0.12)",
+                  transition: "border-color 200ms ease, background 200ms ease, transform 200ms ease",
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLButtonElement
+                  el.style.borderColor = "oklch(0.62 0.22 41.1 / 0.45)"
+                  el.style.background = "oklch(0.62 0.22 41.1 / 0.06)"
+                  el.style.transform = "translateY(-2px)"
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLButtonElement
+                  el.style.borderColor = "oklch(0.95 0 0 / 0.12)"
+                  el.style.background = "transparent"
+                  el.style.transform = "translateY(0)"
+                }}
+              >
+                {dictionary.hero.contactMe}
+              </button>
+            </div>
+
+            <div
+              className="hero-animate-5 flex gap-0 pt-8"
+              style={{ borderTop: "1px solid oklch(0.95 0 0 / 0.07)" }}
+            >
+              {[
+                { number: reposCount, label: dictionary.hero.repositories },
+                { number: starsCount, label: dictionary.hero.githubStars },
+                { number: yearsCount, label: dictionary.hero.yearsOfExperience },
+              ].map((stat, index) => (
+                <div
+                  key={index}
+                  className="group cursor-default flex-1"
+                  style={{
+                    paddingRight: index < 2 ? "2rem" : 0,
+                    borderRight: index < 2 ? "1px solid oklch(0.95 0 0 / 0.07)" : "none",
+                    marginRight: index < 2 ? "2rem" : 0,
+                  }}
                 >
-                  {dictionary.hero.contactMe}
-                </button>
-              </div>
-              <div className="flex gap-8 pt-8 border-t border-border/30">
-                {[
-                  { number: reposCount, label: dictionary.hero.repositories },
-                  { number: starsCount, label: dictionary.hero.githubStars },
-                  { number: yearsCount, label: dictionary.hero.yearsOfExperience },
-                ].map((stat, index) => (
-                  <div key={index} className="group cursor-default">
-                    <p className="text-2xl font-bold text-primary tabular-nums min-w-[4ch]">
-                      {stat.number}+
-                    </p>
-                    <p className="text-xs text-muted-foreground uppercase tracking-widest group-hover:text-foreground transition-colors">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
+                  <p
+                    className="tabular-nums"
+                    style={{
+                      fontFamily: "var(--font-display, sans-serif)",
+                      fontWeight: 700,
+                      fontSize: "clamp(1.5rem, 3vw, 2rem)",
+                      color: "var(--primary)",
+                      lineHeight: 1.1,
+                      marginBottom: "0.35rem",
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {stat.number}+
+                  </p>
+                  <p
+                    className="text-xs uppercase tracking-widest transition-colors duration-200 group-hover:text-foreground/70"
+                    style={{
+                      color: "var(--muted-foreground)",
+                      letterSpacing: "0.1em",
+                      fontSize: "0.7rem",
+                    }}
+                  >
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
+
           <div className="relative hidden lg:flex justify-center items-center lg:min-h-[680px]">
             <div className="relative w-full min-h-[580px] lg:min-h-[680px] flex justify-center items-center overflow-visible lg:-translate-y-10">
               <div
@@ -218,9 +402,11 @@ export function Hero() {
             </div>
           </div>
         </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <svg className="w-6 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-50 hover:opacity-80 transition-opacity cursor-pointer" onClick={scrollToNextSection}>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground" style={{ fontFamily: "var(--font-display, sans-serif)" }}>Scroll</span>
+          <svg className="w-4 h-4 text-muted-foreground animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </div>
       </div>
