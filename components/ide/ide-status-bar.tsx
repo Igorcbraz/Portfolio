@@ -28,6 +28,7 @@ import {
 } from "lucide-react"
 import { vscodeThemes, type VSCodeThemeName } from "@/lib/vscode-themes"
 import { accentColors, type CursorPreset, type AccentColor, cursorPresets } from "@/lib/cursor-styles"
+import { analytics } from "@/lib/analytics"
 
 interface TechSpec {
   name: string
@@ -90,6 +91,7 @@ export function IDEStatusBar() {
   }, [])
 
   const handleRestart = () => {
+    analytics.trackClick("restart", "ide")
     setStatus("loading")
     setTimeout(() => {
       window.location.reload()
@@ -97,6 +99,7 @@ export function IDEStatusBar() {
   }
 
   const handleShare = async () => {
+    analytics.trackClick("share", "ide")
     const shareData = {
       title: "Igor Braz - Portfolio",
       text: "Confira este portfolio incrível de desenvolvedor!",
@@ -262,7 +265,10 @@ export function IDEStatusBar() {
               {Object.entries(vscodeThemes).map(([key, themeOption]) => (
                 <DropdownMenuItem
                   key={key}
-                  onClick={() => setTheme(key as VSCodeThemeName)}
+                  onClick={() => {
+                    setTheme(key as VSCodeThemeName)
+                    analytics.trackThemeChange(key)
+                  }}
                   className="cursor-pointer"
                   style={{
                     backgroundColor: themeName === key ? theme.colors["list.activeSelectionBackground"] : "transparent",
@@ -569,7 +575,10 @@ export function IDEStatusBar() {
           </Dialog>
 
           <StatusButton
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={() => {
+              analytics.trackIDEInteraction(isExpanded ? "close" : "open", "StatusBar")
+              setIsExpanded(!isExpanded)
+            }}
             tooltip={isExpanded ? "Mostrar IDE" : "Expandir Site"}
           >
             {isExpanded ? (

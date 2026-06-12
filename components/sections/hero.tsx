@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
-import { sendGAEvent } from '@next/third-parties/google'
+import { analytics } from "@/lib/analytics"
 import { useUser } from "@/contexts/UserContext"
 import { useLocale } from "@/contexts/LocaleContext"
 
@@ -93,7 +93,7 @@ export function Hero() {
   }, [])
 
   const scrollToNextSection = () => {
-    sendGAEvent('event', 'hero_me_conheca_click', { label: dictionary.hero.knowMeBetter })
+    analytics.trackClick(dictionary.hero.knowMeBetter, "hero_scroll")
     window.scrollTo({
       top: window.innerHeight,
       behavior: 'smooth'
@@ -101,7 +101,7 @@ export function Hero() {
   }
 
   const scrollToContact = () => {
-    sendGAEvent('event', 'hero_contato_click', { label: dictionary.hero.contactMe })
+    analytics.trackClick(dictionary.hero.contactMe, "hero_contact")
     const contactSection = document.getElementById('contact')
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: 'smooth' })
@@ -382,7 +382,10 @@ export function Hero() {
                 {VIEW_OPTIONS.map(({ mode, label, icon }) => (
                   <button
                     key={mode}
-                    onClick={() => setViewMode(mode)}
+                    onClick={() => {
+                      setViewMode(mode)
+                      analytics.trackClick(mode, "hero_view_mode")
+                    }}
                     aria-pressed={viewMode === mode}
                     title={label}
                     className={[

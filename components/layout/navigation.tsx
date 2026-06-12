@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { locales } from '@/lib/locales'
 import ReactCountryFlag from 'react-country-flag'
 import { Code2, Sparkles, ChevronDown, Check } from 'lucide-react'
+import { analytics } from "@/lib/analytics"
 
 const SCROLL_THRESHOLD = 60
 const NAV_H_DEFAULT = 72
@@ -58,6 +59,7 @@ export function Navigation() {
   const switchLocale = (newLocale: string) => {
     if (newLocale === currentLocale) return
     setSwitching(true)
+    analytics.trackLanguageChange(newLocale)
     const segments = pathname.split('/')
     const isLocale = (v: string): v is (typeof locales)[number] =>
       locales.includes(v as (typeof locales)[number])
@@ -89,6 +91,7 @@ export function Navigation() {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault()
+    analytics.trackClick(href, "navigation")
     const targetId = href.replace('#', '')
     const element = document.getElementById(targetId)
 
@@ -248,7 +251,10 @@ export function Navigation() {
             </a>
 
             <button
-              onClick={() => setIsExpanded(!isExpanded)}
+              onClick={() => {
+                analytics.trackIDEInteraction(!isExpanded ? "open" : "close", "Navigation");
+                setIsExpanded(!isExpanded);
+              }}
               className={`hidden lg:flex items-center justify-center w-8 h-8 group relative overflow-hidden rounded-lg border border-solid transition-all duration-200 ease-out cursor-pointer ${isExpanded
                 ? 'border-[oklch(0.55_0.18_220/0.30)] bg-[oklch(0.55_0.18_220/0.08)]'
                 : 'border-[oklch(0.75_0.12_180/0.30)] bg-[oklch(0.75_0.12_180/0.08)]'
@@ -368,7 +374,10 @@ export function Navigation() {
             }}
           >
             <button
-              onClick={() => setIsExpanded(!isExpanded)}
+              onClick={() => {
+                analytics.trackIDEInteraction(!isExpanded ? "open" : "close", "MobileNavigation");
+                setIsExpanded(!isExpanded);
+              }}
               className={`w-full flex items-center justify-between group mb-1.5 px-3 py-2 rounded-[6px] border border-solid transition-all duration-200 ease-out cursor-pointer ${isExpanded
                 ? 'bg-[oklch(0.55_0.18_220/0.08)] border-[oklch(0.55_0.18_220/0.20)]'
                 : 'bg-[oklch(0.75_0.12_180/0.08)] border-[oklch(0.75_0.12_180/0.20)]'

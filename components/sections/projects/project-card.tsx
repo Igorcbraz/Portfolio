@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { ExternalLink } from "lucide-react"
 import { Project } from "./types"
+import { analytics } from "@/lib/analytics"
 
 export function ProjectCard({
   project,
@@ -42,6 +43,7 @@ export function ProjectCard({
       href={project.link}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => analytics.trackProjectView(project.title)}
       className="group relative flex flex-col overflow-hidden bg-card border border-border cursor-pointer w-full"
       initial={{ opacity: 0, y: 50, scale: 0.97 }}
       animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}

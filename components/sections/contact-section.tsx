@@ -4,7 +4,7 @@ import { useState, useRef } from "react"
 import { motion } from "framer-motion"
 import { Github, Linkedin, FileDown, Code2, Sparkles } from "lucide-react"
 import metadata from "@/data/metadata.json"
-import { sendGAEvent } from '@next/third-parties/google'
+import { analytics } from "@/lib/analytics"
 import { useLocale } from "@/contexts/LocaleContext"
 import { useVSCode } from "@/contexts/VSCodeContext"
 import { useInView, useParallax, fadeInUp, staggerContainer } from "@/hooks/use-animations"
@@ -318,7 +318,7 @@ export function ContactSection() {
                 variants={fadeInUp}
                 outerClassName="md:translate-y-2 md:scale-[0.97] opacity-85 hover:opacity-100 md:hover:translate-y-0 md:hover:scale-[1.0] transition-all duration-300 z-0 hover:z-10"
                 className="bg-card/45 border-border/60 hover:border-primary/45 hover:bg-card/75"
-                onClick={() => sendGAEvent('event', 'contact_linkedin_click', { label: 'LinkedIn' })}
+                onClick={() => analytics.trackSocialClick('LinkedIn')}
               >
                 <div className="flex items-center justify-between">
                   <div className="p-3 bg-primary/[0.07] border border-primary/20 text-primary">
@@ -378,7 +378,7 @@ export function ContactSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full block mt-2"
-                  onClick={() => sendGAEvent('event', 'contact_cv_download_click', { label: 'Download CV' })}
+                  onClick={() => analytics.trackDownload('Curriculum Vitae')}
                 >
                   <div className="w-full inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-primary text-black font-display font-semibold text-[0.925rem] rounded-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_-8px_oklch(0.62_0.22_41.1/0.5)] cursor-pointer">
                     <FileDown className="w-4 h-4" />
@@ -394,7 +394,7 @@ export function ContactSection() {
                 variants={fadeInUp}
                 outerClassName="md:translate-y-2 md:scale-[0.97] opacity-85 hover:opacity-100 md:hover:translate-y-0 md:hover:scale-[1.0] transition-all duration-300 z-0 hover:z-10"
                 className="bg-card/45 border-border/60 hover:border-primary/45 hover:bg-card/75"
-                onClick={() => sendGAEvent('event', 'contact_github_click', { label: 'GitHub' })}
+                onClick={() => analytics.trackSocialClick('GitHub')}
               >
                 <div className="flex items-center justify-between">
                   <div className="p-3 bg-primary/[0.07] border border-primary/20 text-primary">
@@ -434,7 +434,10 @@ export function ContactSection() {
                 idx={3}
                 ghostLabel="IDE"
                 theme="blue"
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={() => {
+                  analytics.trackIDEInteraction(isExpanded ? "close" : "open", "ContactSection");
+                  setIsExpanded(!isExpanded);
+                }}
                 className={`transition-all duration-300 relative overflow-hidden ${isExpanded
                   ? 'bg-card border-border hover:border-[oklch(0.53_0.17_247.2/0.5)]'
                   : 'animated-blue-reactor hover:border-[oklch(0.53_0.17_247.2/1.0)] hover:shadow-[0_25px_60px_-8px_oklch(0.53_0.17_247.2/0.55)] md:hover:scale-[1.015]'
