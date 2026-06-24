@@ -111,13 +111,16 @@ function ContactCard({
 }
 
 export function ContactSection() {
-  const { dictionary } = useLocale()
+  const { dictionary, locale } = useLocale()
   const { isExpanded, setIsExpanded } = useVSCode()
   const { ref: sectionRef, isInView } = useInView({ threshold: 0.1, triggerOnce: true })
   const { ref: parallaxRef, offset } = useParallax(0.2)
 
   const linkedinUrl = metadata.social.linkedin.url
   const githubUrl = metadata.social.github.url
+  const cvUrl = locale === "pt"
+    ? "https://drive.google.com/file/d/1E-Vddik2jp6DBjU2skDewbwcqQJTvTH3/view?usp=sharing"
+    : "https://drive.google.com/file/d/1SUqrci8jjp7RiUsrnj9u_WPlhWlT61YG/view?usp=sharing"
 
   const titleParts = dictionary.contact.connectTitle.split(dictionary.contact.connectHighlight)
   const before = titleParts[0]
@@ -316,8 +319,8 @@ export function ContactSection() {
                 idx={0}
                 ghostLabel="LN"
                 variants={fadeInUp}
-                outerClassName="md:translate-y-2 md:scale-[0.97] opacity-85 hover:opacity-100 md:hover:translate-y-0 md:hover:scale-[1.0] transition-all duration-300 z-0 hover:z-10"
-                className="bg-card/45 border-border/60 hover:border-primary/45 hover:bg-card/75"
+                outerClassName="md:translate-y-2 md:scale-[0.97] hover:opacity-100 md:hover:translate-y-0 md:hover:scale-[1.0] transition-all duration-300 z-0 hover:z-10"
+                className="bg-card border-border/60 hover:border-primary/45 hover:bg-card/95"
                 onClick={() => analytics.trackSocialClick('LinkedIn')}
               >
                 <div className="flex items-center justify-between">
@@ -375,6 +378,7 @@ export function ContactSection() {
                 </div>
 
                 <a
+                  href={cvUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full block mt-2"
@@ -392,8 +396,8 @@ export function ContactSection() {
                 idx={1}
                 ghostLabel="GH"
                 variants={fadeInUp}
-                outerClassName="md:translate-y-2 md:scale-[0.97] opacity-85 hover:opacity-100 md:hover:translate-y-0 md:hover:scale-[1.0] transition-all duration-300 z-0 hover:z-10"
-                className="bg-card/45 border-border/60 hover:border-primary/45 hover:bg-card/75"
+                outerClassName="md:translate-y-2 md:scale-[0.97] hover:opacity-100 md:hover:translate-y-0 md:hover:scale-[1.0] transition-all duration-300 z-0 hover:z-10"
+                className="bg-card border-border/60 hover:border-primary/45 hover:bg-card/95"
                 onClick={() => analytics.trackSocialClick('GitHub')}
               >
                 <div className="flex items-center justify-between">

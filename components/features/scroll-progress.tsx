@@ -228,11 +228,16 @@ export function ScrollProgress() {
   })), [dictionary, staticMilestones])
 
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [activeMilestoneKey, setActiveMilestoneKey] = useState("start")
+
   const currentMilestone = useMemo(() => {
-    return [...milestones].reverse().find(
-      m => scrollProgress >= m.progress
-    ) || milestones[0]
-  }, [scrollProgress, milestones])
+    return milestones.find(m => m.key === activeMilestoneKey) || milestones[0]
+  }, [activeMilestoneKey, milestones])
+
+  const activeMilestoneIndex = useMemo(() => {
+    return milestones.findIndex(m => m.key === activeMilestoneKey)
+  }, [activeMilestoneKey, milestones])
+
   const [showTooltip, setShowTooltip] = useState(true)
 
   useEffect(() => {
@@ -246,15 +251,53 @@ export function ScrollProgress() {
 
     const updateScroll = () => {
       const windowHeight = window.innerHeight
-      const documentHeight = document.documentElement.scrollHeight - windowHeight
+      const documentHeight = document.documentElement.scrollHeight
+      const maxScroll = documentHeight - windowHeight
       const scrolled = window.scrollY
-      const progress = Math.min(100, Math.max(0, (scrolled / documentHeight) * 100))
+      const progress = maxScroll > 0 ? Math.min(100, Math.max(0, (scrolled / maxScroll) * 100)) : 0
 
       setScrollProgress(progress)
 
       if (scrolled > 100 && showTooltip) {
         setShowTooltip(false)
       }
+
+      const sections = [
+        { id: "hero", keys: ["start", "know"] },
+        { id: "journey", keys: ["journey"] },
+        { id: "github", keys: ["github"] },
+        { id: "projects", keys: ["projects"] },
+        { id: "articles", keys: ["articles"] },
+        { id: "stack", keys: ["tech"] },
+        { id: "contact", keys: ["contact", "end"] }
+      ]
+
+      let activeKey = "start"
+
+      if (maxScroll > 0 && scrolled >= maxScroll - 50) {
+        activeKey = "end"
+      } else {
+        const threshold = windowHeight * 0.35
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const sec = sections[i]
+          const el = document.getElementById(sec.id)
+          if (el) {
+            const rect = el.getBoundingClientRect()
+            if (rect.top <= threshold) {
+              if (sec.id === "hero") {
+                activeKey = scrolled < 150 ? "start" : "know"
+              } else if (sec.id === "contact") {
+                activeKey = "contact"
+              } else {
+                activeKey = sec.keys[0]
+              }
+              break
+            }
+          }
+        }
+      }
+
+      setActiveMilestoneKey(activeKey)
       ticking = false
     }
 
@@ -376,18 +419,18 @@ export function ScrollProgress() {
                   className="absolute left-0 right-0 transition-all duration-500"
                   style={{ top: `${100 - milestone.progress}%` }}
                 >
-                  <div className={`relative h-0.5 transition-all duration-500 ${scrollProgress >= milestone.progress
+                  <div className={`relative h-0.5 transition-all duration-500 ${index <= activeMilestoneIndex
                     ? "bg-primary shadow-md shadow-primary/30"
                     : "bg-border/50"
                     }`}>
-                    {scrollProgress >= milestone.progress && (
+                    {index <= activeMilestoneIndex && (
                       <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent animate-pulse"></div>
                     )}
                   </div>
 
-                  <div className={`absolute left-full ml-2 top-1/2 -translate-y-1/2 transition-all duration-500 ${scrollProgress >= milestone.progress ? "opacity-100 translate-x-0" : "opacity-40 -translate-x-2"
+                  <div className={`absolute left-full ml-2 top-1/2 -translate-y-1/2 transition-all duration-500 ${index <= activeMilestoneIndex ? "opacity-100 translate-x-0" : "opacity-40 -translate-x-2"
                     }`}>
-                    <div className={`rounded-none px-2 py-1.5 shadow-lg transition-all duration-500 ${scrollProgress >= milestone.progress
+                    <div className={`rounded-none px-2 py-1.5 shadow-lg transition-all duration-500 ${index <= activeMilestoneIndex
                       ? "bg-primary/10 border border-primary/30 backdrop-blur-sm"
                       : "bg-card/80 border border-border/30 backdrop-blur-sm"
                       }`}>
@@ -395,15 +438,15 @@ export function ScrollProgress() {
                         <span className="text-base flex items-center justify-center">
                           {(() => {
                             const IconComponent = iconMap[milestone.key]
-                            return IconComponent ? <IconComponent size={13} className={scrollProgress >= milestone.progress ? "text-primary" : "text-muted-foreground"} /> : milestone.icon
+                            return IconComponent ? <IconComponent size={13} className={index <= activeMilestoneIndex ? "text-primary" : "text-muted-foreground"} /> : milestone.icon
                           })()}
                         </span>
                         <div>
-                          <p className={`text-[9px] font-bold transition-colors font-mono uppercase tracking-wider ${scrollProgress >= milestone.progress ? "text-primary" : "text-muted-foreground"
+                          <p className={`text-[9px] font-bold transition-colors font-mono uppercase tracking-wider ${index <= activeMilestoneIndex ? "text-primary" : "text-muted-foreground"
                             }`}>
                             {milestone.label}
                           </p>
-                          {scrollProgress >= milestone.progress && (
+                          {index <= activeMilestoneIndex && (
                             <p className="text-[8px] text-muted-foreground font-mono">
                               {milestone.progress}%
                             </p>
@@ -568,7 +611,7 @@ export function ScrollProgress() {
                   style={{ left: `${milestone.progress}%` }}
                 >
                   <div
-                    className={`rotate-45 transition-all duration-500 ${scrollProgress >= milestone.progress
+                    className={`rotate-45 transition-all duration-500 ${index <= activeMilestoneIndex
                       ? "w-2.5 h-2.5 bg-primary border-2 border-background shadow-lg shadow-primary/50"
                       : "w-1.5 h-1.5 bg-border/50 border border-background"
                       }`}

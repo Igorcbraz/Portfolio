@@ -12,6 +12,7 @@ export function HeroPhoto() {
         width={620}
         height={660}
         priority
+        unoptimized
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[620px] h-[660px] object-cover object-top block pointer-events-none z-10"
       />
       <div className="absolute bottom-0 left-0 right-0 h-[480px] rounded-[20px] bg-linear-to-t from-black/60 via-black/10 to-transparent pointer-events-none z-20" />

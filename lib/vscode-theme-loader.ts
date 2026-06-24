@@ -2,15 +2,15 @@ import type { VSCodeTheme, VSCodeThemeName } from "@/lib/vscode-themes"
 import beardedBlueberryData from "@/data/themes/bearded-theme-surprising-blueberry.json"
 
 type ThemeJSON = {
-  appearance: "dark" | "light"
+  appearance: string
   name: string
   colors: Record<string, string>
-  tokenColors: Record<string, string>
+  tokenColors: any
 }
 
 type ThemeModule = { default: ThemeJSON }
 
-const themeImporters: Record<VSCodeThemeName, () => Promise<ThemeModule>> = {
+const themeImporters: Record<VSCodeThemeName, () => Promise<any>> = {
   beardedThemeSurprisingBlueberry: () => import("@/data/themes/bearded-theme-surprising-blueberry.json"),
   darkPlus: () => import("@/data/themes/dark-plus.json"),
   githubDark: () => import("@/data/themes/github-dark.json"),
@@ -27,7 +27,7 @@ export function isThemeName(value: string): value is VSCodeThemeName {
 function createThemeFromJSON(themeData: ThemeJSON): VSCodeTheme {
   return {
     name: themeData.name,
-    type: themeData.appearance,
+    type: themeData.appearance as "dark" | "light",
     colors: themeData.colors as VSCodeTheme["colors"],
     tokenColors: themeData.tokenColors as VSCodeTheme["tokenColors"],
   }

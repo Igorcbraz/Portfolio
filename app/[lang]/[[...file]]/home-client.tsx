@@ -27,10 +27,6 @@ const IDEStatusBar = dynamic(() => import("@/components/ide/ide-status-bar").the
   loading: () => null,
 })
 
-const CustomCursor = dynamic(() => import("@/components/features/custom-cursor").then(m => m.CustomCursor), {
-  ssr: false,
-})
-
 const SettingsView = dynamic(() => import("@/app/(file-views)/settings-view"), {
   loading: () => null,
 })
@@ -54,7 +50,6 @@ const componentMap: Record<ComponentKey, ComponentType> = {
 export default function HomeClient({ fileId }: HomeClientProps) {
   const entry = resolveFile(fileId)
   const { activeFile, isExpanded, setActiveFile, isSidebarOpen } = useVSCode()
-  const [enableCursor, setEnableCursor] = useState(false)
   const [shouldMountStatusBar, setShouldMountStatusBar] = useState(false)
 
   useEffect(() => {
@@ -62,13 +57,6 @@ export default function HomeClient({ fileId }: HomeClientProps) {
       setActiveFile(entry.id)
     }
   }, [entry, activeFile, setActiveFile])
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
-    if (!media.matches) {
-      setEnableCursor(true)
-    }
-  }, [])
 
   useEffect(() => {
     if (!entry) return
@@ -107,7 +95,6 @@ export default function HomeClient({ fileId }: HomeClientProps) {
 
   return (
     <>
-      {enableCursor && <CustomCursor />}
       <div className="relative w-full min-h-screen">
         <IDETitleBar />
         <IDESidebar />
