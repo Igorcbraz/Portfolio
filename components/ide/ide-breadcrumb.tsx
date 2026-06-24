@@ -15,7 +15,7 @@ import {
 } from "lucide-react"
 import { useLocale } from "@/contexts/LocaleContext"
 import { useVSCode } from "@/contexts/VSCodeContext"
-import { defaultFile, fileList } from "@/lib/file-registry"
+import { defaultFile } from "@/lib/file-registry"
 
 export function IDETitleBar() {
   const { locale } = useLocale()
@@ -115,19 +115,46 @@ export function IDEEditorHeader() {
     activeFile,
     setActiveFile,
     theme,
-    isSidebarOpen
+    isSidebarOpen,
+    openTabs,
+    setOpenTabs
   } = useVSCode()
   const router = useRouter()
 
-  const tabs = useMemo(
-    () => fileList.map((f) => ({ name: f.id, icon: FileCode2, modified: false })),
-    []
-  )
+  const tabs = useMemo(() => {
+    return openTabs.map((id) => ({
+      name: id,
+      icon: FileCode2,
+      modified: false
+    }))
+  }, [openTabs])
+
+  const isCoreTab = (name: string) => {
+    if (!name) return false
+    const cleanName = name.toLowerCase().replace(/\\/g, "/").trim()
+    const baseName = cleanName.split("/").pop() || cleanName
+    return baseName === "portfolio.tsx" ||
+           baseName === "igor.json" ||
+           baseName === "settings.json"
+  }
 
   const handleTabClick = (fileName: string) => {
     setActiveFile(fileName)
     const href = fileName === defaultFile ? `/${locale}` : `/${locale}/${fileName}`
     router.push(href)
+  }
+
+  const handleCloseTab = (fileName: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    const nextTabs = openTabs.filter((t) => t !== fileName)
+    setOpenTabs(nextTabs)
+
+    if (activeFile === fileName) {
+      const nextActive = nextTabs[nextTabs.length - 1] || "portfolio.tsx"
+      setActiveFile(nextActive)
+      const href = nextActive === defaultFile ? `/${locale}` : `/${locale}/${nextActive}`
+      router.push(href)
+    }
   }
 
   const activeTabName = activeFile || defaultFile
@@ -149,8 +176,9 @@ export function IDEEditorHeader() {
         {tabs.map((tab) => {
           const isActive = tab.name === activeTabName
           return (
-            <button
+            <div
               key={tab.name}
+              role="button"
               onClick={() => handleTabClick(tab.name)}
               className="flex items-center gap-2 px-4 h-full text-xs transition-colors min-w-fit border-r font-sans relative cursor-pointer"
               style={{
@@ -179,15 +207,15 @@ export function IDEEditorHeader() {
               <tab.icon className="w-3.5 h-3.5 text-cyan-400" />
               <span>{tab.name}</span>
 
-              <span
-                className="ml-1 p-0.5 rounded-sm opacity-50 hover:opacity-100 hover:bg-white/10"
-                onClick={(e) => {
-                  e.stopPropagation()
-                }}
-              >
-                <X className="w-2.5 h-2.5" />
-              </span>
-            </button>
+              {!isCoreTab(tab.name) && (
+                <span
+                  className="ml-1 p-0.5 rounded-sm opacity-50 hover:opacity-100 hover:bg-white/10"
+                  onClick={(e) => handleCloseTab(tab.name, e)}
+                >
+                  <X className="w-2.5 h-2.5" />
+                </span>
+              )}
+            </div>
           )
         })}
       </div>

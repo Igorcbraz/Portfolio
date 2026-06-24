@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useLocale } from "@/contexts/LocaleContext"
 import { useVSCode } from "@/contexts/VSCodeContext"
 import { defaultFile } from "@/lib/file-registry"
+import { motion, AnimatePresence } from "framer-motion"
 import {
   Files,
   Search as SearchIcon,
@@ -15,6 +16,9 @@ import {
   Folder,
   FolderOpen,
   FileCode2,
+  FileCode,
+  FileJson,
+  FileText,
   ChevronDown,
   ChevronRight,
   Check,
@@ -26,6 +30,17 @@ import {
 import aboutEn from "@/locales/about/en.json"
 import aboutPt from "@/locales/about/pt.json"
 import settingsData from "@/data/settings.json"
+import repoData from "@/data/repo-data.json"
+
+interface FileNode {
+  name: string
+  type: "file" | "folder"
+  id?: string
+  children?: FileNode[]
+  extension?: string
+}
+
+const fileStructure = repoData.fileStructure as FileNode[]
 
 export function IDESidebar() {
   const { locale, dictionary } = useLocale()
@@ -37,16 +52,11 @@ export function IDESidebar() {
     isSidebarOpen,
     setIsSidebarOpen,
     activeSidebarTab,
-    setActiveSidebarTab
+    setActiveSidebarTab,
+    openFolders,
+    toggleFolder
   } = useVSCode()
   const router = useRouter()
-
-  const [openFolders, setOpenFolders] = useState<Record<string, boolean>>({
-    components: false,
-    data: true,
-    dataAbout: false,
-    config: false
-  })
 
   const [searchQuery, setSearchQuery] = useState("")
   const [searchResults, setSearchResults] = useState<Array<{ file: string; line: number; content: string }>>([])
@@ -54,13 +64,6 @@ export function IDESidebar() {
   const [commitMessage, setCommitMessage] = useState("")
   const [gitStatus, setGitStatus] = useState<"idle" | "committing" | "success">("idle")
   const [hasChanges, setHasChanges] = useState(true)
-
-  const toggleFolder = (folderKey: string) => {
-    setOpenFolders(prev => ({
-      ...prev,
-      [folderKey]: !prev[folderKey]
-    }))
-  }
 
   const handleFileClick = (fileName: string) => {
     setActiveFile(fileName)
@@ -161,67 +164,118 @@ export function IDESidebar() {
     }, 1500)
   }
 
-  const renderTreeFile = (name: string, fileId: string, depth = 4) => {
+  const getFileIcon = (fileName: string) => {
+    const ext = fileName.split(".").pop() || ""
+    switch (ext) {
+      case "tsx":
+      case "jsx":
+        return <FileCode2 className="w-4 h-4 shrink-0 text-cyan-400" />
+      case "ts":
+      case "js":
+        return <FileCode className="w-4 h-4 shrink-0 text-blue-400" />
+      case "json":
+        return <FileJson className="w-4 h-4 shrink-0 text-yellow-500" />
+      case "css":
+        return <FileText className="w-4 h-4 shrink-0 text-teal-400" />
+      case "md":
+        return <FileText className="w-4 h-4 shrink-0 text-amber-500" />
+      case "svg":
+        return <FileCode2 className="w-4 h-4 shrink-0 text-orange-400" />
+      default:
+        return <FileText className="w-4 h-4 shrink-0 opacity-70" />
+    }
+  }
+
+  const renderNode = (node: FileNode, depth = 0, currentPath = "") => {
+    const isFolder = node.type === "folder"
+    const nodePath = currentPath ? `${currentPath}/${node.name}` : node.name
+    const isOpen = openFolders[nodePath] || false
+    const fileId = node.id || nodePath
     const isActive = activeFile === fileId
+
+    if (isFolder) {
+      return (
+        <div key={nodePath} className="flex flex-col">
+          <div
+            onClick={() => toggleFolder(nodePath)}
+            className="flex items-center gap-1.5 py-1 pr-2 cursor-pointer transition-colors duration-150 select-none text-[13px] font-sans group"
+            style={{
+              paddingLeft: `${(depth + 1) * 8}px`,
+              color: theme.colors["sideBar.foreground"]
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = theme.colors["list.hoverBackground"] || "rgba(255, 255, 255, 0.05)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent"
+            }}
+          >
+            {isOpen ? (
+              <ChevronDown className="w-3.5 h-3.5 shrink-0 opacity-70 transition-transform duration-200" />
+            ) : (
+              <ChevronRight className="w-3.5 h-3.5 shrink-0 opacity-70 transition-transform duration-200" />
+            )}
+            {isOpen ? (
+              <FolderOpen className="w-4 h-4 shrink-0 text-amber-400 group-hover:scale-105 transition-transform duration-200" />
+            ) : (
+              <Folder className="w-4 h-4 shrink-0 text-amber-400 group-hover:scale-105 transition-transform duration-200" />
+            )}
+            <span className="truncate font-medium">{node.name}</span>
+          </div>
+
+          <AnimatePresence initial={false}>
+            {isOpen && node.children && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                {node.children.map(child => renderNode(child, depth + 1, nodePath))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      )
+    }
+
     return (
       <div
+        key={nodePath}
         onClick={() => handleFileClick(fileId)}
-        className="flex items-center gap-1.5 py-1 pr-2 cursor-pointer transition-colors duration-150 select-none text-[13px] font-sans"
+        className="flex items-center gap-1.5 py-1 pr-2 cursor-pointer transition-all duration-150 select-none text-[13px] font-sans group relative"
         style={{
-          paddingLeft: `${depth * 6}px`,
+          paddingLeft: `${(depth + 1) * 8 + 14}px`,
           backgroundColor: isActive
-            ? theme.colors["list.activeSelectionBackground"]
+            ? theme.colors["list.activeSelectionBackground"] || "rgba(255, 255, 255, 0.1)"
             : "transparent",
           color: isActive
-            ? theme.colors["list.activeSelectionForeground"]
+            ? theme.colors["list.activeSelectionForeground"] || "#ffffff"
             : theme.colors["sideBar.foreground"]
         }}
         onMouseEnter={(e) => {
           if (!isActive) {
-            e.currentTarget.style.backgroundColor = theme.colors["list.hoverBackground"] || ""
-            e.currentTarget.style.color = theme.colors["list.hoverForeground"] || ""
+            e.currentTarget.style.backgroundColor = theme.colors["list.hoverBackground"] || "rgba(255, 255, 255, 0.05)"
+            e.currentTarget.style.color = theme.colors["list.hoverForeground"] || theme.colors["sideBar.foreground"]
           }
         }}
         onMouseLeave={(e) => {
           if (!isActive) {
             e.currentTarget.style.backgroundColor = "transparent"
-            e.currentTarget.style.color = theme.colors["sideBar.foreground"] || ""
+            e.currentTarget.style.color = theme.colors["sideBar.foreground"]
           }
         }}
       >
-        <FileCode2 className="w-4 h-4 shrink-0 text-cyan-400" />
-        <span className="truncate">{name}</span>
-      </div>
-    )
-  }
+        {getFileIcon(node.name)}
+        <span className="truncate group-hover:translate-x-[1px] transition-transform duration-150">{node.name}</span>
 
-  const renderTreeFolder = (name: string, folderKey: string, isOpen: boolean, depth = 2) => {
-    return (
-      <div
-        onClick={() => toggleFolder(folderKey)}
-        className="flex items-center gap-1 py-1 pr-2 cursor-pointer transition-colors duration-150 select-none text-[13px] font-sans"
-        style={{
-          paddingLeft: `${depth * 6}px`,
-          color: theme.colors["sideBar.foreground"]
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = theme.colors["list.hoverBackground"] || ""
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = "transparent"
-        }}
-      >
-        {isOpen ? (
-          <ChevronDown className="w-3.5 h-3.5 shrink-0 opacity-70" />
-        ) : (
-          <ChevronRight className="w-3.5 h-3.5 shrink-0 opacity-70" />
+        {isActive && (
+          <div
+            className="absolute left-0 top-0 bottom-0 w-[3px]"
+            style={{ backgroundColor: theme.colors["activityBar.activeBorder"] || "#3b82f6" }}
+          />
         )}
-        {isOpen ? (
-          <FolderOpen className="w-4 h-4 shrink-0 text-amber-400" />
-        ) : (
-          <Folder className="w-4 h-4 shrink-0 text-amber-400" />
-        )}
-        <span className="truncate font-medium">{name}</span>
       </div>
     )
   }
@@ -352,39 +406,7 @@ export function IDESidebar() {
               </div>
 
               <div className="flex flex-col">
-                {renderTreeFolder("components", "components", openFolders.components, 2)}
-                {openFolders.components && (
-                  <>
-                    {renderTreeFolder("features", "componentsFeatures", openFolders.componentsFeatures, 3)}
-                    {renderTreeFolder("ide", "componentsIde", openFolders.componentsIde, 3)}
-                    {renderTreeFolder("layout", "componentsLayout", openFolders.componentsLayout, 3)}
-                  </>
-                )}
-
-                {renderTreeFolder("data", "data", openFolders.data, 2)}
-                {openFolders.data && (
-                  <>
-                    {renderTreeFolder("about", "dataAbout", openFolders.dataAbout, 3)}
-                    {openFolders.dataAbout && (
-                      <div className="opacity-80 pl-8 text-[12px] py-0.5 text-zinc-500 italic">
-                        about/pt.json
-                      </div>
-                    )}
-                  </>
-                )}
-
-                {renderTreeFile("portfolio.tsx", "portfolio.tsx", 2)}
-                {renderTreeFile("igor.json", "igor.json", 2)}
-                {renderTreeFile("settings.json", "settings.json", 2)}
-
-                {renderTreeFolder("config", "config", openFolders.config, 2)}
-                {openFolders.config && (
-                  <div className="pl-6 text-[12px] opacity-60 flex flex-col gap-1 py-1" style={{ color: theme.colors["sideBar.foreground"] }}>
-                    <span>package.json</span>
-                    <span>tsconfig.json</span>
-                    <span>next.config.mjs</span>
-                  </div>
-                )}
+                {fileStructure.map(node => renderNode(node, 0))}
               </div>
             </div>
           )}

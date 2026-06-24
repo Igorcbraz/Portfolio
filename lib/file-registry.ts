@@ -1,9 +1,11 @@
-export type FileId = "portfolio.tsx" | "igor.json" | "settings.json"
+import repoData from "../data/repo-data.json"
 
-type ComponentKey = "portfolio" | "about" | "settings"
+export type FileId = string
+
+type ComponentKey = "portfolio" | "about" | "settings" | "code"
 
 export type FileEntry = {
-  id: FileId
+  id: string
   path: string
   title: string
   description?: string
@@ -14,36 +16,35 @@ export type FileEntry = {
 
 export const defaultFile: FileId = "portfolio.tsx"
 
-export const fileRegistry: Record<FileId, FileEntry> = {
-  "portfolio.tsx": {
-    id: "portfolio.tsx",
-    path: "portfolio.tsx",
-    title: "Portfolio",
-    component: "portfolio",
-    showNavigation: true,
-    showStatusBar: true,
-  },
-  "igor.json": {
-    id: "igor.json",
-    path: "igor.json",
-    title: "Igor Profile",
-    component: "about",
-    showNavigation: false,
-    showStatusBar: true,
-  },
-  "settings.json": {
-    id: "settings.json",
-    path: "settings.json",
-    title: "Settings",
-    component: "settings",
-    showNavigation: false,
-    showStatusBar: true,
-  },
-}
+export const fileRegistry: Record<string, FileEntry> = {}
+
+Object.keys(repoData.mockFiles).forEach((filePath) => {
+  let component: ComponentKey = "code"
+  let showNavigation = false
+  let showStatusBar = true
+
+  if (filePath === "portfolio.tsx") {
+    component = "portfolio"
+    showNavigation = true
+  } else if (filePath === "igor.json") {
+    component = "about"
+  } else if (filePath === "settings.json") {
+    component = "settings"
+  }
+
+  fileRegistry[filePath] = {
+    id: filePath,
+    path: filePath,
+    title: filePath.split("/").pop() || filePath,
+    component,
+    showNavigation,
+    showStatusBar,
+  }
+})
 
 export const fileList: FileEntry[] = Object.values(fileRegistry)
 
 export function resolveFile(fileId?: string): FileEntry | null {
-  if (fileId && fileRegistry[fileId as FileId]) return fileRegistry[fileId as FileId]
+  if (fileId && fileRegistry[fileId]) return fileRegistry[fileId]
   return fileRegistry[defaultFile]
 }

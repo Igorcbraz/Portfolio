@@ -35,28 +35,39 @@ const AboutView = dynamic(() => import("@/app/(file-views)/about-view"), {
   loading: () => null,
 })
 
+const CodeView = dynamic(() => import("@/app/(file-views)/code-view"), {
+  loading: () => null,
+})
+
 type HomeClientProps = {
   fileId: string
 }
 
-type ComponentKey = "portfolio" | "about" | "settings"
+type ComponentKey = "portfolio" | "about" | "settings" | "code"
 
 const componentMap: Record<ComponentKey, ComponentType> = {
   portfolio: PortfolioContent,
   about: AboutView,
   settings: SettingsView,
+  code: CodeView,
 }
 
 export default function HomeClient({ fileId }: HomeClientProps) {
   const entry = resolveFile(fileId)
-  const { activeFile, isExpanded, setActiveFile, isSidebarOpen } = useVSCode()
+  const { activeFile, isExpanded, setActiveFile, isSidebarOpen, openTabs, setOpenTabs } = useVSCode()
   const [shouldMountStatusBar, setShouldMountStatusBar] = useState(false)
 
   useEffect(() => {
-    if (entry && entry.id !== activeFile) {
+    if (entry) {
       setActiveFile(entry.id)
+      setOpenTabs((prev) => {
+        if (!prev.includes(entry.id)) {
+          return [...prev, entry.id]
+        }
+        return prev
+      })
     }
-  }, [entry, activeFile, setActiveFile])
+  }, [fileId, setActiveFile, setOpenTabs])
 
   useEffect(() => {
     if (!entry) return

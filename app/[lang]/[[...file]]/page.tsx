@@ -87,7 +87,7 @@ export function generateStaticParams() {
       .filter((file) => file.id !== defaultFile)
       .map((file) => ({
         lang,
-        file: [file.id],
+        file: file.id.split("/"),
       }))
 
     return [...rootEntry, ...fileEntries]
@@ -96,7 +96,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const resolved = await params
-  const fileId = resolved.file?.[0] ?? defaultFile
+  const fileId = resolved.file ? resolved.file.join("/") : defaultFile
   const lang = resolved.lang
   const entry = resolveFile(fileId)
 
@@ -155,7 +155,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
 export default async function Page({ params }: { params: Params }) {
   const resolved = await params
-  const fileId = resolved.file?.[0] ?? defaultFile
+  const fileId = resolved.file ? resolved.file.join("/") : defaultFile
   const lang = resolved.lang
   const entry = resolveFile(fileId)
 

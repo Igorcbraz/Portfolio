@@ -3,8 +3,8 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "build": "next build",
-    "dev": "next dev",
+    "build": "node scripts/generate-repo-files.js && next build",
+    "dev": "node scripts/generate-repo-files.js && next dev",
     "lint": "eslint .",
     "start": "next start",
     "analyze": "cross-env ANALYZE=true next build --webpack"

@@ -18,6 +18,11 @@ interface VSCodeContextType {
   setActiveSidebarTab: (tab: string) => void
   isConsoleOpen: boolean
   setIsConsoleOpen: (open: boolean) => void
+  openFolders: Record<string, boolean>
+  setOpenFolders: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+  toggleFolder: (folderKey: string) => void
+  openTabs: string[]
+  setOpenTabs: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 const VSCodeContext = createContext<VSCodeContextType | undefined>(undefined)
@@ -30,7 +35,16 @@ export function VSCodeProvider({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpenState] = useState(true)
   const [activeSidebarTab, setActiveSidebarTabState] = useState("explorer")
   const [isConsoleOpen, setIsConsoleOpen] = useState(false)
+  const [openFolders, setOpenFolders] = useState<Record<string, boolean>>({})
+  const [openTabs, setOpenTabs] = useState<string[]>(["portfolio.tsx", "igor.json", "settings.json"])
   const themeRequestIdRef = useRef(0)
+
+  const toggleFolder = (folderKey: string) => {
+    setOpenFolders(prev => ({
+      ...prev,
+      [folderKey]: !prev[folderKey]
+    }))
+  }
 
   const applyTheme = (nextThemeName: VSCodeThemeName) => {
     setThemeNameState(nextThemeName)
@@ -72,7 +86,23 @@ export function VSCodeProvider({ children }: { children: ReactNode }) {
     if (savedTheme && isThemeName(savedTheme)) {
       applyTheme(savedTheme)
     }
+
+    const savedTabs = localStorage.getItem("ide-open-tabs")
+    if (savedTabs) {
+      try {
+        const parsed = JSON.parse(savedTabs)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setOpenTabs(parsed)
+        }
+      } catch (e) {
+        console.error("Failed to parse open tabs from localStorage", e)
+      }
+    }
   }, [])
+
+  useEffect(() => {
+    localStorage.setItem("ide-open-tabs", JSON.stringify(openTabs))
+  }, [openTabs])
 
   const setIsExpanded = (expanded: boolean) => {
     setIsExpandedState(expanded)
@@ -109,7 +139,12 @@ export function VSCodeProvider({ children }: { children: ReactNode }) {
         activeSidebarTab,
         setActiveSidebarTab,
         isConsoleOpen,
-        setIsConsoleOpen
+        setIsConsoleOpen,
+        openFolders,
+        setOpenFolders,
+        toggleFolder,
+        openTabs,
+        setOpenTabs
       }}
     >
       {children}
