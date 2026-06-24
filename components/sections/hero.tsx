@@ -11,6 +11,9 @@ const Shape3d = dynamic(() => import("@/components/features/3d-shape").then(m =>
   loading: () => null,
 })
 
+const Aurora = dynamic(() => import("@/components/features/aurora"), { ssr: false })
+const DotField = dynamic(() => import("@/components/features/dot-field"), { ssr: false })
+
 const HeroPhoto = dynamic(() => import("@/components/features/hero-photo").then(m => m.HeroPhoto))
 
 type ViewMode = "3d" | "photo"
@@ -112,47 +115,51 @@ export function Hero() {
       style={{ background: "var(--background)" }}
     >
 
-      <div className="absolute inset-0 hero-grid-pattern opacity-100 pointer-events-none" />
+      <div className="absolute inset-0">
+        <DotField
+          dotRadius={1.2}
+          dotSpacing={22}
+          cursorRadius={180}
+          bulgeOnly={true}
+          bulgeStrength={45}
+          glowRadius={120}
+          waveAmplitude={2.5}
+          gradientFrom="rgba(200, 92, 0, 0.18)"
+          gradientTo="rgba(180, 100, 30, 0.10)"
+          glowColor="#0d0d0d"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+        />
+      </div>
+
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          maskImage: "linear-gradient(to bottom, transparent 0%, black 55%, black 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 55%, black 100%)",
+        }}
+      >
+        <Aurora
+          colorStops={["#b84a00", "#c87820", "#2e2870"]}
+          amplitude={0.75}
+          blend={0.30}
+          speed={0.3}
+          className="w-full h-full"
+        />
+      </div>
 
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 0%, transparent 40%, var(--background) 100%)",
-        }}
-      />
-
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          top: "-10%",
-          right: "-5%",
-          width: "55vw",
-          height: "55vw",
-          maxWidth: 700,
-          maxHeight: 700,
-          background:
-            "radial-gradient(circle, oklch(0.62 0.22 41.1 / 0.13) 0%, transparent 70%)",
-          borderRadius: "50%",
-          filter: "blur(40px)",
-          animation: "pulse 6s ease-in-out infinite",
+            "radial-gradient(ellipse 90% 65% at 50% 0%, transparent 35%, var(--background) 100%)",
         }}
       />
       <div
-        className="absolute pointer-events-none"
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
         style={{
-          bottom: "-15%",
-          left: "-8%",
-          width: "50vw",
-          height: "50vw",
-          maxWidth: 650,
-          maxHeight: 650,
+          height: "40%",
           background:
-            "radial-gradient(circle, oklch(0.55 0.18 260 / 0.07) 0%, transparent 70%)",
-          borderRadius: "50%",
-          filter: "blur(60px)",
-          animation: "pulse 8s ease-in-out infinite",
-          animationDelay: "2s",
+            "linear-gradient(to top, var(--background) 0%, transparent 100%)",
         }}
       />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
