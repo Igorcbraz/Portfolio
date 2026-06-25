@@ -14,7 +14,7 @@ function DevOpsNode({ tech, isTouchDevice, isCenter }: { tech: Technology; isTou
       onMouseEnter={() => !isTouchDevice && setHovered(true)}
       onMouseLeave={() => !isTouchDevice && setHovered(false)}
       onClick={() => isTouchDevice && setHovered(h => !h)}
-      className="relative flex flex-col items-center justify-center gap-2 cursor-pointer transform-3d transition-all duration-200"
+      className="relative flex flex-col items-center justify-center gap-2 cursor-pointer cursor-target transform-3d transition-all duration-200"
       style={{
         width: isCenter ? 100 : 90,
         height: isCenter ? 100 : 90,

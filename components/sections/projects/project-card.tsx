@@ -6,6 +6,7 @@ import Image from "next/image"
 import { ExternalLink } from "lucide-react"
 import { Project } from "./types"
 import { analytics } from "@/lib/analytics"
+import { DecryptedText } from "@/components/ui/decrypted-text"
 
 export function ProjectCard({
   project,
@@ -22,6 +23,7 @@ export function ProjectCard({
 }) {
   const cardRef = useRef<HTMLAnchorElement>(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const [hovered, setHovered] = useState(false)
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!cardRef.current) return
@@ -33,6 +35,7 @@ export function ProjectCard({
 
   const handleMouseLeave = () => {
     setTilt({ x: 0, y: 0 })
+    setHovered(false)
   }
 
   const cardNumber = String(idx + 1).padStart(2, "0")
@@ -44,13 +47,14 @@ export function ProjectCard({
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => analytics.trackProjectView(project.title)}
-      className="group relative flex flex-col overflow-hidden bg-card border border-border cursor-pointer w-full"
+      className="group relative flex flex-col overflow-hidden bg-card border border-border cursor-pointer cursor-target w-full"
       initial={{ opacity: 0, y: 50, scale: 0.97 }}
       animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
       exit={{ opacity: 0, scale: 0.95, y: 20, transition: { duration: 0.2 } }}
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: idx * 0.08 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => setHovered(true)}
       style={{ transform: `perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
       layout
     >
@@ -117,7 +121,7 @@ export function ProjectCard({
 
       <div className="relative z-10 p-5 space-y-3">
         <h3 className={`font-bold text-foreground group-hover:text-primary transition-colors duration-300 font-display leading-tight ${isFeatured ? "text-2xl sm:text-2xl" : "text-lg"}`}>
-          {project.title}
+          {hovered ? <DecryptedText text={project.title} speed={30} className="text-primary" /> : project.title}
         </h3>
 
         <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{project.description}</p>

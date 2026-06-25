@@ -198,7 +198,7 @@ export function IDESidebar() {
         <div key={nodePath} className="flex flex-col">
           <div
             onClick={() => toggleFolder(nodePath)}
-            className="flex items-center gap-1.5 py-1 pr-2 cursor-pointer transition-colors duration-150 select-none text-[13px] font-sans group"
+            className="flex items-center gap-1.5 py-1 pr-2 cursor-pointer cursor-target transition-colors duration-150 select-none text-[13px] font-sans group"
             style={{
               paddingLeft: `${(depth + 1) * 8}px`,
               color: theme.colors["sideBar.foreground"]
@@ -244,7 +244,7 @@ export function IDESidebar() {
       <div
         key={nodePath}
         onClick={() => handleFileClick(fileId)}
-        className="flex items-center gap-1.5 py-1 pr-2 cursor-pointer transition-all duration-150 select-none text-[13px] font-sans group relative"
+        className="flex items-center gap-1.5 py-1 pr-2 cursor-pointer cursor-target transition-all duration-150 select-none text-[13px] font-sans group relative"
         style={{
           paddingLeft: `${(depth + 1) * 8 + 14}px`,
           backgroundColor: isActive
@@ -313,7 +313,7 @@ export function IDESidebar() {
               <button
                 key={tab.id}
                 onClick={() => handleTabClick(tab.id)}
-                className="w-full py-1.5 flex justify-center relative group cursor-pointer transition-colors duration-150"
+                className="w-full py-1.5 flex justify-center relative group cursor-pointer cursor-target transition-colors duration-150"
                 style={{
                   color: isActive
                     ? theme.colors["activityBar.foreground"]
@@ -350,7 +350,7 @@ export function IDESidebar() {
             onClick={() => {
               handleFileClick("igor.json")
             }}
-            className="w-full py-1.5 flex justify-center group cursor-pointer"
+            className="w-full py-1.5 flex justify-center group cursor-pointer cursor-target"
             style={{
               color: activeFile === "igor.json"
                 ? theme.colors["activityBar.foreground"]
@@ -364,7 +364,7 @@ export function IDESidebar() {
             onClick={() => {
               handleFileClick("settings.json")
             }}
-            className="w-full py-1.5 flex justify-center group cursor-pointer"
+            className="w-full py-1.5 flex justify-center group cursor-pointer cursor-target"
             style={{
               color: activeFile === "settings.json"
                 ? theme.colors["activityBar.foreground"]
@@ -451,7 +451,7 @@ export function IDESidebar() {
                     <div
                       key={idx}
                       onClick={() => handleFileClick(result.file)}
-                      className="p-1.5 rounded cursor-pointer transition-colors text-xs font-mono border border-transparent hover:border-zinc-800"
+                      className="p-1.5 rounded cursor-pointer cursor-target transition-colors text-xs font-mono border border-transparent hover:border-zinc-800"
                       style={{
                         backgroundColor: theme.colors["editor.background"]
                       }}
@@ -495,7 +495,7 @@ export function IDESidebar() {
                 <button
                   type="submit"
                   disabled={!commitMessage.trim() || gitStatus !== "idle" || !hasChanges}
-                  className="w-full py-1.5 text-xs font-semibold rounded flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-110 active:brightness-95 transition-all"
+                  className="w-full py-1.5 text-xs font-semibold rounded flex items-center justify-center gap-1.5 cursor-pointer cursor-target disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-110 active:brightness-95 transition-all"
                   style={{
                     backgroundColor: theme.colors["button.background"] || theme.colors["statusBar.background"],
                     color: theme.colors["button.foreground"] || "#ffffff"
@@ -527,7 +527,7 @@ export function IDESidebar() {
                 {hasChanges ? (
                   <div
                     onClick={() => handleFileClick("portfolio.tsx")}
-                    className="flex justify-between items-center p-1.5 rounded cursor-pointer text-xs"
+                    className="flex justify-between items-center p-1.5 rounded cursor-pointer cursor-target text-xs"
                     style={{ color: theme.colors["sideBar.foreground"] }}
                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme.colors["list.hoverBackground"] || ""}
                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}

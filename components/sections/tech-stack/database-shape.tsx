@@ -16,7 +16,7 @@ function DatabaseRow({
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onClick={() => isTouchDevice && setHovered(h => !h)}
-        className={`relative flex items-center justify-center gap-5 cursor-pointer transition-all duration-200 ${hovered ? "bg-[oklch(0.62_0.22_41.1/0.1)]" : "bg-transparent hover:bg-[oklch(0.62_0.22_41.1/0.04)]"
+        className={`relative flex items-center justify-center gap-5 cursor-pointer cursor-target transition-all duration-200 ${hovered ? "bg-[oklch(0.62_0.22_41.1/0.1)]" : "bg-transparent hover:bg-[oklch(0.62_0.22_41.1/0.04)]"
           }`}
         style={{ height: `${itemH}px` }}
       >

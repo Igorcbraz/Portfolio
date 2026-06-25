@@ -146,7 +146,7 @@ export function IDEStatusBar() {
       <Tooltip>
         <TooltipTrigger asChild>
           <button
-            className="flex items-center gap-1 p-1 rounded transition-colors cursor-pointer"
+            className="flex items-center gap-1 p-1 rounded transition-colors cursor-pointer cursor-target"
             style={{
               backgroundColor: isHovered ? theme.colors["list.hoverBackground"] : "transparent"
             }}
@@ -225,7 +225,7 @@ export function IDEStatusBar() {
               <TooltipTrigger asChild>
                 <DropdownMenuTrigger asChild>
                   <button
-                    className="flex items-center gap-1 p-1 rounded transition-opacity hover:opacity-80 cursor-pointer"
+                    className="flex items-center gap-1 p-1 rounded transition-opacity hover:opacity-80 cursor-pointer cursor-target"
                   >
                     <Palette className="w-3.5 h-3.5" style={{ color: theme.colors["activityBar.activeBorder"] }} />
                   </button>
@@ -253,7 +253,7 @@ export function IDEStatusBar() {
                     setTheme(key as VSCodeThemeName)
                     analytics.trackThemeChange(key)
                   }}
-                  className="cursor-pointer"
+                  className="cursor-pointer cursor-target"
                   style={{
                     backgroundColor: themeName === key ? theme.colors["list.activeSelectionBackground"] : "transparent",
                     color: themeName === key ? theme.colors["list.activeSelectionForeground"] : theme.colors["dropdown.foreground"]

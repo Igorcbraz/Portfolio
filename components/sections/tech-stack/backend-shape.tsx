@@ -13,7 +13,7 @@ function BackendRow({ tech, index, isTouchDevice }: { tech: Technology; index: n
       onMouseEnter={() => !isTouchDevice && setHovered(true)}
       onMouseLeave={() => !isTouchDevice && setHovered(false)}
       onClick={() => isTouchDevice && setHovered(h => !h)}
-      className="relative flex items-center gap-4 px-4 sm:px-5 h-16 sm:h-[72px] cursor-pointer transform-3d transition-all duration-200 group"
+      className="relative flex items-center gap-4 px-4 sm:px-5 h-16 sm:h-[72px] cursor-pointer cursor-target transform-3d transition-all duration-200 group"
       style={{ transform: `translateZ(${index * 12}px) ${hovered ? "translateX(-10px)" : ""}` }}
     >
       <div className="absolute inset-0 z-100 bg-transparent" />

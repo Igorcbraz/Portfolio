@@ -5,6 +5,7 @@ import { locales } from "@/lib/locales"
 import { geist, spaceGrotesk } from "@/lib/fonts"
 import metadataJson from "@/data/metadata.json"
 import LayoutClient from "@/components/layout/layout-client"
+import TargetCursor from "@/components/ui/target-cursor"
 import "../globals.css"
 
 const defaultLocale = "en"
@@ -173,6 +174,11 @@ export default async function RootLayout({
         />
       </head>
       <body className={`${geist.className} ${spaceGrotesk.variable} antialiased dark`}>
+        <TargetCursor 
+          targetSelector="a, button, .cursor-target" 
+          cursorColor="oklch(0.62 0.22 41.1)" 
+          cursorColorOnTarget="oklch(0.62 0.22 41.1)" 
+        />
         <LayoutClient dictionary={dictionary} locale={currentLang}>
           {children}
         </LayoutClient>

@@ -27,7 +27,7 @@ export function RepoCard({
       href={repo.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative flex flex-col bg-card/60 backdrop-blur-sm border border-border/40 rounded-lg overflow-hidden"
+      className="group relative flex flex-col bg-card/60 backdrop-blur-sm border border-border/40 rounded-lg overflow-hidden cursor-pointer cursor-target"
       initial={{ opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
       transition={{

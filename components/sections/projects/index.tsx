@@ -10,7 +10,7 @@ import { SplitText } from "@/components/ui/split-text"
 import { DecryptedText } from "@/components/ui/decrypted-text"
 import { BlurText } from "@/components/ui/blur-text"
 
-import { ScanLine } from "@/components/features/scan-line"
+import { LaserFlow } from "@/components/ui/laser-flow"
 import { ProjectCard } from "./project-card"
 import { FilterButton } from "@/components/features/filter-button"
 import { Project } from "./types"
@@ -73,7 +73,7 @@ export function Projects() {
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 3 }}
         />
 
-        <ScanLine />
+        <LaserFlow />
 
         <div className="absolute left-4 top-0 bottom-0 w-px bg-[linear-gradient(to_bottom,transparent,oklch(0.62_0.22_41.1/0.12)_30%,oklch(0.62_0.22_41.1/0.12)_70%,transparent)]" />
         <div className="absolute right-4 top-0 bottom-0 w-px bg-[linear-gradient(to_bottom,transparent,oklch(0.62_0.22_41.1/0.08)_30%,oklch(0.62_0.22_41.1/0.08)_70%,transparent)]" />

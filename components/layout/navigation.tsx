@@ -219,7 +219,7 @@ export function Navigation() {
               key={item.id}
               href={item.href}
               onClick={(e) => handleNavClick(e, item.href)}
-              className="group relative px-3.5 py-1.5 text-sm font-medium text-muted-foreground no-underline cursor-pointer whitespace-nowrap transition-colors duration-200 ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[6px] before:bg-transparent before:transition-colors before:duration-200 before:ease-out hover:text-foreground hover:before:bg-[oklch(0.95_0_0/0.05)] font-display"
+              className="group relative px-3.5 py-1.5 text-sm font-medium text-muted-foreground no-underline cursor-pointer cursor-target whitespace-nowrap transition-colors duration-200 ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[6px] before:bg-transparent before:transition-colors before:duration-200 before:ease-out hover:text-foreground hover:before:bg-[oklch(0.95_0_0/0.05)] font-display"
             >
               <span className="absolute inset-0 rounded-[6px] pointer-events-none opacity-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_110%,oklch(0.62_0.22_41.1/0.22)_0%,transparent_70%)] transition-opacity duration-200 ease-out group-hover:opacity-100" />
               <span className="relative z-1">{item.name}</span>
@@ -255,7 +255,7 @@ export function Navigation() {
                 analytics.trackIDEInteraction(!isExpanded ? "open" : "close", "Navigation");
                 setIsExpanded(!isExpanded);
               }}
-              className={`hidden lg:flex items-center justify-center w-8 h-8 group relative overflow-hidden rounded-lg border border-solid transition-all duration-200 ease-out cursor-pointer ${isExpanded
+              className={`hidden lg:flex items-center justify-center w-8 h-8 group relative overflow-hidden rounded-lg border border-solid transition-all duration-200 ease-out cursor-pointer cursor-target ${isExpanded
                 ? 'border-[oklch(0.55_0.18_220/0.30)] bg-[oklch(0.55_0.18_220/0.08)]'
                 : 'border-[oklch(0.75_0.12_180/0.30)] bg-[oklch(0.75_0.12_180/0.08)]'
                 }`}
@@ -275,7 +275,7 @@ export function Navigation() {
                 onClick={() => setLangOpen(!langOpen)}
                 aria-label="Select language"
                 aria-expanded={langOpen}
-                className={`flex items-center gap-1.5 font-display text-[0.8rem] font-medium tracking-[0.06em] px-2.5 py-[5px] rounded-[6px] border border-solid transition-all duration-200 ease-out cursor-pointer ${langOpen
+                className={`flex items-center gap-1.5 font-display text-[0.8rem] font-medium tracking-[0.06em] px-2.5 py-[5px] rounded-[6px] border border-solid transition-all duration-200 ease-out cursor-pointer cursor-target ${langOpen
                   ? 'text-foreground border-[oklch(0.95_0_0/0.16)] bg-[oklch(0.95_0_0/0.04)]'
                   : 'text-muted-foreground border-[oklch(0.95_0_0/0.08)] bg-transparent hover:text-foreground hover:border-[oklch(0.95_0_0/0.16)] hover:bg-[oklch(0.95_0_0/0.04)]'
                   }`}
@@ -311,7 +311,7 @@ export function Navigation() {
                       <button
                         key={l}
                         onClick={() => switchLocale(l)}
-                        className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[6px] border-none font-display text-[0.8rem] tracking-[0.02em] transition-all duration-150 ease-out cursor-pointer ${active
+                        className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[6px] border-none font-display text-[0.8rem] tracking-[0.02em] transition-all duration-150 ease-out cursor-pointer cursor-target ${active
                           ? 'bg-[oklch(0.95_0_0/0.06)] font-semibold text-foreground'
                           : 'bg-transparent font-normal text-muted-foreground hover:bg-[oklch(0.95_0_0/0.04)] hover:text-foreground'
                           }`}
@@ -351,7 +351,7 @@ export function Navigation() {
               aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={isOpen}
               aria-controls="mobile-navigation"
-              className="md:hidden p-1.5 rounded-[6px] border border-solid border-[oklch(0.95_0_0/0.08)] bg-transparent text-muted-foreground transition-colors duration-200 ease-out cursor-pointer hover:border-[oklch(0.95_0_0/0.18)] hover:text-foreground"
+              className="md:hidden p-1.5 rounded-[6px] border border-solid border-[oklch(0.95_0_0/0.08)] bg-transparent text-muted-foreground transition-colors duration-200 ease-out cursor-pointer cursor-target hover:border-[oklch(0.95_0_0/0.18)] hover:text-foreground"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isOpen
@@ -378,7 +378,7 @@ export function Navigation() {
                 analytics.trackIDEInteraction(!isExpanded ? "open" : "close", "MobileNavigation");
                 setIsExpanded(!isExpanded);
               }}
-              className={`w-full flex items-center justify-between group mb-1.5 px-3 py-2 rounded-[6px] border border-solid transition-all duration-200 ease-out cursor-pointer ${isExpanded
+              className={`w-full flex items-center justify-between group mb-1.5 px-3 py-2 rounded-[6px] border border-solid transition-all duration-200 ease-out cursor-pointer cursor-target ${isExpanded
                 ? 'bg-[oklch(0.55_0.18_220/0.08)] border-[oklch(0.55_0.18_220/0.20)]'
                 : 'bg-[oklch(0.75_0.12_180/0.08)] border-[oklch(0.75_0.12_180/0.20)]'
                 }`}
@@ -402,7 +402,7 @@ export function Navigation() {
             <button
               onClick={() => setLangOpenMobile((p) => !p)}
               aria-expanded={langOpenMobile}
-              className="w-full flex items-center justify-between cursor-pointer mb-1 px-3 py-2 rounded-[6px] border border-solid border-[oklch(0.95_0_0/0.08)] bg-transparent transition-colors duration-200 ease-out hover:bg-[oklch(0.95_0_0/0.04)]"
+              className="w-full flex items-center justify-between cursor-pointer cursor-target mb-1 px-3 py-2 rounded-[6px] border border-solid border-[oklch(0.95_0_0/0.08)] bg-transparent transition-colors duration-200 ease-out hover:bg-[oklch(0.95_0_0/0.04)]"
             >
               <div className="flex items-center gap-2">
                 <ReactCountryFlag
@@ -428,7 +428,7 @@ export function Navigation() {
                     <button
                       key={l}
                       onClick={() => { switchLocale(l); setLangOpenMobile(false) }}
-                      className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[6px] border-none font-display text-[0.8rem] transition-colors duration-150 ease-out cursor-pointer ${active
+                      className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[6px] border-none font-display text-[0.8rem] transition-colors duration-150 ease-out cursor-pointer cursor-target ${active
                         ? 'bg-[oklch(0.95_0_0/0.06)] font-semibold text-foreground'
                         : 'bg-transparent font-normal text-muted-foreground hover:bg-[oklch(0.95_0_0/0.04)] hover:text-foreground'
                         }`}

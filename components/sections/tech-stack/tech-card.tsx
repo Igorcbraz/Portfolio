@@ -12,7 +12,7 @@ export function TechCard({ tech, index, isTouchDevice }: { tech: Technology; ind
       onMouseEnter={() => !isTouchDevice && setHovered(true)}
       onMouseLeave={() => !isTouchDevice && setHovered(false)}
       onClick={() => isTouchDevice && setHovered(h => !h)}
-      className="relative flex flex-col items-center justify-center gap-2.5 p-4 cursor-pointer transition-all duration-200"
+      className="relative flex flex-col items-center justify-center gap-2.5 p-4 cursor-pointer cursor-target transition-all duration-200"
     >
       <div className="absolute inset-0 z-100 bg-transparent" />
       <div className={`absolute inset-0 transition-all duration-200 border ${hovered

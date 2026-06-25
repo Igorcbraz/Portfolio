@@ -181,7 +181,7 @@ export function TechStack() {
                       sendGAEvent("event", "tech_stack_category_click", { label: category.name })
                       setSelectedCategory(category.name)
                     }}
-                    className={`relative flex items-center gap-2.5 px-6 py-4 font-semibold transition-all duration-200 focus:outline-none cursor-pointer border-r border-[oklch(0.62_0.22_41.1/0.12)] last:border-r-0 ${isSelected
+                    className={`relative flex items-center gap-2.5 px-6 py-4 font-semibold transition-all duration-200 focus:outline-none cursor-pointer cursor-target border-r border-[oklch(0.62_0.22_41.1/0.12)] last:border-r-0 ${isSelected
                       ? "bg-primary text-background"
                       : "bg-transparent text-muted-foreground hover:text-foreground hover:bg-[oklch(0.62_0.22_41.1/0.06)]"
                       }`}
@@ -212,7 +212,7 @@ export function TechStack() {
                         sendGAEvent("event", "tech_stack_category_click", { label: category.name })
                         setSelectedCategory(category.name)
                       }}
-                      className={`shrink-0 flex flex-col items-center gap-1 px-4 py-3 font-semibold transition-all duration-200 focus:outline-none cursor-pointer border-r border-[oklch(0.62_0.22_41.1/0.1)] last:border-r-0 ${isSelected
+                      className={`shrink-0 flex flex-col items-center gap-1 px-4 py-3 font-semibold transition-all duration-200 focus:outline-none cursor-pointer cursor-target border-r border-[oklch(0.62_0.22_41.1/0.1)] last:border-r-0 ${isSelected
                         ? "bg-primary text-background"
                         : "bg-transparent text-muted-foreground"
                         }`}

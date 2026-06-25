@@ -427,7 +427,7 @@ export function RepoOrbitPanel({
         {inView ? (
           <canvas
             ref={canvasRef}
-            className="w-full h-full cursor-crosshair min-h-[340px]"
+            className="w-full h-full cursor-crosshair cursor-target min-h-[340px]"
             onMouseMove={handleMouseMove}
             onMouseLeave={() => {
               hoveredIdxRef.current = -1;

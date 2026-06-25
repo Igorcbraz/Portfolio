@@ -57,7 +57,7 @@ export function IDETitleBar() {
           {menuItems.map((item) => (
             <span
               key={item}
-              className="px-2 py-0.5 rounded cursor-pointer transition-colors duration-150"
+              className="px-2 py-0.5 rounded cursor-pointer cursor-target transition-colors duration-150"
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.08)"}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
             >
@@ -69,7 +69,7 @@ export function IDETitleBar() {
 
       <div className="flex-1 flex justify-center px-4 max-w-[500px]">
         <div
-          className="w-full flex items-center gap-2 rounded px-3 py-1 font-sans cursor-pointer hover:opacity-95 transition-opacity"
+          className="w-full flex items-center gap-2 rounded px-3 py-1 font-sans cursor-pointer cursor-target hover:opacity-95 transition-opacity"
           style={{
             backgroundColor: theme.colors["input.background"] || "rgba(0,0,0,0.15)",
             border: `1px solid ${theme.colors["input.border"] || "rgba(255,255,255,0.08)"}`,
@@ -87,7 +87,7 @@ export function IDETitleBar() {
         <div className="flex items-center gap-1 md:border-r md:pr-2.5" style={{ borderColor: theme.colors["titleBar.border"] || "rgba(255,255,255,0.1)" }}>
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-1 rounded cursor-pointer transition-colors"
+            className="p-1 rounded cursor-pointer cursor-target transition-colors"
             style={{
               backgroundColor: isSidebarOpen ? "rgba(255, 255, 255, 0.08)" : "transparent",
               color: isSidebarOpen ? theme.colors["activityBar.activeBorder"] : "inherit"
@@ -99,9 +99,9 @@ export function IDETitleBar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3 opacity-70">
-          <Minus className="w-3.5 h-3.5 hover:opacity-100 cursor-pointer" onClick={() => setIsExpanded(true)} />
-          <Square className="w-3 h-3 hover:opacity-100 cursor-pointer" />
-          <X className="w-3.5 h-3.5 hover:opacity-100 cursor-pointer text-red-500" onClick={() => setIsExpanded(true)} />
+          <Minus className="w-3.5 h-3.5 hover:opacity-100 cursor-pointer cursor-target" onClick={() => setIsExpanded(true)} />
+          <Square className="w-3 h-3 hover:opacity-100 cursor-pointer cursor-target" />
+          <X className="w-3.5 h-3.5 hover:opacity-100 cursor-pointer cursor-target text-red-500" onClick={() => setIsExpanded(true)} />
         </div>
       </div>
     </div>
@@ -180,7 +180,7 @@ export function IDEEditorHeader() {
               key={tab.name}
               role="button"
               onClick={() => handleTabClick(tab.name)}
-              className="flex items-center gap-2 px-4 h-full text-xs transition-colors min-w-fit border-r font-sans relative cursor-pointer"
+              className="flex items-center gap-2 px-4 h-full text-xs transition-colors min-w-fit border-r font-sans relative cursor-pointer cursor-target"
               style={{
                 backgroundColor: isActive
                   ? theme.colors["tab.activeBackground"]

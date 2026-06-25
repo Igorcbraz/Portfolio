@@ -334,7 +334,7 @@ export function CodeDashboard() {
                     e.target.value as "stars" | "forks" | "updated" | "size",
                   )
                 }
-                className="w-full sm:w-auto pl-4 pr-9 py-2.5 bg-card/60 border border-border/40 rounded-lg text-sm text-foreground focus:outline-none focus:border-[oklch(0.62_0.22_41.1/0.50)] transition-all appearance-none cursor-pointer backdrop-blur-sm font-mono"
+                className="w-full sm:w-auto pl-4 pr-9 py-2.5 bg-card/60 border border-border/40 rounded-lg text-sm text-foreground focus:outline-none focus:border-[oklch(0.62_0.22_41.1/0.50)] transition-all appearance-none cursor-pointer cursor-target backdrop-blur-sm font-mono"
               >
                 <option value="stars">{dictionary.code.sort.stars}</option>
                 <option value="forks">{dictionary.code.sort.forks}</option>

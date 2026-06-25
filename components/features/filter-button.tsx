@@ -14,7 +14,7 @@ export function FilterButton({
   return (
     <button
       onClick={onClick}
-      className={`relative px-5 py-3 text-xs font-semibold font-display uppercase tracking-[0.15em] transition-all duration-200 cursor-pointer whitespace-nowrap ${active
+      className={`relative px-5 py-3 text-xs font-semibold font-display uppercase tracking-[0.15em] transition-all duration-200 cursor-pointer cursor-target whitespace-nowrap ${active
         ? "text-background bg-primary"
         : "text-muted-foreground bg-transparent hover:text-foreground hover:bg-[oklch(0.62_0.22_41.1/0.06)]"
         }`}

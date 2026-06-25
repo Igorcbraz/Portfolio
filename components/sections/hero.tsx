@@ -223,7 +223,7 @@ export function Hero() {
             <div className="hero-animate-4 flex flex-col sm:flex-row gap-3 mb-10">
               <button
                 onClick={scrollToNextSection}
-                className="group relative overflow-hidden cursor-pointer"
+                className="group relative overflow-hidden cursor-pointer cursor-target"
                 style={{
                   padding: "14px 32px",
                   background: "var(--primary)",
@@ -265,7 +265,7 @@ export function Hero() {
 
               <button
                 onClick={scrollToContact}
-                className="group cursor-pointer"
+                className="group cursor-pointer cursor-target"
                 style={{
                   padding: "14px 32px",
                   background: "transparent",
@@ -372,7 +372,7 @@ export function Hero() {
 
                   <button
                     onClick={() => setScanTrigger(prev => prev + 1)}
-                    className="absolute bottom-6 right-6 z-50 px-3.5 py-2 font-mono text-[9px] sm:text-[10px] tracking-widest uppercase border border-primary/30 bg-black/55 backdrop-blur-md text-primary hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 cursor-pointer rounded-sm"
+                    className="absolute bottom-6 right-6 z-50 px-3.5 py-2 font-mono text-[9px] sm:text-[10px] tracking-widest uppercase border border-primary/30 bg-black/55 backdrop-blur-md text-primary hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 cursor-pointer cursor-target rounded-sm"
                     style={{
                       boxShadow: "0 0 10px oklch(0.62 0.22 41.1 / 0.15)",
                     }}
@@ -385,7 +385,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-50 hover:opacity-80 transition-opacity cursor-pointer" onClick={scrollToNextSection}>
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-50 hover:opacity-80 transition-opacity cursor-pointer cursor-target" onClick={scrollToNextSection}>
           <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground" style={{ fontFamily: "var(--font-display, sans-serif)" }}>Scroll</span>
           <svg className="w-4 h-4 text-muted-foreground animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

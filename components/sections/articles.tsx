@@ -49,7 +49,7 @@ function ArticleCard({ article, idx, isInView }: { article: Article; idx: number
       href={article.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="relative group block overflow-hidden bg-[oklch(0.12_0_0)] border border-[oklch(0.18_0_0)] cursor-pointer"
+      className="relative group block overflow-hidden bg-[oklch(0.12_0_0)] border border-[oklch(0.18_0_0)] cursor-none"
       initial={{ opacity: 0, y: 30, scale: 0.97 }}
       animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
       transition={{ duration: 0.6, delay: 0.8 + idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
@@ -118,7 +118,7 @@ function ArticleCard({ article, idx, isInView }: { article: Article; idx: number
         <h3
           className="text-base font-bold font-display leading-tight text-foreground group-hover:text-primary transition-colors duration-150"
         >
-          {article.title}
+          {hovered ? <DecryptedText text={article.title} speed={30} className="text-primary" /> : article.title}
         </h3>
 
         <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
@@ -162,7 +162,10 @@ export function Articles() {
   }, [locale])
 
   return (
-    <section ref={sectionRef} className="relative py-24 overflow-hidden bg-background">
+    <section 
+      ref={sectionRef} 
+      className="relative py-24 overflow-hidden bg-background"
+    >
       <style>{`
         @keyframes art-scan {
           0%   { transform: translateY(-100%); opacity: 0; }

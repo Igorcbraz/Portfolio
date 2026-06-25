@@ -81,7 +81,7 @@ function ContactCard({
           ref={cardRef as any}
           {...wrapperProps}
           onClick={onClick}
-          className={`group relative overflow-hidden p-8 flex flex-col justify-between rounded-none cursor-pointer select-none transition-all duration-300 h-full ${className}`}
+          className={`group relative overflow-hidden p-8 flex flex-col justify-between rounded-none cursor-pointer cursor-target select-none transition-all duration-300 h-full ${className}`}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           style={{ transform: `perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
@@ -407,7 +407,7 @@ export function ContactSection() {
                   className="w-full block mt-2"
                   onClick={() => analytics.trackDownload('Curriculum Vitae')}
                 >
-                  <div className="w-full inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-primary text-black font-display font-semibold text-[0.925rem] rounded-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_-8px_oklch(0.62_0.22_41.1/0.5)] cursor-pointer">
+                  <div className="w-full inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-primary text-black font-display font-semibold text-[0.925rem] rounded-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_-8px_oklch(0.62_0.22_41.1/0.5)] cursor-pointer cursor-target">
                     <FileDown className="w-4 h-4" />
                     <span>{dictionary.contact.cvButton}</span>
                   </div>
@@ -499,7 +499,7 @@ export function ContactSection() {
 
                   <div className="w-full md:w-auto shrink-0 md:min-w-60">
                     <div
-                      className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 font-display font-semibold text-[0.925rem] rounded-none transition-all duration-300 bg-[oklch(0.53_0.17_247.2/0.15)] border border-[oklch(0.53_0.17_247.2/0.5)] text-white shadow-[0_0_15px_-3px_oklch(0.53_0.17_247.2/0.3)] group-hover:bg-[oklch(0.53_0.17_247.2)] group-hover:text-white group-hover:shadow-[0_12px_40px_-8px_oklch(0.53_0.17_247.2/0.6)] cursor-pointer"
+                      className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 font-display font-semibold text-[0.925rem] rounded-none transition-all duration-300 bg-[oklch(0.53_0.17_247.2/0.15)] border border-[oklch(0.53_0.17_247.2/0.5)] text-white shadow-[0_0_15px_-3px_oklch(0.53_0.17_247.2/0.3)] group-hover:bg-[oklch(0.53_0.17_247.2)] group-hover:text-white group-hover:shadow-[0_12px_40px_-8px_oklch(0.53_0.17_247.2/0.6)] cursor-pointer cursor-target"
                     >
                       {isExpanded ? (
                         <Code2 className="w-4 h-4" />

@@ -180,7 +180,7 @@ export function ProfessionalJourney() {
               return (
                 <div
                   key={navIdx}
-                  className="flex gap-4 py-3.5 cursor-pointer"
+                  className="flex gap-4 py-3.5 cursor-pointer cursor-target"
                   onClick={() => goTo(navIdx)}
                 >
                   <div className="flex flex-col items-center gap-1.5 pt-1">
@@ -306,7 +306,7 @@ export function ProfessionalJourney() {
                 <button
                   onClick={prev}
                   disabled={displayIdx === 0}
-                  className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/50"
+                  className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 cursor-pointer cursor-target disabled:opacity-25 disabled:cursor-not-allowed bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/50"
                   aria-label="Anterior"
                 >
                   <ArrowLeft size={15} />
@@ -315,7 +315,7 @@ export function ProfessionalJourney() {
                 <button
                   onClick={next}
                   disabled={displayIdx === DISPLAY_ORDER.length - 1}
-                  className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/50"
+                  className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 cursor-pointer cursor-target disabled:opacity-25 disabled:cursor-not-allowed bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/50"
                   aria-label="Próximo"
                 >
                   <ArrowRight size={15} />
@@ -338,7 +338,7 @@ export function ProfessionalJourney() {
                   <button
                     key={navIdx}
                     onClick={() => goTo(navIdx)}
-                    className={`flex items-center gap-3 text-left py-2.5 px-3 rounded-xl transition-colors duration-150 cursor-pointer border ${isActive ? "bg-primary/10 border-primary/20" : "bg-transparent border-transparent"
+                    className={`flex items-center gap-3 text-left py-2.5 px-3 rounded-xl transition-colors duration-150 cursor-pointer cursor-target border ${isActive ? "bg-primary/10 border-primary/20" : "bg-transparent border-transparent"
                       }`}
                   >
                     <span
