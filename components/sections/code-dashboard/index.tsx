@@ -6,6 +6,9 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { useUser } from "@/contexts/UserContext";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useInView } from "@/hooks/use-animations";
+import { SplitText } from "@/components/ui/split-text";
+import { DecryptedText } from "@/components/ui/decrypted-text";
+import { BlurText } from "@/components/ui/blur-text";
 
 import { GitHubRepo } from "./types";
 import { CODE_SNIPPETS, getLangBgClass } from "./constants";
@@ -202,25 +205,39 @@ export function CodeDashboard() {
         ref={sectionRef}
         className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
       >
-        <m.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 22 }}
-          animate={sectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
-          transition={{ duration: 0.7, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-        >
+        <div className="mb-16">
           <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-4 font-display">
-            {dictionary.code.sectionLabel}
+            <DecryptedText
+              text={dictionary.code.sectionLabel}
+              speed={30}
+              delay={0}
+              className="text-muted-foreground/60"
+            />
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-foreground font-display mb-5">
-            {dictionary.code.title}{" "}
+            <SplitText
+              text={dictionary.code.title}
+              splitType="words"
+              stepDelay={65}
+              delay={0}
+              threshold={0.08}
+            />{" "}
             <span className="bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]">
               {dictionary.code.titleHighlight}
             </span>
           </h2>
           <p className="text-base text-muted-foreground max-w-2xl leading-relaxed">
-            {dictionary.code.subtitle}
+            <BlurText
+              text={dictionary.code.subtitle}
+              animateBy="words"
+              direction="top"
+              delay={0}
+              stepDelay={25}
+              className="text-muted-foreground"
+              threshold={0.08}
+            />
           </p>
-        </m.div>
+        </div>
 
         <div
           ref={statsRef}

@@ -8,6 +8,9 @@ import { analytics } from "@/lib/analytics"
 import { useLocale } from "@/contexts/LocaleContext"
 import { useVSCode } from "@/contexts/VSCodeContext"
 import { useInView, useParallax, fadeInUp, staggerContainer } from "@/hooks/use-animations"
+import { SplitText } from "@/components/ui/split-text"
+import { DecryptedText } from "@/components/ui/decrypted-text"
+import { BlurText } from "@/components/ui/blur-text"
 
 interface ContactCardProps {
   href?: string
@@ -256,46 +259,66 @@ export function ContactSection() {
       </div>
 
       <div className="absolute top-8 left-8 font-mono text-[9px] text-muted-foreground/40 pointer-events-none select-none hidden md:block leading-relaxed z-10">
-        <div>SYS_STATUS: ACTIVE</div>
+        <div><DecryptedText text="SYS_STATUS: ACTIVE" speed={25} delay={500} className="text-muted-foreground/40" /></div>
         <div className="flex items-center gap-1.5">
-          <span>UPLINK: SECURE</span>
+          <DecryptedText text="UPLINK: SECURE" speed={25} delay={650} className="text-muted-foreground/40" />
           <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ boxShadow: "0 0 6px oklch(0.62 0.22 41.1)" }} />
         </div>
       </div>
 
       <div className="absolute bottom-8 right-8 font-mono text-[9px] text-muted-foreground/40 pointer-events-none select-none hidden md:block text-right leading-relaxed z-10">
-        <div>PORTFOLIO.TELEMETRY v2.1</div>
-        <div>TRANSMISSION: READY</div>
+        <div><DecryptedText text="PORTFOLIO.TELEMETRY v2.1" speed={25} delay={600} className="text-muted-foreground/40" /></div>
+        <div><DecryptedText text="TRANSMISSION: READY" speed={25} delay={750} className="text-muted-foreground/40" /></div>
       </div>
 
       <div ref={sectionRef} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-between">
 
-        <m.div
-          className="text-center mb-16 flex flex-col items-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        >
+        <div className="text-center mb-16 flex flex-col items-center">
           <div className="flex items-center justify-center gap-3 mb-5">
             <div className="w-8 h-px bg-primary" />
             <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.25em] font-display">
-              {dictionary.navigation.contact}
+              <DecryptedText
+                text={dictionary.navigation.contact}
+                speed={30}
+                delay={0}
+                className="text-primary"
+              />
             </span>
             <div className="w-8 h-px bg-primary" />
           </div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display leading-[0.95] text-foreground mb-6">
-            {before}
+            <SplitText
+              text={before}
+              splitType="words"
+              stepDelay={65}
+              delay={0}
+              threshold={0.1}
+            />
             <span className="bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite] inline-block">
               {dictionary.contact.connectHighlight}
             </span>
-            {after}
+            <SplitText
+              text={after}
+              splitType="words"
+              stepDelay={65}
+              delay={0}
+              threshold={0.1}
+            />
           </h2>
 
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl font-sans leading-relaxed">
-            {dictionary.contact.subtitle}
+            <BlurText
+              text={dictionary.contact.subtitle}
+              animateBy="words"
+              direction="top"
+              delay={0}
+              stepDelay={28}
+              className="text-muted-foreground"
+              threshold={0.1}
+            />
           </p>
-        </m.div>
+        </div>
 
         <m.div
           className="flex flex-col gap-10 max-w-5xl mx-auto w-full"

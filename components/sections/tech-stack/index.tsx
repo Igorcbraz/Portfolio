@@ -5,6 +5,9 @@ import { m, AnimatePresence } from "framer-motion"
 import { sendGAEvent } from "@next/third-parties/google"
 import { useLocale } from "@/contexts/LocaleContext"
 import { useInView } from "@/hooks/use-animations"
+import { SplitText } from "@/components/ui/split-text"
+import { DecryptedText } from "@/components/ui/decrypted-text"
+import { BlurText } from "@/components/ui/blur-text"
 
 import { Category } from "./types"
 import { categories, techByCategory } from "./constants"
@@ -112,28 +115,27 @@ export function TechStack() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
           >
-            <m.div
-              className="flex items-center justify-center gap-3 mb-5"
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.1, duration: 0.6 }}
-            >
+            <div className="flex items-center justify-center gap-3 mb-5">
               <div className="w-8 h-px bg-primary" />
               <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.25em] font-display">
-                {dictionary.techStack.sectionLabel}
+                <DecryptedText
+                  text={dictionary.techStack.sectionLabel}
+                  speed={30}
+                  delay={0}
+                  className="text-primary"
+                />
               </span>
               <div className="w-8 h-px bg-primary" />
-            </m.div>
+            </div>
 
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display leading-[0.95]">
-              <m.span
-                className="inline-block text-foreground"
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.2, duration: 0.6 }}
-              >
-                {dictionary.techStack.title}{" "}
-              </m.span>
+              <SplitText
+                text={dictionary.techStack.title}
+                splitType="words"
+                stepDelay={70}
+                delay={0}
+                threshold={0.1}
+              />{" "}
               <m.span
                 className="inline-block bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]"
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -150,7 +152,15 @@ export function TechStack() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.6, duration: 0.6 }}
             >
-              {dictionary.techStack.subtitle}
+              <BlurText
+                text={dictionary.techStack.subtitle}
+                animateBy="words"
+                direction="top"
+                delay={0}
+                stepDelay={28}
+                className="text-muted-foreground"
+                threshold={0.1}
+              />
             </m.p>
           </m.div>
 

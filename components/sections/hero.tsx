@@ -5,6 +5,8 @@ import dynamic from "next/dynamic"
 import { analytics } from "@/lib/analytics"
 import { useUser } from "@/contexts/UserContext"
 import { useLocale } from "@/contexts/LocaleContext"
+import { CountUp } from "@/components/ui/count-up"
+import { BlurText } from "@/components/ui/blur-text"
 
 const Shape3d = dynamic(() => import("@/components/features/3d-shape").then(m => m.Shape3d), {
   ssr: false,
@@ -208,7 +210,14 @@ export function Hero() {
               className="hero-animate-3 text-base sm:text-[1.05rem] text-muted-foreground leading-relaxed max-w-md mb-10"
               style={{ lineHeight: 1.75 }}
             >
-              {dictionary.hero.description}
+              <BlurText
+                text={dictionary.hero.description}
+                animateBy="words"
+                direction="top"
+                delay={600}
+                stepDelay={40}
+                className="text-muted-foreground"
+              />
             </p>
 
             <div className="hero-animate-4 flex flex-col sm:flex-row gap-3 mb-10">
@@ -305,7 +314,6 @@ export function Hero() {
                   }}
                 >
                   <p
-                    className="tabular-nums"
                     style={{
                       fontFamily: "var(--font-display, sans-serif)",
                       fontWeight: 700,
@@ -316,7 +324,13 @@ export function Hero() {
                       letterSpacing: "-0.02em",
                     }}
                   >
-                    {stat.number}+
+                    <CountUp
+                      end={stat.number}
+                      suffix="+"
+                      duration={1800}
+                      delay={index * 150}
+                      threshold={0.3}
+                    />
                   </p>
                   <p
                     className="text-xs uppercase tracking-widest transition-colors duration-200 group-hover:text-foreground/70"

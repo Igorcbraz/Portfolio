@@ -5,6 +5,9 @@ import { m } from "framer-motion"
 import { useLocale } from "@/contexts/LocaleContext"
 import { getArticles } from '@/lib/data'
 import { useInView } from "@/hooks/use-animations"
+import { SplitText } from "@/components/ui/split-text"
+import { DecryptedText } from "@/components/ui/decrypted-text"
+import { BlurText } from "@/components/ui/blur-text"
 
 interface Article {
   id: number
@@ -205,10 +208,10 @@ export function Articles() {
         transition={{ delay: 0.3, duration: 0.5 }}
       >
         <div className="font-mono text-[9px] text-muted-foreground/40 uppercase tracking-widest leading-relaxed">
-          <div>SEC-05 // ART</div>
-          <div>RENDER MODE: GRID</div>
+          <div><DecryptedText text="SEC-05 // ART" speed={25} delay={400} className="text-primary/60" /></div>
+          <div><DecryptedText text="RENDER MODE: GRID" speed={25} delay={550} className="text-muted-foreground/40" /></div>
           <div className="flex items-center gap-1">
-            <span>STATUS: ACTIVE</span>
+            <DecryptedText text="STATUS: ACTIVE" speed={25} delay={700} className="text-muted-foreground/40" />
             <span className="art-blink text-primary">▮</span>
           </div>
         </div>
@@ -228,35 +231,44 @@ export function Articles() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <m.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 22 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        >
+        <div className="mb-16">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-8 h-px bg-primary" />
             <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.25em] font-display">
-              {dictionary.articles.sectionLabel}
+              <DecryptedText
+                text={dictionary.articles.sectionLabel}
+                speed={30}
+                delay={0}
+                className="text-primary"
+              />
             </span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display leading-[0.95]">
-            {dictionary.articles.title}{' '}
+            <SplitText
+              text={dictionary.articles.title}
+              splitType="words"
+              stepDelay={60}
+              delay={0}
+              threshold={0.1}
+            />{' '}
             <span className="bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]">
               & {dictionary.articles.titleHighlight}
             </span>
           </h2>
 
-          <m.p
-            className="mt-4 text-sm text-muted-foreground max-w-xl leading-relaxed"
-            initial={{ opacity: 0, y: 16 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.35, duration: 0.6 }}
-          >
-            {dictionary.articles.subtitle}
-          </m.p>
-        </m.div>
+          <p className="mt-4 text-sm text-muted-foreground max-w-xl leading-relaxed">
+            <BlurText
+              text={dictionary.articles.subtitle}
+              animateBy="words"
+              direction="top"
+              delay={0}
+              stepDelay={30}
+              className="text-muted-foreground"
+              threshold={0.1}
+            />
+          </p>
+        </div>
 
         <div className="grid sm:grid-cols-2 gap-6">
           {articles.map((article, idx) => (

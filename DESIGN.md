@@ -2,6 +2,8 @@
 
 > Documento de referência para manter consistência visual em todas as alterações futuras.
 > Baseado no redesign do Hero, componente `3d-shape` e Navigation (Junho 2026).
+> Atualizado com a camada de Animações de Texto via React Bits (Junho 2026).
+> Atualizado com lições de implementação React Bits — conflitos `bg-clip-text` e `IntersectionObserver` (Junho 2026).
 
 ---
 
@@ -306,28 +308,25 @@ Animação em três camadas (implementada via `<style>` injetado):
 
 ### Camadas em ordem (de trás para frente)
 
-1. **Grid pattern** — classe `.hero-grid-pattern` (`globals.css`)
-   - Linhas de 60px com `rgba(255,255,255,0.03)`, `pointer-events: none`
+1. **DotField (React Bits)** — grade de pontos dinâmica com repulsão interativa ao cursor
+   - Configurações: `dotRadius: 1.2`, `dotSpacing: 22`, `cursorRadius: 180`, `bulgeStrength: 45`, `glowRadius: 120`
+   - Gradiente de cores: `from: rgba(200, 92, 0, 0.18)` para `to: rgba(180, 100, 30, 0.10)`
 
-2. **Vignette radial** — escurece bordas do grid para não competir com o conteúdo
-   ```css
-   background: radial-gradient(ellipse 80% 60% at 50% 0%, transparent 40%, var(--background) 100%);
-   ```
+2. **Aurora (React Bits)** — cortinas fluídas dinâmicas de cores trazendo profundidade ao fundo
+   - Paleta de cores: `#b84a00`, `#c87820`, `#2e2870`
+   - Configurações: `amplitude: 0.75`, `blend: 0.30`, `speed: 0.3`
+   - Máscara linear: `linear-gradient(to bottom, transparent 0%, black 55%, black 100%)`
 
-3. **Orb primário** — canto superior direito
-   - `width/height: 55vw` (max 700px), `border-radius: 50%`
-   - `radial-gradient(circle, oklch(0.62 0.22 41.1 / 0.13) 0%, transparent 70%)`
-   - `filter: blur(40px)`, `animation: pulse 6s ease-in-out infinite`
+3. **Vignette radial** — escurece bordas e suaviza o foco do fundo no conteúdo central
+   - `background: radial-gradient(ellipse 90% 65% at 50% 0%, transparent 35%, var(--background) 100%)`
 
-4. **Orb secundário** — canto inferior esquerdo (tom azul/violeta)
-   - `radial-gradient(circle, oklch(0.55 0.18 260 / 0.07) 0%, transparent 70%)`
-   - `filter: blur(60px)`, `animationDelay: "2s"`
+4. **Bottom Fade** — transição linear inferior ocultando grids em direção à próxima seção
+   - `height: 40%`, `background: linear-gradient(to top, var(--background) 0%, transparent 100%)`
 
 ### Regras do background do hero
-- Máximo de **2 orbs**
-- Opacidade máxima: `/ 0.15`
-- `pointer-events: none` em **todos** os elementos decorativos
-- Nunca use `animate-ping` ou `animate-spin` no background do hero
+- Todos os componentes interativos/visuais de fundo usam `pointer-events: none`
+- Sincronização estrita de cores com o tema da aplicação (laranja primário oklch e nuances complementares)
+- Utilização de dynamic imports (`ssr: false`) para componentes pesados em animação de tela cheia
 
 ---
 
@@ -359,6 +358,21 @@ Arquivo: `components/features/3d-shape.tsx`
 6. **Reflexo de chão** — linha `1px` + fade vertical de `40px`
 
 7. **Canvas Three.js** — `z-index: 20`, sobre tudo
+
+### Interação e Varredura (Holograma & Laser)
+
+Para máxima otimização e imersão visual (estilo "Robocop" / HUD tático), o controle de visibilidade das partículas do modelo 3D (tanto o busto quanto os sparks flutuantes) é processado diretamente na GPU (Fragment Shader) ao invés de usar máscaras CSS no DOM.
+
+- **Mascaramento por Uniforms**: A visibilidade final do pixel é calculada via `particleVisibility = max(spotlight, scanHighlight)`.
+  - **Spotlight (Hover)**: Ativado quando o mouse entra no card, gerando uma retícula circular reveladora em torno das coordenadas de projeção 3D (`uMouse3D`), animada via `uMouseStrength`.
+  - **Scanline Sweep (Scanner)**: Revela uma fatia horizontal fina do modelo 3D em torno da coordenada de varredura `uScanProgress`.
+- **Clean State (Default)**: Sem hover e com scanner desligado, as partículas de busto e faíscas têm visibilidade `0.0` (100% invisíveis), mostrando apenas o retrato fotográfico em alta resolução.
+- **Ciclo de Varredura Inicial**: No primeiro render da página, o scanner executa exatamente **1 ciclo** (desce até a base e sobe ao topo) de forma lenta e cadenciada (`SCAN_SPEED: 0.3`). Uma linha laser neon laranja de `1px` (`boxShadow` com glow suave) acompanha e guia visualmente a varredura, ocultando-se ao término do ciclo.
+- **Botão Re-Scan Manual**: Adição de um botão HUD em glassmorphism (`[ ESCANEAR PERFIL ]` / `[ SCAN PROFILE ]`) com `z-50`. Cada clique incrementa o estado `scanTrigger` e aciona exatamente 1 novo ciclo completo de varredura do laser, reforçando o caráter interativo do portfólio.
+- **Stacking de Camadas (z-index)**:
+  - O wrapper do `Shape3d` está na camada frontal (`z-30`).
+  - O wrapper do `HeroPhoto` está na camada intermediária (`z-20` / default).
+  - O botão de controle manual está na camada superior (`z-50`).
 
 ### Keyframes dos anéis (em `<style>` no próprio componente)
 
@@ -445,6 +459,56 @@ Uso no hero (de cima para baixo):
 
 ---
 
+## Animações de Texto com React Bits
+
+> Camada adicionada para enriquecer a movimentação dos textos do portfólio, usando os componentes de `TextAnimations` do [React Bits](https://reactbits.dev), **sem abrir mão de nenhuma regra de cor, fonte ou tom sóbrio já definida neste documento.**
+
+### Filosofia de uso
+
+React Bits entra como **motor de animação de texto** — reduz CSS/JS customizado e padroniza timing — mas nunca como fonte de identidade visual. Todo componente instalado deve ter sua paleta padrão (geralmente colorida/rainbow nas demos) **completamente sobrescrita** pelos tokens oklch do projeto.
+
+> ⚠️ **Regra de Ouro:** instale o componente pela estrutura/lógica/timing dele, e sempre re-estilize via props de cor e `className` para `--primary`, `--foreground`, `--muted-foreground` e `font-display`/`font-mono`. Nunca deixe a cor padrão de demo do componente chegar à tela.
+
+### Instalação (variante TS-TW — obrigatória, bate com a regra de Tailwind)
+
+```bash
+npx shadcn@latest add @react-bits/BlurText-TS-TW
+npx shadcn@latest add @react-bits/SplitText-TS-TW
+npx shadcn@latest add @react-bits/DecryptedText-TS-TW
+npx shadcn@latest add @react-bits/TextType-TS-TW
+npx shadcn@latest add @react-bits/CountUp-TS-TW
+```
+
+### Mapeamento — onde usar cada componente
+
+| Componente | Onde aplicar | Props/ajustes obrigatórios |
+|---|---|---|
+| **BlurText** | Eyebrow do hero, parágrafo de descrição, parágrafos de outras seções (substitui parte das `.hero-animate-*`) | `animateBy="words"`, `direction="top"`, cor herdada via `className="text-muted-foreground"` / `text-foreground` — nenhuma cor própria do componente |
+| **SplitText** | Entrada do H1 (nome) e dos H2 de seção, antes do shimmer assumir o loop contínuo | `splitType="words"` ou `"chars"`, duração 700ms, easing `cubic-bezier(0.16, 1, 0.3, 1)` — reutiliza o timing já documentado em "Entrada de bloco (hero)" |
+| **DecryptedText** | HUD labels (`SEC-04 // PRJ`, `STATUS: ACTIVE`, `RENDER MODE: GRID`, rodapé `END // SEC-04`) | `className="font-mono"` + cor herdada (`text-primary` ou `text-muted-foreground/40`, conforme o label), `speed` rápido (30–50ms), reforça o conceito CRT/scan já existente no 3D Shape |
+| **TextType** | Strings que simulam terminal nos HUDs — pode substituir o `.prj-blink` manual em textos que "digitam" ao entrar na viewport | cursor monospace herdando a cor do token, `loop={false}` para status fixos (não repetir infinitamente) |
+| **CountUp** | Números das stats do hero e métricas numéricas dos cards de projeto | `duration` 1.5–2s, `text-primary font-display tabular-nums`, dispara uma única vez por scroll-into-view |
+| **ShinyText** *(opcional)* | Pode substituir o shimmer manual do nome, só se simplificar manutenção — não é obrigatório trocar o que já funciona | gradiente customizado para `oklch(0.62 0.22 41.1)` + `oklch(0.85 0.18 90)`, nunca a cor branca/neutra padrão do componente |
+
+### Onde NÃO usar — quebra a filosofia sóbria/premium
+
+| ❌ Evitar | Motivo |
+|---|---|
+| `GlitchText`, `ScrambleText` com a paleta padrão do componente | Cores RGB chapadas e efeito "cyberpunk genérico" contrastam com a estética sóbria/monocromática laranja do projeto |
+| `FallingText` | Física de gravidade "engraçadinha" — foge do tom de produto premium |
+| Springs com overshoot/bounce visivelmente exagerado em heading | Lembra UI infantil — viola a regra "Evite a todo custo a Estética Infantil" |
+| Mais de 2 animações de texto disparando simultaneamente na mesma viewport | Poluição visual — contraria o princípio "menos é mais" |
+| Qualquer cor padrão de demo (rainbow, multicolor, branco puro) | Todo texto animado usa exclusivamente os tokens oklch já definidos na Paleta de Cores |
+
+### Regras de implementação
+
+- Componentes que dependem de GSAP/Framer Motion pesado devem ser carregados via `dynamic(() => import(...), { ssr: false })` — mesma regra já aplicada ao background do hero.
+- Toda cor passada por prop a um componente React Bits deve vir de uma constante mapeada para os tokens oklch (nunca hex solto) — segue a mesma lógica de "mapear valores dinâmicos para Tailwind" já documentada na seção "Regra de Implementação — Tailwind Obrigatório".
+- Animações de entrada disparam **uma única vez** por scroll-into-view (`once: true` / IntersectionObserver) — exceto os loops intencionais já documentados (shimmer 4s, badge pulse 2s, CRT scan 8s).
+- Antes de adicionar uma nova animação de texto, verifique a tabela de timings em "Animações — Referência Completa": o componente React Bits deve se encaixar nos valores já existentes, não introduzir um novo timing aleatório.
+
+---
+
 ## Scroll Indicator
 
 Padrão para o final de qualquer seção full-height:
@@ -496,14 +560,24 @@ Padrão para o final de qualquer seção full-height:
 - [ ] Language selector oculto no modo floating (`scrolled === true`)
 
 ### Background do hero
-- [ ] Grid `.hero-grid-pattern` presente
-- [ ] Máximo 2 orbs, opacidade ≤ `/ 0.15`
-- [ ] `pointer-events: none` em todos os decorativos
+- [ ] Componentes de partículas/Aurora dinâmicas (DotField e Aurora) do React Bits configurados com `pointer-events: none`
+- [ ] Cores de gradiente e orbs integrados na paleta do projeto (laranja oklch)
 
 ### 3D Shape
 - [ ] Somente `oklch(0.62 0.22 41.1 / X)` para cor
 - [ ] Máximo 3 anéis orbitais
 - [ ] Sem `animate-ping`, `animate-spin` ou grid CSS
+- [ ] Visibilidade do modelo e das partículas calculada inteiramente via GPU (Fragment Shader)
+- [ ] Laser scanline de 1px a `SCAN_SPEED = 0.3` executado exatamente 1 ciclo na inicialização
+- [ ] Botão HUD de Re-Scan manual presente na camada de z-index z-50
+
+### Animações de texto (React Bits)
+- [ ] Cores dos componentes React Bits sobrescritas pelos tokens oklch — nunca a paleta padrão do demo
+- [ ] DecryptedText usado nos HUD labels, BlurText nos parágrafos, SplitText nos headings
+- [ ] Nenhum `GlitchText`/`ScrambleText`/`FallingText` com cores fora da paleta do projeto
+- [ ] Máximo 2 animações de texto disparando simultaneamente na mesma viewport
+- [ ] Componentes pesados (GSAP/Framer Motion) carregados via `dynamic(..., { ssr: false })`
+- [ ] Animações de entrada disparam uma única vez por scroll-into-view (exceto loops já documentados)
 
 ### Geral
 - [ ] Animações de entrada usam `.hero-animate-1` a `.hero-animate-5`
@@ -710,5 +784,154 @@ Divisor técnico com gradiente:
 | `components/sections/projects.tsx` | Seção de projetos — grid 2 colunas, HUD, CRT scan |
 | `components/features/3d-shape.tsx` | Modelo 3D de partículas + background decorativo |
 | `components/features/hero-photo.tsx` | Foto no modo "Photo" do hero |
+| `components/ui/` | Componentes instalados via React Bits (BlurText, SplitText, DecryptedText, TextType, CountUp etc.) já restilizados com os tokens do projeto |
 | `data/projects/pt.json` | Dados dos projetos em português (campo `featured` é só visual) |
 | `data/projects/en.json` | Dados dos projetos em inglês |
+
+---
+
+## Lições de Implementação — React Bits (Junho 2026)
+
+> Aprendizados documentados após a integração dos componentes de animação de texto (`BlurText`, `SplitText`, `DecryptedText`, `CountUp`) em todas as seções do portfólio.
+
+### ❌ Conflito crítico 1: `SplitText` dentro de `bg-clip-text`
+
+**Problema:** Colocar `<SplitText>` (ou qualquer componente que gere `<span className="inline-block">` internamente) dentro de um `<span>` com gradiente shimmer **quebra o gradiente completamente** — o texto fica invisível.
+
+**Por quê:** `bg-clip-text` + `-webkit-text-fill-color: transparent` requer que o texto seja um **nó de texto direto** no elemento com o gradiente. Quando `SplitText` cria múltiplos `<m.span className="inline-block">` individuais, cada um forma seu próprio contexto de background — o `bg-clip-text` se fragmenta por span, o `background-size: 200%` do shimmer não consegue fazer a varredura contínua, e o resultado é texto transparente sem cor.
+
+**Regra Definitiva:**
+
+```tsx
+// ❌ QUEBRA o gradiente — SplitText dentro do span shimmer
+<span className="bg-clip-text text-transparent animate-[shimmer_4s_linear_infinite]">
+  <SplitText text="Highlight" />
+</span>
+
+// ✅ CORRETO — texto direto no span de gradiente, SplitText apenas fora dele
+<h2>
+  <SplitText text={dictionary.section.title} splitType="words" stepDelay={65} delay={0} />
+  {" "}
+  <span className="bg-clip-text text-transparent animate-[shimmer_4s_linear_infinite]">
+    {dictionary.section.titleHighlight}
+  </span>
+</h2>
+```
+
+> O shimmer de loop contínuo de 4s já é animação suficiente para o highlight — `SplitText` seria redundante e destrutivo nesse contexto.
+
+---
+
+### ❌ Conflito crítico 2: `opacity: 0` no pai + componentes com `IntersectionObserver`
+
+**Problema:** `BlurText`, `SplitText` e `DecryptedText` usam `useInView` (Framer Motion `IntersectionObserver`) para detectar quando entrar na viewport e disparar sua animação. Quando esses componentes estão dentro de um `<m.div initial={{ opacity: 0 }}>`, o IntersectionObserver **ainda detecta o elemento como visível** — `opacity: 0` não cria invisibilidade para o observer. A animação dispara e conclui enquanto o pai ainda está `opacity: 0`. Quando o pai faz o fade-in, o texto já está no estado final — o usuário vê apenas o fade simples do pai, sem nenhum efeito de stagger, blur ou decrypt.
+
+**Por quê funciona assim:** O `IntersectionObserver` observa **posição na viewport**, não visibilidade perceptual. `opacity: 0` não impede a detecção.
+
+**Regra Definitiva:**
+
+```tsx
+// ❌ INEFICAZ — animação já completou enquanto o pai era opacity:0
+<m.div initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}}>
+  <DecryptedText text="SECTION LABEL" delay={200} />
+  <SplitText text={title} delay={300} />
+  <BlurText text={subtitle} delay={500} />
+</m.div>
+
+// ✅ CORRETO — sem wrapper de opacidade, cada componente controla sua própria entrada
+<div>
+  <DecryptedText text="SECTION LABEL" delay={0} />
+  <SplitText text={title} delay={0} />
+  <BlurText text={subtitle} delay={0} />
+</div>
+```
+
+> **Nota sobre delay:** Quando o wrapper de opacidade é removido, os `delay` internos dos componentes devem ser zerados — eles não precisam mais compensar o tempo do fade-in do pai.
+
+---
+
+### Padrão correto de heading de seção com animações
+
+Este é o padrão validado e a ser replicado em todas as seções:
+
+```tsx
+{/* Caption/eyebrow — DecryptedText gerencia própria entrada, sem wrapper de opacidade */}
+<div className="flex items-center gap-3 mb-5">
+  <div className="w-8 h-px bg-primary" />
+  <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.25em] font-display">
+    <DecryptedText
+      text={dictionary.section.sectionLabel}
+      speed={30}
+      delay={0}
+      className="text-primary"
+    />
+  </span>
+</div>
+
+{/* H2 — SplitText nas palavras normais, texto DIRETO no span de shimmer */}
+<h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display leading-[0.95]">
+  <SplitText
+    text={dictionary.section.title}
+    splitType="words"
+    stepDelay={65}
+    delay={0}
+    threshold={0.1}
+  />{" "}
+  <span className="bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]">
+    {dictionary.section.titleHighlight}
+  </span>
+</h2>
+
+{/* Parágrafo — BlurText gerencia própria entrada, sem m.p com opacity:0 */}
+<p className="text-base text-muted-foreground max-w-xl leading-relaxed">
+  <BlurText
+    text={dictionary.section.subtitle}
+    animateBy="words"
+    direction="top"
+    delay={0}
+    stepDelay={28}
+    className="text-muted-foreground"
+    threshold={0.1}
+  />
+</p>
+```
+
+---
+
+### Implementação interna dos componentes
+
+Os componentes são **implementados como arquivos TypeScript em `components/ui/`**, não instalados via `npx shadcn` — controle total sobre Tailwind v4 + Next.js 16. Todos usam `useInView` do Framer Motion internamente:
+
+| Componente | Arquivo | Cor |
+|---|---|---|
+| `BlurText` | `components/ui/blur-text.tsx` | Herdada via `className` — nunca cor própria |
+| `SplitText` | `components/ui/split-text.tsx` | Herdada via `className` — nunca cor própria |
+| `DecryptedText` | `components/ui/decrypted-text.tsx` | Herdada via `className` — nunca cor própria |
+| `CountUp` | `components/ui/count-up.tsx` | Herdada via `className` — nunca cor própria |
+
+**Todos têm guard** `if (!text || text.trim() === "") return null` para não crashar com strings vazias (ex: partes do título Contact quando o highlight é a primeira ou última palavra).
+
+---
+
+### Mapa de aplicação por seção
+
+| Seção | DecryptedText | SplitText | BlurText | CountUp |
+|---|---|---|---|---|
+| **Hero** | — | — | Parágrafo descrição | Stats (repos, stars, anos) |
+| **Professional Journey** | Caption eyebrow | H2 title | — | — |
+| **Projects** | Caption eyebrow + HUDs (SEC-04, RENDER MODE, STATUS) | H2 title | Subtitle | — |
+| **Articles** | Caption eyebrow + HUDs (SEC-05, RENDER MODE, STATUS) | H2 title | Subtitle | — |
+| **Tech Stack** | Caption eyebrow | H2 title | Subtitle | — |
+| **Contact** | Caption eyebrow + HUDs (SYS_STATUS, UPLINK, TELEMETRY, TRANSMISSION) | H2 (before + after) | Subtitle | — |
+| **Code Dashboard** | Caption eyebrow | H2 title | Subtitle | — |
+
+---
+
+### Adições ao Checklist de entrega
+
+Adicionar à seção **"Animações de texto (React Bits)"** do checklist:
+
+- [ ] `SplitText`/`BlurText`/`DecryptedText` **nunca** dentro de `<span>` com `bg-clip-text` — texto de gradiente sempre como nó direto
+- [ ] `SplitText`/`BlurText`/`DecryptedText` **nunca** dentro de `<m.div>` ou `<m.span>` com `initial={{ opacity: 0 }}` — remover o wrapper e deixar cada componente controlar sua própria entrada via IntersectionObserver
+- [ ] `delay={0}` quando o wrapper de opacidade é removido — o delay servia apenas para compensar o tempo do fade do pai
+- [ ] Guard `if (!text || text.trim() === "") return null` em todos os componentes de animação de texto

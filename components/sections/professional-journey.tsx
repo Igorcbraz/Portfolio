@@ -5,6 +5,8 @@ import { m, AnimatePresence, type Variants } from "framer-motion"
 import { getExperience } from '@/lib/data'
 import { useLocale } from "@/contexts/LocaleContext"
 import { ArrowLeft, ArrowRight, Server, Database, LayoutTemplate, Network, Blocks, Shield, Users, Terminal, Table } from "lucide-react"
+import { SplitText } from "@/components/ui/split-text"
+import { DecryptedText } from "@/components/ui/decrypted-text"
 
 interface JourneyStep {
   startDate: string
@@ -137,28 +139,33 @@ export function ProfessionalJourney() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <m.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.05 }}
-        >
+        <div className="mb-16">
           <p
             className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-4 font-display"
           >
-            {dictionary.journey.sectionLabel}
+            <DecryptedText
+              text={dictionary.journey.sectionLabel}
+              speed={35}
+              delay={0}
+              className="text-muted-foreground/60"
+            />
           </p>
           <h2
             className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-foreground font-display"
           >
-            {dictionary.journey.title}{" "}
+            <SplitText
+              text={dictionary.journey.title}
+              splitType="words"
+              stepDelay={60}
+              delay={0}
+            />{" "}
             <span
               className="bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]"
             >
               {dictionary.journey.titleHighlight}
             </span>
           </h2>
-        </m.div>
+        </div>
 
         <m.div
           className="flex gap-8 lg:gap-16 items-start"

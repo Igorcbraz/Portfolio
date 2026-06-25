@@ -6,6 +6,9 @@ import { useLocale } from "@/contexts/LocaleContext"
 import { sendGAEvent } from '@next/third-parties/google'
 import { getProjects } from '@/lib/data'
 import { useInView } from "@/hooks/use-animations"
+import { SplitText } from "@/components/ui/split-text"
+import { DecryptedText } from "@/components/ui/decrypted-text"
+import { BlurText } from "@/components/ui/blur-text"
 
 import { ScanLine } from "@/components/features/scan-line"
 import { ProjectCard } from "./project-card"
@@ -81,10 +84,14 @@ export function Projects() {
           animate={isInView ? { opacity: 0.4, x: 0 } : {}}
           transition={{ delay: 0.5, duration: 0.8 }}
         >
-          <div className="text-[9px] font-mono text-primary tracking-widest uppercase">SEC-04 // PRJ</div>
-          <div className="text-[9px] font-mono text-muted-foreground tracking-widest">RENDER MODE: GRID</div>
+          <div className="text-[9px] font-mono text-primary tracking-widest uppercase">
+            <DecryptedText text="SEC-04 // PRJ" speed={25} delay={600} className="text-primary" />
+          </div>
+          <div className="text-[9px] font-mono text-muted-foreground tracking-widest">
+            <DecryptedText text="RENDER MODE: GRID" speed={25} delay={700} className="text-muted-foreground/60" />
+          </div>
           <div className="text-[9px] font-mono text-muted-foreground tracking-widest flex items-center gap-1">
-            <span>STATUS:</span>
+            <DecryptedText text="STATUS: " speed={25} delay={800} className="text-muted-foreground/60" />
             <span className="text-primary prj-blink">ACTIVE</span>
           </div>
         </m.div>
@@ -111,33 +118,27 @@ export function Projects() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <m.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <m.div
-            className="flex items-center gap-3 mb-5"
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.6 }}
-          >
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-5">
             <div className="w-8 h-px bg-primary" />
             <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.25em] font-display">
-              {dictionary.projects.sectionLabel}
+              <DecryptedText
+                text={dictionary.projects.sectionLabel}
+                speed={30}
+                delay={0}
+                className="text-primary"
+              />
             </span>
-          </m.div>
+          </div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground font-display leading-[0.95] mb-6">
-            <m.span
-              className="inline-block"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            >
-              {dictionary.projects.title}
-            </m.span>{" "}
+            <SplitText
+              text={dictionary.projects.title}
+              splitType="words"
+              stepDelay={65}
+              delay={0}
+              threshold={0.05}
+            />{" "}
             <m.span
               className="inline-block bg-[linear-gradient(90deg,oklch(0.62_0.22_41.1),oklch(0.82_0.20_75),oklch(0.62_0.22_41.1))] bg-size-[200%_auto] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] [-webkit-background-clip:text] animate-[shimmer_4s_linear_infinite]"
               initial={{ opacity: 0, y: 20 }}
@@ -148,15 +149,18 @@ export function Projects() {
             </m.span>
           </h2>
 
-          <m.p
-            className="text-base text-muted-foreground max-w-xl leading-relaxed"
-            initial={{ opacity: 0, y: 16 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.5, duration: 0.6 }}
-          >
-            {dictionary.projects.subtitle}
-          </m.p>
-        </m.div>
+          <p className="text-base text-muted-foreground max-w-xl leading-relaxed">
+            <BlurText
+              text={dictionary.projects.subtitle}
+              animateBy="words"
+              direction="top"
+              delay={0}
+              stepDelay={28}
+              className="text-muted-foreground"
+              threshold={0.05}
+            />
+          </p>
+        </div>
 
         <m.div
           className="relative mb-10"

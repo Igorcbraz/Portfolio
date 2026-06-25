@@ -1,3 +1,8 @@
+export { BlurText } from './blur-text'
+export { SplitText } from './split-text'
+export { DecryptedText } from './decrypted-text'
+export { CountUp } from './count-up'
+
 export { Badge } from './badge'
 export { Button } from './button'
 export { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './dialog'
