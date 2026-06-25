@@ -8,7 +8,8 @@
     "contactMe": "Contact Me",
     "repositories": "Repositories",
     "githubStars": "GitHub Stars",
-    "yearsOfExperience": "Years of Experience"
+    "yearsOfExperience": "Years of Experience",
+    "scanProfile": "Scan Profile"
   },
   "notFound": {
     "title": "Page Not Found",

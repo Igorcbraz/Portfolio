@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import { analytics } from "@/lib/analytics"
 import { useUser } from "@/contexts/UserContext"
@@ -16,40 +16,17 @@ const DotField = dynamic(() => import("@/components/features/dot-field"), { ssr:
 
 const HeroPhoto = dynamic(() => import("@/components/features/hero-photo").then(m => m.HeroPhoto))
 
-type ViewMode = "3d" | "photo"
-
-const VIEW_OPTIONS = [
-  {
-    mode: "photo" as ViewMode,
-    label: "Photo",
-    icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2" />
-        <circle cx="8.5" cy="8.5" r="1.5" />
-        <path d="M21 15l-5-5L5 21" />
-      </svg>
-    ),
-  },
-  {
-    mode: "3d" as ViewMode,
-    label: "3D",
-    icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2L2 7l10 5 10-5-10-5z" />
-        <path d="M2 17l10 5 10-5" />
-        <path d="M2 12l10 5 10-5" />
-      </svg>
-    ),
-  },
-] as const
-
 export function Hero() {
   const [isDesktopViewport, setIsDesktopViewport] = useState(false)
   const [isShapeReady, setIsShapeReady] = useState(false)
-  const [viewMode, setViewMode] = useState<ViewMode>("photo")
+
+  const imageContainerRef = useRef<HTMLDivElement>(null)
+  const [scanTrigger, setScanTrigger] = useState(0)
   const { userData } = useUser()
   const { dictionary } = useLocale()
   const [headlinePrefix, , headlineSuffix] = dictionary.hero.greeting.split("Igor")
+
+  const DEBUG_ALIGNMENT = false // TEMPORARY DEBUG ALIGNMENT MODE
 
   const reposCount = userData?.github.totalRepos || 0
   const starsCount = userData?.github.totalStars || 0
@@ -357,53 +334,39 @@ export function Hero() {
           </div>
 
           <div className="relative hidden lg:flex justify-center items-center lg:min-h-[680px]">
-            <div className="relative w-full min-h-[580px] lg:min-h-[680px] flex justify-center items-center overflow-visible lg:-translate-y-10">
+            <div
+              ref={imageContainerRef}
+              className="relative w-[540px] h-[580px] flex items-end justify-center overflow-visible lg:-translate-y-10 select-none"
+            >
               <div
-                className={[
-                  "absolute inset-0 flex justify-center items-center transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] origin-center",
-                  viewMode === "3d"
-                    ? "opacity-100 scale-100 rotate-0 translate-y-0 blur-none pointer-events-auto z-10"
-                    : "opacity-0 scale-95 -rotate-2 -translate-y-4 blur-xs pointer-events-none z-0",
-                ].join(" ")}
-              >
-                {isDesktopViewport && isShapeReady ? <Shape3d /> : null}
-              </div>
-              <div
-                className={[
-                  "absolute inset-0 flex justify-center lg:items-end items-center transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] origin-center",
-                  viewMode === "photo"
-                    ? "opacity-100 scale-100 rotate-0 translate-y-0 blur-none pointer-events-auto z-10"
-                    : "opacity-0 scale-95 rotate-2 translate-y-4 blur-xs pointer-events-none z-0",
-                ].join(" ")}
+                className="absolute inset-0 w-full h-full flex items-end justify-center pointer-events-none"
+                style={{ opacity: DEBUG_ALIGNMENT ? 0.5 : 1 }}
               >
                 <HeroPhoto />
               </div>
-              <div
-                role="group"
-                aria-label="View mode"
-                className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-0.5 p-1 rounded-full bg-black/65 border border-white/12 backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.4)] pointer-events-auto"
-              >
-                {VIEW_OPTIONS.map(({ mode, label, icon }) => (
-                  <button
-                    key={mode}
-                    onClick={() => {
-                      setViewMode(mode)
-                      analytics.trackClick(mode, "hero_view_mode")
+
+              {isDesktopViewport && isShapeReady ? (
+                <>
+                  <div
+                    className="absolute bottom-0 -left-10 w-[620px] h-[660px] pointer-events-none z-30"
+                    style={{
+                      opacity: 1.0,
                     }}
-                    aria-pressed={viewMode === mode}
-                    title={label}
-                    className={[
-                      "inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide border-none cursor-pointer transition-all duration-200",
-                      viewMode === mode
-                        ? "bg-primary text-black shadow-[0_1px_8px_rgba(163,230,53,0.3)]"
-                        : "bg-transparent text-white/50 hover:text-white/80",
-                    ].join(" ")}
                   >
-                    {icon}
-                    {label}
+                    <Shape3d className="w-full h-full relative overflow-visible" scanTrigger={scanTrigger} />
+                  </div>
+
+                  <button
+                    onClick={() => setScanTrigger(prev => prev + 1)}
+                    className="absolute bottom-6 right-6 z-50 px-3.5 py-2 font-mono text-[9px] sm:text-[10px] tracking-widest uppercase border border-primary/30 bg-black/55 backdrop-blur-md text-primary hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 cursor-pointer rounded-sm"
+                    style={{
+                      boxShadow: "0 0 10px oklch(0.62 0.22 41.1 / 0.15)",
+                    }}
+                  >
+                    {dictionary.hero.scanProfile}
                   </button>
-                ))}
-              </div>
+                </>
+              ) : null}
             </div>
           </div>
         </div>

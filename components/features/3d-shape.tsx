@@ -5,14 +5,31 @@ import * as THREE from "three"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js"
 
-export function Shape3d() {
+export interface Shape3dProps {
+  className?: string
+  scanTrigger?: number
+}
+
+export function Shape3d({ className, scanTrigger }: Shape3dProps) {
   const [isClient, setIsClient] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const laserLineRef = useRef<HTMLDivElement>(null)
   const mouseRef = useRef({ x: 0, y: 0 })
   const [isInView, setIsInView] = useState(false)
   const isInViewRef = useRef(false)
+
+  const scanOffsetRef = useRef(0.0)
+  const scanTargetRef = useRef(2.0)
+  const isScanningRef = useRef(true)
+
+  useEffect(() => {
+    if (scanTrigger && scanTrigger > 0) {
+      scanTargetRef.current += 2.0
+      isScanningRef.current = true
+    }
+  }, [scanTrigger])
 
   useEffect(() => {
     isInViewRef.current = isInView
@@ -74,8 +91,8 @@ export function Shape3d() {
     const scene = new THREE.Scene()
 
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 100)
-    camera.position.set(0, 1.0, 3.6)
-    camera.lookAt(0, 1.0, 0)
+    camera.position.set(0, 1, 3.2)
+    camera.lookAt(0, 0.95, 0)
 
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
@@ -382,7 +399,9 @@ export function Shape3d() {
             uMouseRadius: { value: 2.2 },
             uMouseStrength: { value: 0.0 },
             uThemeColor: { value: new THREE.Color("#f97316") },
-            uAccentColor: { value: new THREE.Color("#ff5100") }
+            uAccentColor: { value: new THREE.Color("#ff5100") },
+            uScanProgress: { value: 999.0 },
+            uScanWidth: { value: 0.08 }
           },
           vertexShader: `
             uniform float uTime;
@@ -435,7 +454,7 @@ export function Shape3d() {
               float dist = length(dir);
               if (dist < uMouseRadius) {
                 float force = (1.0 - dist / uMouseRadius);
-                force = pow(force, 2.0) * uMouseStrength * 0.35;
+                force = pow(force, 2.0) * uMouseStrength * 0.06;
                 vec3 pushDir = dist > 0.0001 ? normalize(dir) : vec3(0.0, 1.0, 0.0);
                 pos += pushDir * force;
               }
@@ -454,6 +473,10 @@ export function Shape3d() {
             uniform float uTime;
             uniform vec3 uThemeColor;
             uniform vec3 uAccentColor;
+            uniform float uMouseStrength;
+            uniform float uScanProgress;
+            uniform float uScanWidth;
+            uniform vec3 uMouse3D;
 
             varying vec3 vColor;
             varying float vBrightness;
@@ -480,10 +503,15 @@ export function Shape3d() {
               }
 
               float fadeBottom = smoothstep(0.0, 0.22, vNormY);
-              if (vIsSpark > 0.5) {
-              }
 
-              gl_FragColor = vec4(finalColor, alpha * scanline * fadeBottom * (vIsSpark > 0.5 ? 0.75 : 0.85));
+              float distToMouse = length(vPosition.xy - uMouse3D.xy);
+              float spotlight = smoothstep(0.48, 0.12, distToMouse) * uMouseStrength;
+
+              float scanHighlight = smoothstep(uScanWidth, 0.0, abs(vNormY - uScanProgress));
+
+              float particleVisibility = max(spotlight, scanHighlight);
+
+              gl_FragColor = vec4(finalColor, alpha * scanline * fadeBottom * (vIsSpark > 0.5 ? 0.75 : 0.85) * particleVisibility);
             }
           `,
           transparent: true,
@@ -525,16 +553,54 @@ export function Shape3d() {
     const tick = () => {
       if (!isMounted) return
 
-      const elapsedTime = clock.getElapsedTime()
+      const deltaTime = clock.getDelta()
+      const elapsedTime = clock.elapsedTime
 
       if (material) {
         material.uniforms.uTime.value = elapsedTime
       }
 
+      if (isScanningRef.current) {
+        const SCAN_SPEED = 0.3
+        scanOffsetRef.current += deltaTime * SCAN_SPEED
+        if (scanOffsetRef.current >= scanTargetRef.current) {
+          scanOffsetRef.current = scanTargetRef.current
+          isScanningRef.current = false
+        }
+      }
+
+      const currentOffset = scanOffsetRef.current
+      const cycleNumber = Math.floor(currentOffset)
+      const cycleFraction = currentOffset % 1
+      let sweepProgress = 999.0
+
+      if (isScanningRef.current) {
+        if (cycleNumber % 2 === 0) {
+          sweepProgress = 1.0 - cycleFraction
+        } else {
+          sweepProgress = cycleFraction
+        }
+      }
+
+      if (material) {
+        material.uniforms.uScanProgress.value = sweepProgress
+      }
+
+      if (laserLineRef.current) {
+        if (isScanningRef.current) {
+          const sweepY = sweepProgress * 660
+          laserLineRef.current.style.bottom = `${sweepY}px`
+          const edgeFade = Math.sin(sweepProgress * Math.PI)
+          laserLineRef.current.style.opacity = (0.2 + 0.8 * edgeFade).toString()
+        } else {
+          laserLineRef.current.style.opacity = "0"
+        }
+      }
+
       const mx = mouseRef.current.x * 2
       const my = -mouseRef.current.y * 2
-      smoothMouse.x += (mx - smoothMouse.x) * 0.1
-      smoothMouse.y += (my - smoothMouse.y) * 0.1
+      smoothMouse.x += (mx - smoothMouse.x) * 0.25
+      smoothMouse.y += (my - smoothMouse.y) * 0.25
 
       raycaster.setFromCamera(smoothMouse, camera)
       const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0.0)
@@ -553,13 +619,13 @@ export function Shape3d() {
         }
       }
 
-      currentMouse3D.lerp(targetMouse3D, 0.1)
+      currentMouse3D.lerp(targetMouse3D, 0.25)
       if (material) {
         material.uniforms.uMouse3D.value.copy(currentMouse3D)
       }
 
       const targetStrength = isMouseActive ? 1.0 : 0.0
-      currentStrength += (targetStrength - currentStrength) * 0.06
+      currentStrength += (targetStrength - currentStrength) * 0.18
       if (material) {
         material.uniforms.uMouseStrength.value = currentStrength
       }
@@ -589,7 +655,7 @@ export function Shape3d() {
   return (
     <div
       ref={containerRef}
-      className="w-[450px] h-[450px] sm:w-[580px] sm:h-[580px] lg:w-[540px] lg:h-[680px] relative overflow-visible"
+      className={className || "w-[450px] h-[450px] sm:w-[580px] sm:h-[580px] lg:w-[540px] lg:h-[680px] relative overflow-visible"}
       style={{
         perspective: "2000px",
         transformStyle: "preserve-3d",
@@ -609,10 +675,22 @@ export function Shape3d() {
         )}
 
         {isClient && (
-          <canvas
-            ref={canvasRef}
-            className="absolute inset-0 w-full h-full pointer-events-none z-20"
-          />
+          <>
+            <canvas
+              ref={canvasRef}
+              className="absolute inset-0 w-full h-full pointer-events-none z-20"
+            />
+            <div
+              ref={laserLineRef}
+              className="absolute left-0 w-full h-px pointer-events-none z-40 transition-opacity duration-200"
+              style={{
+                background: "linear-gradient(90deg, transparent 15%, var(--primary) 50%, transparent 85%)",
+                boxShadow: "0 0 8px 1px var(--primary)",
+                bottom: "0px",
+                opacity: 0,
+              }}
+            />
+          </>
         )}
 
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
@@ -707,7 +785,8 @@ export function Shape3d() {
         />
       </div>
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes shape3d-ring1 {
           from { transform: translate(-50%, -50%) rotateX(72deg) rotateZ(0deg); }
           to   { transform: translate(-50%, -50%) rotateX(72deg) rotateZ(360deg); }
