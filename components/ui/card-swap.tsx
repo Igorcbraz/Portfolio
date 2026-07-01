@@ -112,6 +112,40 @@ export const CardSwap: React.FC<CardSwapProps> = ({
   const intervalRef = useRef<number>(0)
   const container = useRef<HTMLDivElement>(null)
 
+  const isVisibleRef = useRef(true)
+  const isPageVisibleRef = useRef(true)
+  const isHoveredRef = useRef(false)
+  const delayRef = useRef(delay)
+
+  useEffect(() => {
+    delayRef.current = delay
+  }, [delay])
+
+  const stopInterval = () => {
+    if (intervalRef.current) {
+      window.clearInterval(intervalRef.current)
+      intervalRef.current = 0
+    }
+  }
+
+  const startInterval = () => {
+    stopInterval()
+    intervalRef.current = window.setInterval(() => {
+      swapRef.current()
+    }, delayRef.current)
+  }
+
+  const checkAndPlay = () => {
+    const shouldPlay = isVisibleRef.current && isPageVisibleRef.current && (!pauseOnHover || !isHoveredRef.current)
+    if (shouldPlay) {
+      startInterval()
+      tlRef.current?.play()
+    } else {
+      stopInterval()
+      tlRef.current?.pause()
+    }
+  }
+
   const swap = () => {
     if (order.current.length < 2) return
 
@@ -120,8 +154,21 @@ export const CardSwap: React.FC<CardSwapProps> = ({
 
     gsap.set(elFront, { pointerEvents: 'none' })
 
+    // Kill previous timeline to prevent memory leak and overlapping execution
+    if (tlRef.current) {
+      tlRef.current.kill()
+    }
+
     const tl = gsap.timeline()
     tlRef.current = tl
+
+    // Kill any existing tweens on the elements we're about to animate
+    gsap.killTweensOf(elFront)
+    rest.forEach(idx => {
+      if (refs[idx].current) {
+        gsap.killTweensOf(refs[idx].current)
+      }
+    })
 
     tl.to(elFront, {
       y: '+=500',
@@ -184,17 +231,6 @@ export const CardSwap: React.FC<CardSwapProps> = ({
     swapRef.current = swap
   }, [swap])
 
-  const startInterval = () => {
-    if (intervalRef.current) window.clearInterval(intervalRef.current)
-    intervalRef.current = window.setInterval(() => {
-      swapRef.current()
-    }, delay)
-  }
-
-  const stopInterval = () => {
-    if (intervalRef.current) window.clearInterval(intervalRef.current)
-  }
-
   useEffect(() => {
     const total = refs.length
     if (total === 0) return
@@ -205,29 +241,64 @@ export const CardSwap: React.FC<CardSwapProps> = ({
       }
     })
 
-    startInterval()
+    checkAndPlay()
 
-    if (pauseOnHover && container.current) {
-      const node = container.current
-      const pause = () => {
-        tlRef.current?.pause()
-        stopInterval()
-      }
-      const resume = () => {
-        tlRef.current?.play()
-        startInterval()
-      }
-      node.addEventListener('mouseenter', pause)
-      node.addEventListener('mouseleave', resume)
-      return () => {
-        node.removeEventListener('mouseenter', pause)
-        node.removeEventListener('mouseleave', resume)
-        stopInterval()
-      }
-    }
     return () => stopInterval()
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, refs])
+  }, [cardDistance, verticalDistance, skewAmount, refs])
 
+  useEffect(() => {
+    const node = container.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting
+        checkAndPlay()
+      },
+      { threshold: 0.05 }
+    )
+    observer.observe(node)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [pauseOnHover])
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      isPageVisibleRef.current = !document.hidden
+      checkAndPlay()
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+    }
+  }, [pauseOnHover])
+
+  useEffect(() => {
+    const node = container.current
+    if (!node || !pauseOnHover) return
+
+    const pause = () => {
+      isHoveredRef.current = true
+      checkAndPlay()
+    }
+    const resume = () => {
+      isHoveredRef.current = false
+      checkAndPlay()
+    }
+
+    node.addEventListener('mouseenter', pause)
+    node.addEventListener('mouseleave', resume)
+
+    return () => {
+      node.removeEventListener('mouseenter', pause)
+      node.removeEventListener('mouseleave', resume)
+    }
+  }, [pauseOnHover])
+
+  // Manual Trigger when activeIndex changes
   useEffect(() => {
     if (activeIndex === undefined || refs.length === 0) return
 
@@ -237,8 +308,15 @@ export const CardSwap: React.FC<CardSwapProps> = ({
         const newOrder = [...order.current.slice(pos), ...order.current.slice(0, pos)]
         order.current = newOrder
 
+        // Kill active GSAP timeline to avoid conflict
+        if (tlRef.current) {
+          tlRef.current.kill()
+          tlRef.current = null
+        }
+
         refs.forEach((r, i) => {
           if (r.current) {
+            gsap.killTweensOf(r.current)
             const slotIndex = order.current.indexOf(i)
             const slot = makeSlot(slotIndex, cardDistance, verticalDistance, refs.length)
             gsap.to(r.current, {
@@ -252,7 +330,7 @@ export const CardSwap: React.FC<CardSwapProps> = ({
           }
         })
 
-        startInterval()
+        checkAndPlay()
       }
     }
   }, [activeIndex, cardDistance, verticalDistance, refs, config.ease])

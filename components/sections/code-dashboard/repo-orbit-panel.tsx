@@ -28,6 +28,22 @@ export function RepoOrbitPanel({
   const [hovered, setHovered] = useState<OrbitRepo | null>(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
   const hoveredIdxRef = useRef<number>(-1);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(canvas);
+    return () => observer.disconnect();
+  }, [inView]);
 
   const topRepos: OrbitRepo[] = repos
     .filter((r) => r.stars >= 0)
@@ -53,7 +69,7 @@ export function RepoOrbitPanel({
   const SPEEDS = [0.007, 0.005, 0.0035, 0.0026, 0.0018];
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || !isVisible) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -370,7 +386,7 @@ export function RepoOrbitPanel({
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [inView, topRepos.length]);
+  }, [inView, isVisible, topRepos.length]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;

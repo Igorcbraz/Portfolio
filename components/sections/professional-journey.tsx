@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useRef, useState, useCallback } from "react"
-import { m, AnimatePresence, type Variants } from "framer-motion"
+import { useEffect, useRef, useState, useCallback, useMemo } from "react"
+import { m } from "framer-motion"
 import { getExperience } from '@/lib/data'
 import { useLocale } from "@/contexts/LocaleContext"
 import { ArrowLeft, ArrowRight, Server, Database, LayoutTemplate, Network, Blocks, Shield, Users, Terminal, Table } from "lucide-react"
@@ -50,39 +50,12 @@ function TechIcon({ tech }: { tech: string }) {
   return <Terminal size={13} />
 }
 
-const cardVariants: Variants = {
-  enter: (dir: number) => ({
-    opacity: 0,
-    rotateY: dir * 22,
-    x: dir * 60,
-    z: -240,
-    scale: 0.88,
-  }),
-  center: {
-    opacity: 1,
-    rotateY: 0,
-    x: 0,
-    z: 0,
-    scale: 1,
-    transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
-  },
-  exit: (dir: number) => ({
-    opacity: 0,
-    rotateY: -dir * 22,
-    x: -dir * 60,
-    z: -240,
-    scale: 0.88,
-    transition: { duration: 0.45, ease: [0.36, 0, 0.66, 0] },
-  }),
-}
-
 export function ProfessionalJourney() {
   const { dictionary, locale } = useLocale()
   const sectionRef = useRef<HTMLElement>(null)
 
   const [steps, setSteps] = useState<JourneyStep[]>([])
   const [displayIdx, setDisplayIdx] = useState(0)
-  const [dir, setDir] = useState(1)
 
   const formatDate = useDateFormatter(locale)
 
@@ -92,7 +65,6 @@ export function ProfessionalJourney() {
 
   const goTo = useCallback((idx: number) => {
     if (idx === displayIdx) return
-    setDir(idx > displayIdx ? 1 : -1)
     setDisplayIdx(idx)
   }, [displayIdx])
 
@@ -102,78 +74,80 @@ export function ProfessionalJourney() {
   const loaded = steps.length > 0
   const dataIdx = DISPLAY_ORDER[displayIdx]
   const step = loaded ? steps[dataIdx] : null
-  const period = step ? formatDate(step.startDate, step.endDate) : ""
   const stageNum = String(displayIdx + 1).padStart(2, "0")
 
-  const cards = steps.map((s, idx) => {
-    const cardPeriod = formatDate(s.startDate, s.endDate)
-    const cardStageNum = String(idx + 1).padStart(2, "0")
-    return (
-      <Card key={`card-${idx}`}>
-        <BorderGlow borderRadius="rounded-2xl" glowIntensity={0.65} glowRadius={180}>
-          <div
-            className="relative overflow-hidden bg-card flex flex-col h-[480px] shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_20px_40px_-10px_rgba(0,0,0,0.5)] transform-[translateZ(0px)] backdrop-blur-xl backdrop-saturate-120 w-full min-w-0"
-          >
+  const cards = useMemo(() => {
+    return steps.map((s, idx) => {
+      const cardPeriod = formatDate(s.startDate, s.endDate)
+      const cardStageNum = String(idx + 1).padStart(2, "0")
+      const isActive = idx === displayIdx
+      return (
+        <Card key={`card-${idx}`}>
+          <BorderGlow borderRadius="rounded-2xl" glowIntensity={0.65} glowRadius={180} disabled={!isActive}>
             <div
-              className="absolute select-none pointer-events-none font-display text-[clamp(180px,26vw,320px)] font-extrabold top-[-5%] right-[-5%] leading-[0.85] tracking-[-0.04em] z-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,transparent_90%)] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] tabular-nums"
+              className="relative overflow-hidden bg-card flex flex-col h-[480px] shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_20px_40px_-10px_rgba(0,0,0,0.5)] transform-[translateZ(0px)] w-full min-w-0"
             >
-              {cardStageNum}
-            </div>
-            <div
-              className="absolute top-0 left-0 right-0 h-0.5 bg-[linear-gradient(90deg,transparent,var(--primary),transparent)]"
-            />
-            <div className="p-6 sm:p-8 lg:p-10 h-full flex flex-col justify-between">
-              <div className="flex flex-col flex-1 min-h-0 mb-6">
-                <p
-                  className="text-xs font-semibold uppercase tracking-[0.2em] mb-4 text-primary font-display"
-                >
-                  {cardPeriod}
-                </p>
-
-                <h3
-                  className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-2 text-foreground font-display tracking-[-0.02em]"
-                >
-                  {s.title}
-                </h3>
-
-                <p
-                  className="text-base sm:text-lg font-semibold mb-4 text-muted-foreground"
-                >
-                  {s.company}
-                </p>
-
-                <div
-                  className="mb-4 h-px bg-[linear-gradient(90deg,var(--border),transparent)]"
-                />
-
-                <div className="flex-1 overflow-y-auto scrollbar-none relative z-10">
+              <div
+                className="absolute select-none pointer-events-none font-display text-[clamp(180px,26vw,320px)] font-extrabold top-[-5%] right-[-5%] leading-[0.85] tracking-[-0.04em] z-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,transparent_90%)] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] tabular-nums"
+              >
+                {cardStageNum}
+              </div>
+              <div
+                className="absolute top-0 left-0 right-0 h-0.5 bg-[linear-gradient(90deg,transparent,var(--primary),transparent)]"
+              />
+              <div className="p-6 sm:p-8 lg:p-10 h-full flex flex-col justify-between">
+                <div className="flex flex-col flex-1 min-h-0 mb-6">
                   <p
-                    className="text-sm sm:text-base leading-[1.85] max-w-2xl text-muted-foreground/80"
+                    className="text-xs font-semibold uppercase tracking-[0.2em] mb-4 text-primary font-display"
                   >
-                    {s.description}
+                    {cardPeriod}
                   </p>
-                </div>
-              </div>
 
-              <div className="scrollbar-none overflow-x-auto shrink-0 relative z-10 border-t border-border/50 pt-4 w-full min-w-0">
-                <div className="flex flex-nowrap md:flex-wrap gap-2 pb-1">
-                  {s.highlights.map((tech, i) => (
-                    <span
-                      key={i}
-                      className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20 font-display tracking-[0.02em]"
+                  <h3
+                    className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-2 text-foreground font-display tracking-[-0.02em]"
+                  >
+                    {s.title}
+                  </h3>
+
+                  <p
+                    className="text-base sm:text-lg font-semibold mb-4 text-muted-foreground"
+                  >
+                    {s.company}
+                  </p>
+
+                  <div
+                    className="mb-4 h-px bg-[linear-gradient(90deg,var(--border),transparent)]"
+                  />
+
+                  <div className="flex-1 overflow-y-auto scrollbar-none relative z-10">
+                    <p
+                      className="text-sm sm:text-base leading-[1.85] max-w-2xl text-muted-foreground/80"
                     >
-                      <TechIcon tech={tech} />
-                      {tech}
-                    </span>
-                  ))}
+                      {s.description}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="scrollbar-none overflow-x-auto shrink-0 relative z-10 border-t border-border/50 pt-4 w-full min-w-0">
+                  <div className="flex flex-nowrap md:flex-wrap gap-2 pb-1">
+                    {s.highlights.map((tech, i) => (
+                      <span
+                        key={i}
+                        className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20 font-display tracking-[0.02em]"
+                      >
+                        <TechIcon tech={tech} />
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </BorderGlow>
-      </Card>
-    )
-  })
+          </BorderGlow>
+        </Card>
+      )
+    })
+  }, [steps, displayIdx, formatDate])
 
   return (
     <section
@@ -187,11 +161,11 @@ export function ProfessionalJourney() {
       />
 
       <div
-        className="absolute pointer-events-none top-[-10%] right-[-5%] w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] bg-[radial-gradient(circle,oklch(0.62_0.22_41.1/0.13)_0%,transparent_70%)] rounded-full blur-2xl animate-[pulse_6s_ease-in-out_infinite]"
+        className="absolute pointer-events-none top-[-10%] right-[-5%] w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] bg-[radial-gradient(circle,oklch(0.62_0.22_41.1/0.13)_0%,transparent_70%)] rounded-full blur-2xl animate-[pulse_6s_ease-in-out_infinite] transform-gpu"
       />
 
       <div
-        className="absolute pointer-events-none bottom-[-15%] left-[-8%] w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] bg-[radial-gradient(circle,oklch(0.55_0.18_260/0.07)_0%,transparent_70%)] rounded-full blur-[60px] animate-[pulse_8s_ease-in-out_infinite] [animation-delay:2s]"
+        className="absolute pointer-events-none bottom-[-15%] left-[-8%] w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] bg-[radial-gradient(circle,oklch(0.55_0.18_260/0.07)_0%,transparent_70%)] rounded-full blur-[60px] animate-[pulse_8s_ease-in-out_infinite] [animation-delay:2s] transform-gpu"
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

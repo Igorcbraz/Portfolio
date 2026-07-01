@@ -43,7 +43,7 @@ const loadFooter: SectionLoader = () =>
 
 function DeferredSection({
   loader,
-  rootMargin = "0px 0px",
+  rootMargin = "300px 0px",
   minHeight = 1,
 }: {
   loader: SectionLoader

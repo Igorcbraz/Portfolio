@@ -70,13 +70,19 @@ const DotField = memo(function DotField({
     const canvas = canvasRef.current
     const glowEl = glowRef.current
     if (!canvas) return
+    const parent = canvas.parentElement
+    if (!parent) return
+
     const ctx = canvas.getContext("2d", { alpha: true })!
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
 
+    let isVisible = false
+    let rect: DOMRect | null = null
+
     function doResize() {
-      const rect = canvas!.parentElement!.getBoundingClientRect()
-      const w = rect.width
-      const h = rect.height
+      const parentRect = parent!.getBoundingClientRect()
+      const w = parentRect.width
+      const h = parentRect.height
 
       canvas!.width = w * dpr
       canvas!.height = h * dpr
@@ -85,7 +91,7 @@ const DotField = memo(function DotField({
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
       sizeRef.current = { w, h }
-      console.log("DotField size updated:", { w, h, parent: canvas!.parentElement?.className })
+      rect = null // Invalidate rect cache
 
       buildDots(w, h)
     }
@@ -110,27 +116,27 @@ const DotField = memo(function DotField({
       dotsRef.current = dots
     }
 
+    function onMouseEnter() {
+      rect = canvas!.getBoundingClientRect()
+    }
+
     function onMouseMove(e: MouseEvent) {
-      if (!canvas) return
-      const rect = canvas.getBoundingClientRect()
+      if (!isVisible) return
+      if (!rect) {
+        rect = canvas!.getBoundingClientRect()
+      }
       mouseRef.current.x = e.clientX - rect.left
       mouseRef.current.y = e.clientY - rect.top
-      console.log("DotField mousemove coords:", {
-        x: mouseRef.current.x,
-        y: mouseRef.current.y,
-        clientX: e.clientX,
-        clientY: e.clientY,
-        rectLeft: rect.left,
-        rectTop: rect.top,
-      })
     }
 
     function onMouseLeave() {
       mouseRef.current.x = -9999
       mouseRef.current.y = -9999
+      rect = null
     }
 
     function updateMouseSpeed() {
+      if (!isVisible) return
       const m = mouseRef.current
       const dx = m.prevX - m.x
       const dy = m.prevY - m.y
@@ -141,12 +147,26 @@ const DotField = memo(function DotField({
       m.prevY = m.y
     }
 
-    const speedInterval = setInterval(updateMouseSpeed, 20)
+    let speedInterval: any = null
+
+    function startSpeedInterval() {
+      if (!speedInterval) {
+        speedInterval = setInterval(updateMouseSpeed, 20)
+      }
+    }
+
+    function stopSpeedInterval() {
+      if (speedInterval) {
+        clearInterval(speedInterval)
+        speedInterval = null
+      }
+    }
 
     let frameCount = 0
 
-    let lastLogFrame = 0
     function tick() {
+      if (!isVisible) return
+
       frameCount++
       const dots = dotsRef.current
       const m = mouseRef.current
@@ -160,19 +180,6 @@ const DotField = memo(function DotField({
       engagement.current += (targetEngagement - engagement.current) * 0.06
       if (engagement.current < 0.001) engagement.current = 0
       const eng = engagement.current
-
-      if (frameCount - lastLogFrame > 120) {
-        console.log("DotField tick states:", {
-          mx: m.x,
-          my: m.y,
-          w,
-          h,
-          isHovering,
-          eng,
-          dotsCount: len,
-        })
-        lastLogFrame = frameCount
-      }
 
       glowOpacity.current += (eng - glowOpacity.current) * 0.08
 
@@ -257,17 +264,32 @@ const DotField = memo(function DotField({
       rafRef.current = requestAnimationFrame(tick)
     }
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const nextVisible = entry.isIntersecting
+        if (nextVisible && !isVisible) {
+          isVisible = true
+          startSpeedInterval()
+          cancelAnimationFrame(rafRef.current)
+          rafRef.current = requestAnimationFrame(tick)
+        } else if (!nextVisible && isVisible) {
+          isVisible = false
+          stopSpeedInterval()
+          cancelAnimationFrame(rafRef.current)
+        }
+      },
+      { threshold: 0.01 }
+    )
+    observer.observe(parent)
+
     const resizeObserver = new ResizeObserver(() => {
       doResize()
     })
+    resizeObserver.observe(parent)
 
-    if (canvas.parentElement) {
-      resizeObserver.observe(canvas.parentElement)
-    }
-
-    window.addEventListener("mousemove", onMouseMove, { passive: true })
-    document.addEventListener("mouseleave", onMouseLeave)
-    rafRef.current = requestAnimationFrame(tick)
+    parent.addEventListener("mouseenter", onMouseEnter, { passive: true })
+    parent.addEventListener("mousemove", onMouseMove, { passive: true })
+    parent.addEventListener("mouseleave", onMouseLeave, { passive: true })
 
     rebuildRef.current = () => {
       const { w, h } = sizeRef.current
@@ -276,10 +298,12 @@ const DotField = memo(function DotField({
 
     return () => {
       cancelAnimationFrame(rafRef.current)
-      clearInterval(speedInterval)
+      stopSpeedInterval()
       resizeObserver.disconnect()
-      window.removeEventListener("mousemove", onMouseMove)
-      document.removeEventListener("mouseleave", onMouseLeave)
+      observer.disconnect()
+      parent.removeEventListener("mouseenter", onMouseEnter)
+      parent.removeEventListener("mousemove", onMouseMove)
+      parent.removeEventListener("mouseleave", onMouseLeave)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
