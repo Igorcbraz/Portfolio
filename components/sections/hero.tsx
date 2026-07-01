@@ -7,6 +7,7 @@ import { useUser } from "@/contexts/UserContext"
 import { useLocale } from "@/contexts/LocaleContext"
 import { CountUp } from "@/components/ui/count-up"
 import { BlurText } from "@/components/ui/blur-text"
+import { ScanLine } from "lucide-react"
 
 const Shape3d = dynamic(() => import("@/components/features/3d-shape").then(m => m.Shape3d), {
   ssr: false,
@@ -372,12 +373,11 @@ export function Hero() {
 
                   <button
                     onClick={() => setScanTrigger(prev => prev + 1)}
-                    className="absolute bottom-6 right-6 z-50 px-3.5 py-2 font-mono text-[9px] sm:text-[10px] tracking-widest uppercase border border-primary/30 bg-black/55 backdrop-blur-md text-primary hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 cursor-pointer cursor-target rounded-sm"
-                    style={{
-                      boxShadow: "0 0 10px oklch(0.62 0.22 41.1 / 0.15)",
-                    }}
+                    className="absolute bottom-6 right-6 z-50 p-2.5 sm:p-3 bg-black/55 backdrop-blur-md text-primary hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 cursor-pointer cursor-target rounded-full flex items-center justify-center"
+                    title={dictionary.hero.scanProfile}
+                    aria-label={dictionary.hero.scanProfile}
                   >
-                    {dictionary.hero.scanProfile}
+                    <ScanLine className="w-4.5 h-4.5" />
                   </button>
                 </>
               ) : null}

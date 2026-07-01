@@ -7,6 +7,8 @@ import { useLocale } from "@/contexts/LocaleContext"
 import { ArrowLeft, ArrowRight, Server, Database, LayoutTemplate, Network, Blocks, Shield, Users, Terminal, Table } from "lucide-react"
 import { SplitText } from "@/components/ui/split-text"
 import { DecryptedText } from "@/components/ui/decrypted-text"
+import { BorderGlow } from "@/components/ui/border-glow"
+import { CardSwap, Card } from "@/components/ui/card-swap"
 
 interface JourneyStep {
   startDate: string
@@ -77,24 +79,16 @@ const cardVariants: Variants = {
 export function ProfessionalJourney() {
   const { dictionary, locale } = useLocale()
   const sectionRef = useRef<HTMLElement>(null)
-  const sceneRef = useRef<HTMLDivElement>(null)
-  const cardWrapperRef = useRef<HTMLDivElement>(null)
-  const sceneRectRef = useRef<DOMRect | null>(null)
 
   const [steps, setSteps] = useState<JourneyStep[]>([])
   const [displayIdx, setDisplayIdx] = useState(0)
   const [dir, setDir] = useState(1)
-  const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   const formatDate = useDateFormatter(locale)
 
   useEffect(() => {
     setSteps(getExperience(locale) as JourneyStep[])
   }, [locale])
-
-  useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
-  }, [])
 
   const goTo = useCallback((idx: number) => {
     if (idx === displayIdx) return
@@ -105,35 +99,81 @@ export function ProfessionalJourney() {
   const prev = () => goTo(Math.max(0, displayIdx - 1))
   const next = () => goTo(Math.min(DISPLAY_ORDER.length - 1, displayIdx + 1))
 
-  const handleMouseEnter = () => {
-    if (!sceneRef.current || isTouchDevice) return
-    sceneRectRef.current = sceneRef.current.getBoundingClientRect()
-  }
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!sceneRef.current || isTouchDevice) return
-    const r = sceneRectRef.current || sceneRef.current.getBoundingClientRect()
-    const nx = ((e.clientX - r.left) / r.width - 0.5) * 2
-    const ny = ((e.clientY - r.top) / r.height - 0.5) * 2
-    const tx = -ny * 5
-    const ty = nx * 5
-    if (cardWrapperRef.current) {
-      cardWrapperRef.current.style.transform = `rotateX(${tx}deg) rotateY(${ty}deg)`
-    }
-  }
-
-  const handleMouseLeave = () => {
-    sceneRectRef.current = null
-    if (cardWrapperRef.current) {
-      cardWrapperRef.current.style.transform = "rotateX(0deg) rotateY(0deg)"
-    }
-  }
-
   const loaded = steps.length > 0
   const dataIdx = DISPLAY_ORDER[displayIdx]
   const step = loaded ? steps[dataIdx] : null
   const period = step ? formatDate(step.startDate, step.endDate) : ""
   const stageNum = String(displayIdx + 1).padStart(2, "0")
+
+  const cards = steps.map((s, idx) => {
+    const cardPeriod = formatDate(s.startDate, s.endDate)
+    const cardStageNum = String(idx + 1).padStart(2, "0")
+    return (
+      <Card key={`card-${idx}`}>
+        <BorderGlow borderRadius="rounded-2xl" glowIntensity={0.65} glowRadius={180}>
+          <div
+            className="relative overflow-hidden bg-card flex flex-col h-[480px] shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_20px_40px_-10px_rgba(0,0,0,0.5)] transform-[translateZ(0px)] backdrop-blur-xl backdrop-saturate-120 w-full min-w-0"
+          >
+            <div
+              className="absolute select-none pointer-events-none font-display text-[clamp(180px,26vw,320px)] font-extrabold top-[-5%] right-[-5%] leading-[0.85] tracking-[-0.04em] z-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,transparent_90%)] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] tabular-nums"
+            >
+              {cardStageNum}
+            </div>
+            <div
+              className="absolute top-0 left-0 right-0 h-0.5 bg-[linear-gradient(90deg,transparent,var(--primary),transparent)]"
+            />
+            <div className="p-6 sm:p-8 lg:p-10 h-full flex flex-col justify-between">
+              <div className="flex flex-col flex-1 min-h-0 mb-6">
+                <p
+                  className="text-xs font-semibold uppercase tracking-[0.2em] mb-4 text-primary font-display"
+                >
+                  {cardPeriod}
+                </p>
+
+                <h3
+                  className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-2 text-foreground font-display tracking-[-0.02em]"
+                >
+                  {s.title}
+                </h3>
+
+                <p
+                  className="text-base sm:text-lg font-semibold mb-4 text-muted-foreground"
+                >
+                  {s.company}
+                </p>
+
+                <div
+                  className="mb-4 h-px bg-[linear-gradient(90deg,var(--border),transparent)]"
+                />
+
+                <div className="flex-1 overflow-y-auto scrollbar-none relative z-10">
+                  <p
+                    className="text-sm sm:text-base leading-[1.85] max-w-2xl text-muted-foreground/80"
+                  >
+                    {s.description}
+                  </p>
+                </div>
+              </div>
+
+              <div className="scrollbar-none overflow-x-auto shrink-0 relative z-10 border-t border-border/50 pt-4 w-full min-w-0">
+                <div className="flex flex-nowrap md:flex-wrap gap-2 pb-1">
+                  {s.highlights.map((tech, i) => (
+                    <span
+                      key={i}
+                      className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20 font-display tracking-[0.02em]"
+                    >
+                      <TechIcon tech={tech} />
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </BorderGlow>
+      </Card>
+    )
+  })
 
   return (
     <section
@@ -231,90 +271,22 @@ export function ProfessionalJourney() {
             })}
           </aside>
 
-          <div
-            ref={sceneRef}
-            className="flex-1 relative min-h-[520px] perspective-distant perspective-origin-[50%_40%] w-full min-w-0"
-            onMouseEnter={handleMouseEnter}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-          >
-            <div
-              ref={cardWrapperRef}
-              className="relative z-10 transform-3d transition-transform duration-550 ease-out w-full min-w-0"
-            >
-              <AnimatePresence mode="wait" custom={dir}>
-                {step && (
-                  <m.div
-                    key={`card-${displayIdx}`}
-                    custom={dir}
-                    variants={cardVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    className="transform-3d w-full min-w-0"
-                  >
-                    <div
-                      className="relative rounded-2xl overflow-hidden bg-card border border-border flex flex-col h-[480px] shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_20px_40px_-10px_rgba(0,0,0,0.5)] transform-[translateZ(0px)] backdrop-blur-xl backdrop-saturate-120 w-full min-w-0"
-                    >
-                      <div
-                        className="absolute select-none pointer-events-none font-display text-[clamp(180px,26vw,320px)] font-extrabold top-[-5%] right-[-5%] leading-[0.85] tracking-[-0.04em] z-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,transparent_90%)] bg-clip-text text-transparent [-webkit-text-fill-color:transparent] tabular-nums"
-                      >
-                        {stageNum}
-                      </div>
-                      <div
-                        className="absolute top-0 left-0 right-0 h-0.5 bg-[linear-gradient(90deg,transparent,var(--primary),transparent)]"
-                      />
-
-                      <div className="p-8 sm:p-10 lg:p-12">
-                        <p
-                          className="text-xs font-semibold uppercase tracking-[0.2em] mb-5 text-primary font-display"
-                        >
-                          {period}
-                        </p>
-
-                        <h3
-                          className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-3 text-foreground font-display tracking-[-0.02em]"
-                        >
-                          {step.title}
-                        </h3>
-
-                        <p
-                          className="text-base sm:text-lg font-semibold mb-8 text-muted-foreground"
-                        >
-                          {step.company}
-                        </p>
-
-                        <div
-                          className="mb-8 h-px bg-[linear-gradient(90deg,var(--border),transparent)]"
-                        />
-
-                        <div className="flex-1 overflow-y-auto scrollbar-none mb-6 relative z-10">
-                          <p
-                            className="text-sm sm:text-base leading-[1.85] max-w-2xl text-muted-foreground/80"
-                          >
-                            {step.description}
-                          </p>
-                        </div>
-
-                        <div className="scrollbar-none overflow-x-auto mt-auto shrink-0 relative z-10 border-t border-border/50 pt-4 w-full min-w-0">
-                          <div className="flex flex-nowrap md:flex-wrap gap-2 pb-1">
-                            {step.highlights.map((tech, i) => (
-                              <span
-                                key={i}
-                                className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20 font-display tracking-[0.02em]"
-                              >
-                                <TechIcon tech={tech} />
-                                {tech}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </m.div>
-                )}
-              </AnimatePresence>
+          <div className="flex-1 relative min-h-[520px] w-full min-w-0">
+            <div className="relative z-10 w-full min-w-0">
+              {loaded && cards.length > 0 && (
+                <CardSwap
+                  activeIndex={displayIdx}
+                  onChange={goTo}
+                  width="100%"
+                  height={480}
+                  cardDistance={35}
+                  verticalDistance={30}
+                  delay={6000}
+                  pauseOnHover={false}
+                >
+                  {cards}
+                </CardSwap>
+              )}
             </div>
 
             <div className="flex items-center justify-between mt-6">

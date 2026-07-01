@@ -2,6 +2,8 @@ export { BlurText } from './blur-text'
 export { SplitText } from './split-text'
 export { DecryptedText } from './decrypted-text'
 export { CountUp } from './count-up'
+export { BorderGlow } from './border-glow'
+export { CardSwap, Card } from './card-swap'
 
 export { Badge } from './badge'
 export { Button } from './button'
@@ -16,3 +18,4 @@ export { Textarea } from './textarea'
 export { Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from './toast'
 export { Toggle } from './toggle'
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip'
+

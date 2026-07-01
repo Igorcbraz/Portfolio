@@ -187,7 +187,7 @@ export function Navigation() {
       <div className="h-[72px] shrink-0" aria-hidden />
 
       <nav
-        className={`fixed ${isExpanded ? 'z-50' : 'z-30'} overflow-visible border border-solid backdrop-blur-[20px] ${scrolled ? 'h-14 rounded-[14px]' : 'h-[72px] rounded-none'
+        className={`fixed ${isExpanded ? 'z-50' : 'z-30'} overflow-visible border border-solid backdrop-blur-xl ${scrolled ? 'h-14 rounded-[14px]' : 'h-[72px] rounded-none'
           } ${isExpanded
             ? scrolled
               ? 'top-4'
@@ -198,15 +198,15 @@ export function Navigation() {
           }`}
         style={{
           background: scrolled
-            ? 'oklch(0.10 0 0 / 0.78)'
-            : 'oklch(0.09 0 0)',
-          borderTopColor: scrolled ? 'oklch(0.95 0 0 / 0.10)' : 'transparent',
-          borderLeftColor: scrolled ? 'oklch(0.95 0 0 / 0.08)' : 'transparent',
-          borderRightColor: scrolled ? 'oklch(0.95 0 0 / 0.08)' : 'transparent',
-          borderBottomColor: scrolled ? 'oklch(0.95 0 0 / 0.10)' : 'oklch(0.95 0 0 / 0.06)',
+            ? 'oklch(0.10 0 0 / 0.45)'
+            : 'oklch(0.09 0 0 / 0.35)',
+          borderTopColor: 'oklch(0.95 0 0 / 0.12)',
+          borderLeftColor: 'oklch(0.95 0 0 / 0.10)',
+          borderRightColor: 'oklch(0.95 0 0 / 0.10)',
+          borderBottomColor: 'oklch(0.95 0 0 / 0.12)',
           boxShadow: scrolled
-            ? '0 8px 48px -8px oklch(0 0 0 / 0.65), inset 0 1px 0 oklch(0.95 0 0 / 0.06)'
-            : 'none',
+            ? '0 8px 32px 0 oklch(0 0 0 / 0.5), inset 0 1px 0 oklch(0.95 0 0 / 0.08)'
+            : '0 4px 20px 0 oklch(0 0 0 / 0.25), inset 0 1px 0 oklch(0.95 0 0 / 0.06)',
           transition: navTransition,
           left: navLeft,
           width: navWidth,
@@ -366,11 +366,13 @@ export function Navigation() {
         {isOpen && (
           <div
             id="mobile-navigation"
-            className={`absolute left-0 right-0 backdrop-blur-[20px] border-t border-solid p-[12px_16px_16px] ${scrolled ? 'top-14 rounded-b-[14px]' : 'top-[72px] rounded-none'
+            className={`absolute left-0 right-0 backdrop-blur-xl border-t border-solid p-[12px_16px_16px] ${scrolled ? 'top-14 rounded-b-[14px]' : 'top-[72px] rounded-none'
               }`}
             style={{
-              background: 'oklch(0.10 0 0 / 0.95)',
-              borderTopColor: 'oklch(0.95 0 0 / 0.06)',
+              background: 'oklch(0.10 0 0 / 0.65)',
+              borderTopColor: 'oklch(0.95 0 0 / 0.08)',
+              borderBottomColor: 'oklch(0.95 0 0 / 0.08)',
+              boxShadow: '0 8px 32px 0 oklch(0 0 0 / 0.5)',
             }}
           >
             <button

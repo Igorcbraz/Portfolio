@@ -30,6 +30,12 @@ export function CountUp({
   const isInView = useInView(ref, { once, amount: threshold })
   const [count, setCount] = useState(start)
   const hasRun = useRef(false)
+  const prevEndRef = useRef(end)
+
+  if (prevEndRef.current !== end) {
+    hasRun.current = false
+    prevEndRef.current = end
+  }
 
   useEffect(() => {
     if (!isInView) return

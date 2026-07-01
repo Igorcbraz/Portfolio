@@ -1,5 +1,7 @@
 import metadataJson from "@/data/metadata.json"
 import { NextResponse } from "next/server"
+import fs from "fs"
+import path from "path"
 
 const GITHUB_REVALIDATE_SECONDS = 21600 // 6h cache to avoid rate limits
 export const dynamic = "force-dynamic"
@@ -7,6 +9,9 @@ export const dynamic = "force-dynamic"
 const githubUser = metadataJson.social.github.username || "igorcbraz"
 const githubApiBase = "https://api.github.com"
 const githubToken = process.env.GITHUB_TOKEN
+
+const TMP_CACHE_PATH = "/tmp/github-cache.json"
+const BUILD_CACHE_PATH = path.join(process.cwd(), "data", "github-cache.json")
 
 type ApiPayload = {
   userData: UserData
@@ -56,6 +61,64 @@ type UserData = {
 }
 
 let lastSuccessfulPayload: ApiPayload | null = null
+
+function getCache(): ApiPayload | null {
+  if (lastSuccessfulPayload) {
+    return lastSuccessfulPayload
+  }
+
+  try {
+    if (fs.existsSync(TMP_CACHE_PATH)) {
+      const data = fs.readFileSync(TMP_CACHE_PATH, "utf8")
+      const parsed = JSON.parse(data) as ApiPayload
+      if (parsed && parsed.userData && parsed.repos) {
+        lastSuccessfulPayload = parsed
+        return parsed
+      }
+    }
+  } catch (e) {
+    // Ignore
+  }
+
+  try {
+    if (fs.existsSync(BUILD_CACHE_PATH)) {
+      const data = fs.readFileSync(BUILD_CACHE_PATH, "utf8")
+      const parsed = JSON.parse(data) as ApiPayload
+      if (parsed && parsed.userData && parsed.repos) {
+        lastSuccessfulPayload = parsed
+        return parsed
+      }
+    }
+  } catch (e) {
+    // Ignore
+  }
+
+  return null
+}
+
+function saveCache(payload: ApiPayload) {
+  lastSuccessfulPayload = payload
+
+  try {
+    const dir = path.dirname(TMP_CACHE_PATH)
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true })
+    }
+    fs.writeFileSync(TMP_CACHE_PATH, JSON.stringify(payload), "utf8")
+  } catch (e) {
+    // Ignore
+  }
+
+  try {
+    const dir = path.dirname(BUILD_CACHE_PATH)
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true })
+    }
+    fs.writeFileSync(BUILD_CACHE_PATH, JSON.stringify(payload, null, 2), "utf8")
+  } catch (e) {
+    // Ignore
+  }
+}
 
 async function fetchJson<T>(url: string) {
   const baseHeaders: HeadersInit = {
@@ -110,18 +173,23 @@ async function fetchJson<T>(url: string) {
 }
 
 function buildFallback(): { userData: UserData; repos: RepoInfo[]; fromCache: boolean } {
+  const cached = getCache()
+  if (cached) {
+    return { ...cached, fromCache: true }
+  }
+
   return {
     userData: {
       metadata: metadataJson,
       github: {
         username: githubUser,
-        totalStars: 0,
-        totalForks: 0,
-        totalWatchers: 0,
-        totalRepos: 0,
-        yearsOnGitHub: 1,
-        yearsExperience: 1,
-        createdAt: "",
+        totalStars: 100,
+        totalForks: 16,
+        totalWatchers: 100,
+        totalRepos: 43,
+        yearsOnGitHub: 5,
+        yearsExperience: 4,
+        createdAt: "2021-03-24T00:00:00Z",
       },
       personal: {
         name: metadataJson.author.name,
@@ -210,7 +278,7 @@ export async function GET() {
       cachedAt: new Date().toISOString(),
     }
 
-    lastSuccessfulPayload = payload
+    saveCache(payload)
 
     return NextResponse.json(payload, {
       status: 200,
@@ -220,8 +288,9 @@ export async function GET() {
     })
   } catch (error) {
     console.error("/api/github error", error)
-    if (lastSuccessfulPayload) {
-      return NextResponse.json({ ...lastSuccessfulPayload, fromCache: true }, {
+    const cached = getCache()
+    if (cached) {
+      return NextResponse.json({ ...cached, fromCache: true }, {
         status: 200,
         headers: {
           "Cache-Control": "no-store",
@@ -237,3 +306,4 @@ export async function GET() {
     })
   }
 }
+
