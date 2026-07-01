@@ -60,18 +60,23 @@ export function DevConsole({ isOpen, onClose }: DevConsoleProps) {
       }, index * 250)
     })
 
+    let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
     const handleScroll = () => {
-      if (Math.random() > 0.95) {
-        const section = getCurrentSection()
-        addLog("info", `> Navigating to section: ${section}`)
-      }
-    }
+      if (scrollTimeout) return;
+      scrollTimeout = setTimeout(() => {
+        scrollTimeout = null;
+        if (Math.random() > 0.95) {
+          const section = getCurrentSection()
+          addLog("info", `> Navigating to section: ${section}`)
+        }
+      }, 250);
+    };
 
     const handleClick = () => {
       if (Math.random() > 0.9) {
         addLog("success", "✓ User interaction detected")
       }
-    }
+    };
 
     window.addEventListener("scroll", handleScroll, { passive: true })
     window.addEventListener("click", handleClick)
@@ -79,6 +84,9 @@ export function DevConsole({ isOpen, onClose }: DevConsoleProps) {
     return () => {
       window.removeEventListener("scroll", handleScroll)
       window.removeEventListener("click", handleClick)
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
     }
   }, [])
 

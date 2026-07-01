@@ -36,19 +36,30 @@ function ContactCard({
   theme = "primary"
 }: ContactCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const cardRectRef = useRef<DOMRect | null>(null)
+
+  const handleMouseEnter = () => {
+    if (cardRef.current) {
+      cardRectRef.current = cardRef.current.getBoundingClientRect()
+    }
+  }
 
   const handleMouseMove = (e: React.MouseEvent<any>) => {
     const card = cardRef.current
     if (!card) return
-    const rect = card.getBoundingClientRect()
+    const rect = cardRectRef.current || card.getBoundingClientRect()
     const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2
     const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2
-    setTilt({ x: -ny * 4, y: nx * 4 })
+    const tx = -ny * 4
+    const ty = nx * 4
+    card.style.transform = `perspective(1200px) rotateX(${tx}deg) rotateY(${ty}deg)`
   }
 
   const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 })
+    cardRectRef.current = null
+    if (cardRef.current) {
+      cardRef.current.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg)"
+    }
   }
 
   const CardWrapper = href ? "a" : "div"
@@ -84,7 +95,7 @@ function ContactCard({
           className={`group relative overflow-hidden p-8 flex flex-col justify-between rounded-none cursor-pointer cursor-target select-none transition-all duration-300 h-full ${className}`}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          style={{ transform: `perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
+          onMouseEnter={handleMouseEnter}
         >
           <div className={`absolute top-0 left-0 right-0 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-700 z-30 pointer-events-none ${sweepColor}`} />
 
@@ -233,8 +244,9 @@ export function ContactSection() {
 
         <m.div
           className="absolute top-20 right-[10%] w-96 h-96 bg-[oklch(0.62_0.22_41.1/0.12)] rounded-full blur-[120px]"
+          style={{ willChange: "transform, opacity" }}
           animate={{
-            scale: [1, 1.2, 1],
+            y: [0, 30, 0],
             opacity: [0.4, 0.7, 0.4],
           }}
           transition={{
@@ -245,8 +257,9 @@ export function ContactSection() {
         />
         <m.div
           className="absolute bottom-20 left-[10%] w-80 h-80 bg-[oklch(0.55_0.18_260/0.07)] rounded-full blur-[100px]"
+          style={{ willChange: "transform, opacity" }}
           animate={{
-            scale: [1.2, 1, 1.2],
+            y: [0, -25, 0],
             opacity: [0.5, 0.3, 0.5],
           }}
           transition={{

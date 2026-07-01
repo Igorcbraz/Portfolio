@@ -22,20 +22,34 @@ export function ProjectCard({
   dictionary: any
 }) {
   const cardRef = useRef<HTMLAnchorElement>(null)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const cardRectRef = useRef<DOMRect | null>(null)
   const [hovered, setHovered] = useState(false)
 
+  const handleMouseEnter = () => {
+    setHovered(true)
+    if (cardRef.current) {
+      cardRectRef.current = cardRef.current.getBoundingClientRect()
+    }
+  }
+
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!cardRef.current) return
-    const rect = cardRef.current.getBoundingClientRect()
+    const rect = cardRectRef.current || (cardRef.current ? cardRef.current.getBoundingClientRect() : null)
+    if (!rect) return
     const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2
     const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2
-    setTilt({ x: -ny * 4, y: nx * 4 })
+    const tx = -ny * 4
+    const ty = nx * 4
+    if (cardRef.current) {
+      cardRef.current.style.transform = `perspective(1200px) rotateX(${tx}deg) rotateY(${ty}deg)`
+    }
   }
 
   const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 })
+    cardRectRef.current = null
     setHovered(false)
+    if (cardRef.current) {
+      cardRef.current.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg)"
+    }
   }
 
   const cardNumber = String(idx + 1).padStart(2, "0")
@@ -54,8 +68,7 @@ export function ProjectCard({
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: idx * 0.08 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onMouseEnter={() => setHovered(true)}
-      style={{ transform: `perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
+      onMouseEnter={handleMouseEnter}
       layout
     >
       <div

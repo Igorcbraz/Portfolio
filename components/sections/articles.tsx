@@ -21,20 +21,34 @@ interface Article {
 
 function ArticleCard({ article, idx, isInView }: { article: Article; idx: number; isInView: boolean }) {
   const cardRef = useRef<HTMLAnchorElement>(null)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const cardRectRef = useRef<DOMRect | null>(null)
   const [hovered, setHovered] = useState(false)
 
+  const handleMouseEnter = useCallback(() => {
+    setHovered(true)
+    if (cardRef.current) {
+      cardRectRef.current = cardRef.current.getBoundingClientRect()
+    }
+  }, [])
+
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!cardRef.current) return
-    const rect = cardRef.current.getBoundingClientRect()
+    const rect = cardRectRef.current || (cardRef.current ? cardRef.current.getBoundingClientRect() : null)
+    if (!rect) return
     const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2
     const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2
-    setTilt({ x: -ny * 4, y: nx * 4 })
+    const tx = -ny * 4
+    const ty = nx * 4
+    if (cardRef.current) {
+      cardRef.current.style.transform = `perspective(1200px) rotateX(${tx}deg) rotateY(${ty}deg)`
+    }
   }, [])
 
   const handleMouseLeave = useCallback(() => {
-    setTilt({ x: 0, y: 0 })
+    cardRectRef.current = null
     setHovered(false)
+    if (cardRef.current) {
+      cardRef.current.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg)"
+    }
   }, [])
 
   const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
@@ -55,9 +69,8 @@ function ArticleCard({ article, idx, isInView }: { article: Article; idx: number
       transition={{ duration: 0.6, delay: 0.8 + idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onMouseEnter={() => setHovered(true)}
+      onMouseEnter={handleMouseEnter}
       style={{
-        transform: `perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
         transition: hovered ? 'transform 80ms linear' : 'transform 400ms cubic-bezier(0.16,1,0.3,1)',
       }}
     >

@@ -78,11 +78,12 @@ export function ProfessionalJourney() {
   const { dictionary, locale } = useLocale()
   const sectionRef = useRef<HTMLElement>(null)
   const sceneRef = useRef<HTMLDivElement>(null)
+  const cardWrapperRef = useRef<HTMLDivElement>(null)
+  const sceneRectRef = useRef<DOMRect | null>(null)
 
   const [steps, setSteps] = useState<JourneyStep[]>([])
   const [displayIdx, setDisplayIdx] = useState(0)
   const [dir, setDir] = useState(1)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   const formatDate = useDateFormatter(locale)
@@ -104,12 +105,28 @@ export function ProfessionalJourney() {
   const prev = () => goTo(Math.max(0, displayIdx - 1))
   const next = () => goTo(Math.min(DISPLAY_ORDER.length - 1, displayIdx + 1))
 
+  const handleMouseEnter = () => {
+    if (!sceneRef.current || isTouchDevice) return
+    sceneRectRef.current = sceneRef.current.getBoundingClientRect()
+  }
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!sceneRef.current || isTouchDevice) return
-    const r = sceneRef.current.getBoundingClientRect()
+    const r = sceneRectRef.current || sceneRef.current.getBoundingClientRect()
     const nx = ((e.clientX - r.left) / r.width - 0.5) * 2
     const ny = ((e.clientY - r.top) / r.height - 0.5) * 2
-    setTilt({ x: -ny * 5, y: nx * 5 })
+    const tx = -ny * 5
+    const ty = nx * 5
+    if (cardWrapperRef.current) {
+      cardWrapperRef.current.style.transform = `rotateX(${tx}deg) rotateY(${ty}deg)`
+    }
+  }
+
+  const handleMouseLeave = () => {
+    sceneRectRef.current = null
+    if (cardWrapperRef.current) {
+      cardWrapperRef.current.style.transform = "rotateX(0deg) rotateY(0deg)"
+    }
   }
 
   const loaded = steps.length > 0
@@ -217,14 +234,13 @@ export function ProfessionalJourney() {
           <div
             ref={sceneRef}
             className="flex-1 relative min-h-[520px] perspective-distant perspective-origin-[50%_40%] w-full min-w-0"
+            onMouseEnter={handleMouseEnter}
             onMouseMove={handleMouseMove}
-            onMouseLeave={() => setTilt({ x: 0, y: 0 })}
+            onMouseLeave={handleMouseLeave}
           >
             <div
+              ref={cardWrapperRef}
               className="relative z-10 transform-3d transition-transform duration-550 ease-out w-full min-w-0"
-              style={{
-                transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-              }}
             >
               <AnimatePresence mode="wait" custom={dir}>
                 {step && (

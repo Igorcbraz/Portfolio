@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, memo } from "react"
+import { useEffect, useState, useMemo, memo, useRef } from "react"
 import { useLocale } from "@/contexts/LocaleContext"
 import { AnimatePresence, m } from "framer-motion"
 import scrollDataEn from "@/locales/scroll-progress/en.json"
@@ -229,6 +229,19 @@ export function ScrollProgress() {
 
   const [scrollProgress, setScrollProgress] = useState(0)
   const [activeMilestoneKey, setActiveMilestoneKey] = useState("start")
+  const sectionOffsetsRef = useRef<Record<string, number>>({})
+
+  const recalculateOffsets = () => {
+    const sections = ["hero", "journey", "github", "projects", "articles", "stack", "contact"]
+    const offsets: Record<string, number> = {}
+    sections.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) {
+        offsets[id] = el.getBoundingClientRect().top + window.scrollY
+      }
+    })
+    sectionOffsetsRef.current = offsets
+  }
 
   const currentMilestone = useMemo(() => {
     return milestones.find(m => m.key === activeMilestoneKey) || milestones[0]
@@ -243,6 +256,20 @@ export function ScrollProgress() {
   useEffect(() => {
     setEnabled(true)
   }, [])
+
+  useEffect(() => {
+    if (!enabled) return
+
+    const observer = new ResizeObserver(() => {
+      recalculateOffsets()
+    })
+    observer.observe(document.body)
+    recalculateOffsets()
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [enabled])
 
   useEffect(() => {
     if (!enabled) return
@@ -280,10 +307,10 @@ export function ScrollProgress() {
         const threshold = windowHeight * 0.35
         for (let i = sections.length - 1; i >= 0; i--) {
           const sec = sections[i]
-          const el = document.getElementById(sec.id)
-          if (el) {
-            const rect = el.getBoundingClientRect()
-            if (rect.top <= threshold) {
+          const offsetTop = sectionOffsetsRef.current[sec.id]
+          if (offsetTop !== undefined) {
+            const relativeTop = offsetTop - scrolled
+            if (relativeTop <= threshold) {
               if (sec.id === "hero") {
                 activeKey = scrolled < 150 ? "start" : "know"
               } else if (sec.id === "contact") {

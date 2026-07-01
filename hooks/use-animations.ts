@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useMotionValue } from 'framer-motion'
 
 export function useCountUp(end: number, duration = 2000, enabled = true) {
   const [count, setCount] = useState(0)
@@ -97,22 +98,32 @@ export function useMagneticEffect<T extends HTMLElement = HTMLElement>(strength 
 }
 
 export function useParallax(speed = 0.5) {
-  const [offset, setOffset] = useState(0)
+  const offset = useMotionValue(0)
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      if (!ref.current) return
-      const rect = ref.current.getBoundingClientRect()
-      const scrolled = window.scrollY
-      setOffset((scrolled - rect.top) * speed)
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (!ref.current) {
+            ticking = false
+            return
+          }
+          const rect = ref.current.getBoundingClientRect()
+          const scrolled = window.scrollY
+          offset.set((scrolled - rect.top) * speed)
+          ticking = false
+        })
+        ticking = true
+      }
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
 
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [speed])
+  }, [speed, offset])
 
   return { ref, offset }
 }

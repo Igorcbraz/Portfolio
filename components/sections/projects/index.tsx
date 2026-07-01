@@ -63,14 +63,16 @@ export function Projects() {
 
         <m.div
           className="absolute top-[-5%] left-[5%] w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] rounded-full blur-[80px] bg-[radial-gradient(circle,oklch(0.62_0.22_41.1/0.12)_0%,transparent_70%)]"
-          animate={{ scale: [1, 1.08, 1], opacity: [0.5, 0.9, 0.5] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          style={{ willChange: "transform, opacity" }}
+          animate={{ y: [0, 40, 0], opacity: [0.5, 0.8, 0.5] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
 
         <m.div
           className="absolute bottom-[-10%] right-[-5%] w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] rounded-full blur-[80px] bg-[radial-gradient(circle,oklch(0.55_0.18_260/0.07)_0%,transparent_70%)]"
-          animate={{ scale: [1, 1.06, 1], opacity: [0.4, 0.75, 0.4] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+          style={{ willChange: "transform, opacity" }}
+          animate={{ y: [0, -35, 0], opacity: [0.4, 0.65, 0.4] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
         />
 
         <LaserFlow />

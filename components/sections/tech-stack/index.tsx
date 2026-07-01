@@ -23,8 +23,9 @@ export function TechStack() {
   const { ref: sectionRef, isInView } = useInView({ threshold: 0.1, triggerOnce: true })
 
   const [selectedCategory, setSelectedCategory] = useState<Category>("Frontend")
-  const [rotation, setRotation] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
+  const innerContainerRef = useRef<HTMLDivElement>(null)
+  const containerRectRef = useRef<DOMRect | null>(null)
   const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   useEffect(() => {
@@ -34,15 +35,29 @@ export function TechStack() {
     }
   }, [])
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseEnter = () => {
     if (!containerRef.current || isTouchDevice) return
-    const rect = containerRef.current.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2
-    setRotation({ x: -y * 10, y: x * 10 })
+    containerRectRef.current = containerRef.current.getBoundingClientRect()
   }
 
-  const handleMouseLeave = () => setRotation({ x: 0, y: 0 })
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current || isTouchDevice) return
+    const rect = containerRectRef.current || containerRef.current.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2
+    const rx = -y * 10
+    const ry = x * 10
+    if (innerContainerRef.current) {
+      innerContainerRef.current.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`
+    }
+  }
+
+  const handleMouseLeave = () => {
+    containerRectRef.current = null
+    if (innerContainerRef.current) {
+      innerContainerRef.current.style.transform = "rotateX(0deg) rotateY(0deg)"
+    }
+  }
 
   const renderShape = () => {
     const technologies = techByCategory[selectedCategory]
@@ -87,13 +102,15 @@ export function TechStack() {
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 0%, transparent 40%, var(--background) 100%)" }} />
           <m.div
             className="absolute top-[-5%] right-[5%] w-[500px] h-[500px] rounded-full bg-[oklch(0.62_0.22_41.1/0.08)] blur-[90px]"
-            animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
-            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+            style={{ willChange: "transform, opacity" }}
+            animate={{ y: [0, 30, 0], opacity: [0.5, 0.8, 0.5] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
           />
           <m.div
             className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full bg-[oklch(0.55_0.18_260/0.05)] blur-[80px]"
-            animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.7, 0.4] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+            style={{ willChange: "transform, opacity" }}
+            animate={{ y: [0, -30, 0], opacity: [0.4, 0.7, 0.4] }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
           />
           <div className="ts-scanline" />
           <div className="absolute left-8 top-0 bottom-0 w-px bg-[linear-gradient(to_bottom,transparent,oklch(0.62_0.22_41.1/0.15),transparent)]" />
@@ -234,6 +251,7 @@ export function TechStack() {
             <m.div
               key={selectedCategory}
               ref={containerRef}
+              onMouseEnter={handleMouseEnter}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
               className="relative mx-auto flex items-center justify-center"
@@ -244,9 +262,9 @@ export function TechStack() {
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             >
               <m.div
+                ref={innerContainerRef}
                 style={{
                   transformStyle: "preserve-3d",
-                  transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
                   transition: "transform 0.5s ease-out",
                 }}
               >
