@@ -173,6 +173,7 @@
   .hero-animate-3 { animation: heroSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both; }
   .hero-animate-4 { animation: heroSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both; }
   .hero-animate-5 { animation: heroSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both; }
+  .hero-animate-6 { animation: heroSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.80s both; }
 
   @keyframes heroSlideUp {
     from {

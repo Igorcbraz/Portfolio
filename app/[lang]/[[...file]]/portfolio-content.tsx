@@ -3,6 +3,14 @@
 import { useEffect, useRef, useState, type ComponentType } from "react"
 import dynamic from "next/dynamic"
 import { Hero } from "@/components/sections/hero"
+import { LogoLoop } from "@/components/ui/logo-loop"
+
+const TRUSTED_LOGOS = [
+  { src: "/carrousel/raotes.webp", alt: "Grupo Raotes", width: 140, height: 44 },
+  { src: "/carrousel/webgr.png", alt: "Webgr", width: 120, height: 40 },
+  { src: "/carrousel/hub.png", alt: "HUB Intelligence", width: 148, height: 44 },
+  { src: "/carrousel/senac.webp", alt: "SENAC", width: 130, height: 44 },
+]
 
 const ScrollProgress = dynamic(() => import("@/components/features/scroll-progress").then((m) => m.ScrollProgress), {
   ssr: false,
@@ -90,6 +98,9 @@ export function PortfolioContent() {
             <Hero />
           </section>
           <section id="journey">
+            <div className="w-full py-10 border-y border-white/[0.05]">
+              <LogoLoop logos={TRUSTED_LOGOS} speed={55} className="w-full" />
+            </div>
             <DeferredSection loader={loadProfessionalJourney} minHeight={400} />
           </section>
           <section id="github">

@@ -9,7 +9,8 @@
     "repositories": "Repositories",
     "githubStars": "GitHub Stars",
     "yearsOfExperience": "Years of Experience",
-    "scanProfile": "Scan Profile"
+    "scanProfile": "Scan Profile",
+    "trustedBy": "Companies and projects that trust my work"
   },
   "notFound": {
     "title": "Page Not Found",
